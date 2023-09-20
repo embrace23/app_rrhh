@@ -1,19 +1,60 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" con   tent="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/styles.css">
-    <title>Embrace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Document</title>
 </head>
 <body>
-    <header class="headerTop">
-        <img src="images/WMMS.png" alt="Embrace" class="embraceImg">
-        <h2 class="rrhhTitle">RRHH</h2>
-        <div class="botones">
-            <button><img src="images/notificaciones.svg" alt="Notificaciones"></button>
-            <button><img src="images/ajustes.svg" alt="Ajustes"></button>
+    <div id="sidemenu" class="menuCollapsed">
+        <!-- Header -->
+        <div id="header">
+            <div id="menuBtn">
+                <div class="btnHamburguesa"></div>
+                <div class="btnHamburguesa"></div>
+                <div class="btnHamburguesa"></div>
+            </div>
+            <div id="titulo"><span>Embrace SRL</span></div>
         </div>
-    </header>
+
+        <!-- Perfil -->
+        <div id="perfil">
+            <div id="foto"><img src="images/WMMS.png" alt=""></div>
+            <div id="nombre"><span>Lautaro Bustos</span></div>
+        </div>
+
+        <!-- Items -->
+        <div id="menuItems">
+            <div class="item">
+                <div class="icon"><img src="./images/estudio.png" alt=""></div>
+                <div class="title"><span>Días de estudio</span></div>
+            </div>
+
+            <div class="item">
+                <div class="icon"><img src="./images/casa.png" alt=""></div>
+                <div class="title"><span>Home office</span></div>
+            </div>
+
+            <div class="item">
+                <div class="icon"><img src="./images/ausencia.png" alt=""></div>
+                <div class="title"><span>Ausencias</span></div>
+            </div>
+
+            <div class="item">
+                <div class="icon"><img src="./images/vacaciones.png" alt=""></div>
+                <div class="title"><span>Vacaciones</span></div>
+            </div>
+            
+            <div class="item separator">
+            </div>
+        </div>
+    </div>
+
+    <div id="mainContainer">
+        hola
+    </div>
+
+    <script src="./js/app.js"></script>
 </body>
 </html>

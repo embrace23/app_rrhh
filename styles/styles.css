@@ -194,3 +194,12 @@ body{
     width: 100px;
 }
 
+/* Estilos para el elemento de ajustes */
+#sidemenu #menuItems .item:last-child {
+    margin-top: auto; /* Empuja el elemento hacia abajo para que esté en la parte inferior del menú */
+    border-top: 1px solid var(--hovercolor); /* Opcional: Agrega una línea divisoria en la parte superior del elemento */
+}
+
+#sidemenu #menuItems .item:last-child .icon img {
+    width: 24px; /* Ajusta el tamaño de la imagen según sea necesario */
+}

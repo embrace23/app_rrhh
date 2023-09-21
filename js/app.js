@@ -1,3 +1,5 @@
+// Expandir o achicar el menú lateral
+
 const btn = document.querySelector("#menuBtn");
 const menu = document.querySelector("#sidemenu");
 

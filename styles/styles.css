@@ -126,9 +126,11 @@ body{
     display: block;
 }
 
+/*
 #sidemenu #menuItems .item a:hover{
     background-color: var(--hovercolor);
 }
+*/
 
 #sidemenu #menuItems .item .icon{
     box-sizing: border-box;

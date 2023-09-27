@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+// Verificar si la sesión está iniciada
+if (!isset($_SESSION['email'])) {
+    header("Location: index.html");
+    exit();
+}
+?>
+
+<?php
 require_once("conexion.php");
 
 // Verificar si el parámetro "email" está presente en la URL
@@ -28,6 +38,7 @@ if (isset($_GET['email'])) {
 // Cerrar la conexión a la base de datos
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -85,17 +96,7 @@ $conn->close();
     </div>
 
     <div id="mainContainer">
-        
-        <div class="links">
-            <a href="https://crm.baminds.com/clients/worldmedicalcare#" target="_blank">CRM</a>
-            <a href="https://portal.infobip.com/login/" target="_blank">INFOBIP</a>
-            <a href="">LINK 3</a>
-        </div>
-
-        <div class="calendario">
-            
-        </div>
-
+        AJUSTES
     </div>
 
     <script src="./js/app.js"></script>

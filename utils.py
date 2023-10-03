@@ -1,4 +1,38 @@
+import schedule
+import time
+import datetime
 import mysql.connector
+
+#Función para chequear que el mail y la contraseña sean los correctos
+def verificar_credenciales(email, password):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT cuil FROM nomina WHERE mail = %s"
+            cursor.execute(consulta, (email,))
+            resultado = cursor.fetchone()
+
+            if resultado is not None and resultado[0] == password:
+                return True
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False
 
 #Función para obtener el nombre del empleado en base a quien inicio sesión
 def obtener_empleado(correo):
@@ -49,15 +83,13 @@ def guardar_fecha(usuario, fecha):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            # Inserta la fecha en la tabla dia_estudio
             consulta = "INSERT INTO dia_estudio (empleado, fecha) VALUES (%s, %s)"
             cursor.execute(consulta, (usuario, fecha))
 
-            # Realiza el commit para guardar los cambios
             conexion.commit()
 
             cursor.close()
-            return True  # La fecha se guardó correctamente
+            return True  
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -66,8 +98,9 @@ def guardar_fecha(usuario, fecha):
         if 'conexion' in locals():
             conexion.close()
 
-    return False  # Hubo un error al guardar la fecha
+    return False
 
+#Función para generar la tabla según los dias de estudio solicitados por el empleado
 def obtener_dias_estudio(nombre_empleado):
     dias_estudio = []
     try:
@@ -98,3 +131,6 @@ def obtener_dias_estudio(nombre_empleado):
             conexion.close()
 
     return dias_estudio
+
+
+

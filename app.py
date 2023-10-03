@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales
 import mysql.connector
 
 app = Flask(__name__)
@@ -22,45 +22,14 @@ def login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    def credenciales_correctas(email, password):
-        try:
-            conexion = mysql.connector.connect(
-                host = "localhost",
-                user = "root",
-                password = "",
-                database = "rrhh"
-            )
-
-            if conexion.is_connected():
-                cursor = conexion.cursor()
-
-                consulta = "SELECT cuil FROM nomina WHERE mail = %s"
-                cursor.execute(consulta, (email,))
-                resultado = cursor.fetchone()
-
-                if resultado is not None and resultado[0] == password:
-                    return True
-                
-                cursor.close()
-
-        except mysql.connector.Error as err:
-            print(f"Error:{err}")
-
-        finally:
-            if 'conexion' in locals():
-                conexion.close()
-    
-        return False
-
-    if credenciales_correctas(email, password):
+    if verificar_credenciales(email, password):
         session['user'] = email
         return redirect(url_for('inicio'))
     else:
         return "Credenciales incorrectas"
     
 
-#RUTAS A CADA PÁGINA
-
+#RUTA A INICIO
 @app.route('/inicio')
 def inicio():
     if 'user' in session:
@@ -69,7 +38,8 @@ def inicio():
         return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
-
+    
+#RUTA A ESTUDIO
 @app.route('/estudio')
 def estudio():
     if 'user' in session:
@@ -79,7 +49,8 @@ def estudio():
         return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
-
+    
+#RUTA A AUSENCIAS
 @app.route('/ausencias')
 def ausencias():
     if 'user' in session:
@@ -89,6 +60,7 @@ def ausencias():
     else:
         return redirect(url_for('index'))
 
+#RUTA A AJUSTES
 @app.route('/ajustes')
 def ajustes():
     if 'user' in session:
@@ -98,6 +70,7 @@ def ajustes():
     else:
         return redirect(url_for('index'))
 
+#RUTA A HOMEOFFICE
 @app.route('/homeoffice')
 def homeoffice():
     if 'user' in session:
@@ -107,6 +80,7 @@ def homeoffice():
     else:
         return redirect(url_for('index'))
 
+#RUTA A VACACIONES
 @app.route('/vacaciones')
 def vacaciones():
     if 'user' in session:
@@ -115,12 +89,14 @@ def vacaciones():
         return render_template('vacaciones.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
-    
+
+#CIERRE DE SESION   
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
 
+#GUARDAR FECHA AL HACER CLIC EN EL BOTÓN
 @app.route('/guardar_fecha', methods=['POST'])
 def guardar_fecha_route():
     if 'user' in session:
@@ -137,5 +113,6 @@ def guardar_fecha_route():
     else:
         return redirect(url_for('index'))
 
+#INICIO DE APP
 if __name__ == '__main__':
     app.run(debug=True)

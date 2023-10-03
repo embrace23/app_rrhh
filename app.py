@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
+from utils import obtener_empleado
 import mysql.connector
 
 app = Flask(__name__)
-app.config['SESSION_TYPE'] = 'filesystem'  # Almacena las sesiones en el sistema de archivos
-app.config['SESSION_PERMANENT'] = True  # Las sesiones son permanentes (no se borran al cerrar el navegador)
-app.config['SESSION_USE_SIGNER'] = False  # No usar firma para las sesiones (puedes configurarlo si es necesario)
-app.config['SESSION_KEY_PREFIX'] = 'tu_aplicacion_'  # Prefijo para las claves de sesión
-app.secret_key = 'tu_clave_secreta'  # Clave secreta para firmar las sesiones
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_USE_SIGNER'] = False
+app.config['SESSION_KEY_PREFIX'] = 'tu_aplicacion_'
+app.secret_key = 'tu_clave_secreta'
 
 Session(app)
 
@@ -57,11 +58,15 @@ def login():
     else:
         return "Credenciales incorrectas"
     
+
+#RUTAS A CADA PÁGINA
+
 @app.route('/inicio')
 def inicio():
     if 'user' in session:
         usuario = session['user']
-        return render_template('inicio.html', usuario=usuario)
+        empleado = obtener_empleado(usuario)
+        return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 
@@ -69,7 +74,8 @@ def inicio():
 def estudio():
     if 'user' in session:
         usuario = session['user']
-        return render_template('estudio.html', usuario=usuario)
+        empleado = obtener_empleado(usuario)
+        return render_template('estudio.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 
@@ -77,7 +83,8 @@ def estudio():
 def ausencias():
     if 'user' in session:
         usuario = session['user']
-        return render_template('ausencias.html', usuario=usuario)
+        empleado = obtener_empleado(usuario)
+        return render_template('ausencias.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 
@@ -85,7 +92,8 @@ def ausencias():
 def ajustes():
     if 'user' in session:
         usuario = session['user']
-        return render_template('ajustes.html', usuario=usuario)
+        empleado = obtener_empleado(usuario)
+        return render_template('ajustes.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 
@@ -93,7 +101,8 @@ def ajustes():
 def homeoffice():
     if 'user' in session:
         usuario = session['user']
-        return render_template('homeoffice.html', usuario=usuario)
+        empleado = obtener_empleado(usuario)
+        return render_template('homeoffice.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 
@@ -101,7 +110,8 @@ def homeoffice():
 def vacaciones():
     if 'user' in session:
         usuario = session['user']
-        return render_template('vacaciones.html', usuario=usuario)
+        empleado = obtener_empleado(usuario)
+        return render_template('vacaciones.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 

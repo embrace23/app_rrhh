@@ -67,3 +67,34 @@ def guardar_fecha(usuario, fecha):
             conexion.close()
 
     return False  # Hubo un error al guardar la fecha
+
+def obtener_dias_estudio(nombre_empleado):
+    dias_estudio = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT fecha FROM dia_estudio WHERE empleado = %s"
+            cursor.execute(consulta, (nombre_empleado,))
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                dias_estudio.append(resultado[0])
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return dias_estudio

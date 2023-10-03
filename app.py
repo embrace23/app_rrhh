@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio
 import mysql.connector
 
 app = Flask(__name__)
@@ -75,7 +75,8 @@ def estudio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('estudio.html', usuario=usuario, empleado=empleado)
+        dias_estudio = obtener_dias_estudio(empleado)
+        return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
 

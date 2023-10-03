@@ -67,6 +67,23 @@
             </div>
             <button type="submit">Guardar Fecha</button>
         </form>
+
+        <div id="dias">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dia in dias_estudio %}
+                    <tr>
+                        <td>{{ dia }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

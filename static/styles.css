@@ -196,10 +196,6 @@ body{
     width: 100px;
 }
 
-#sidemenu #menuItems .item:last-child {
-    border-top: 1px solid var(--hovercolor);
-}
-
 #sidemenu #menuItems .item:last-child .icon img {
     width: 24px;
 }

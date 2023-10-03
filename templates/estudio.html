@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Días de estudio</title>
+</head>
+<body>
+    <div id="sidemenu" class="menuCollapsed">
+        <!-- Header -->
+        <div id="header">
+            <div id="menuBtn">
+                <div class="btnHamburguesa"></div>
+                <div class="btnHamburguesa"></div>
+                <div class="btnHamburguesa"></div>
+            </div>
+            <div id="titulo"><a href="/inicio"><span>Embrace SRL</span></a></div>
+        </div>
+
+        <!-- Perfil -->
+        <div id="perfil">
+            <div id="foto"><a href="{{ url_for('inicio') }}"><img src="{{ url_for('static', filename='images/WMMS.png') }}" alt=""></a></div>
+            <div id="nombre"><span>Lautaro Bustos</span></div>
+        </div>
+
+        <!-- Items -->
+        <div id="menuItems">
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('estudio') }}"><img src="{{ url_for('static', filename='images/estudio.png') }}" alt=""></a></div>
+                <div class="title"><a href="{{ url_for('estudio') }}"><span>Días de estudio</span></a></div>
+
+            </div>
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('homeoffice') }}"><img src="{{ url_for('static', filename='images/casa.png') }}" alt=""></a></div>
+                <div class="title"><a href="{{ url_for('homeoffice') }}"><span>Home office</span></a></div>
+            </div>
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('ausencias') }}"><img src="{{ url_for('static', filename='images/ausencia.png') }}" alt=""></a></div>
+                <div class="title"><a href="{{ url_for('ausencias') }}"><span>Ausencias</span></a></div>
+            </div>
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('vacaciones') }}"><img src="{{ url_for('static', filename='images/vacaciones.png') }}" alt=""></a></div>
+                <div class="title"><a href="{{ url_for('vacaciones') }}"><span>Vacaciones</span></a></div>
+            </div>
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('ajustes') }}"><img src="{{ url_for('static', filename='images/configuraciones.png') }}" alt="Ajustes"></a></div>
+                <div class="title"><a href="{{ url_for('ajustes') }}"><span>Ajustes</span></a></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainContainer">
+        Estudio
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

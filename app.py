@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado
+from utils import obtener_empleado, guardar_fecha
 import mysql.connector
 
 app = Flask(__name__)
@@ -118,7 +118,23 @@ def vacaciones():
 @app.route('/logout')
 def logout():
     session.pop('user', None)
-    return redirect(url_for('index')) 
+    return redirect(url_for('index'))
+
+@app.route('/guardar_fecha', methods=['POST'])
+def guardar_fecha_route():
+    if 'user' in session:
+        correo = session['user']
+        nombre_empleado = obtener_empleado(correo)
+        fecha = request.form.get('fecha')
+
+        resultado = guardar_fecha(nombre_empleado, fecha)
+
+        if resultado:
+            return redirect(url_for('estudio'))
+        else:
+            return "Error al guardar la fecha"
+    else:
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

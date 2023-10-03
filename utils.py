@@ -35,3 +35,35 @@ def obtener_empleado(correo):
             conexion.close()
 
     return empleado
+
+#Función para guardar la fecha segun el empleado
+def guardar_fecha(usuario, fecha):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            # Inserta la fecha en la tabla dia_estudio
+            consulta = "INSERT INTO dia_estudio (empleado, fecha) VALUES (%s, %s)"
+            cursor.execute(consulta, (usuario, fecha))
+
+            # Realiza el commit para guardar los cambios
+            conexion.commit()
+
+            cursor.close()
+            return True  # La fecha se guardó correctamente
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False  # Hubo un error al guardar la fecha

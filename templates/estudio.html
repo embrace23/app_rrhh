@@ -60,7 +60,13 @@
     </div>
 
     <div id="mainContainer">
-        Estudio
+        <form action="/guardar_fecha" method="POST">
+            <div class="form-group">
+                <label for="fecha">Elegir una fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+            </div>
+            <button type="submit">Guardar Fecha</button>
+        </form>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

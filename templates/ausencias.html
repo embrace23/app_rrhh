@@ -60,7 +60,30 @@
     </div>
 
     <div id="mainContainer">
-        Ausencias
+        <form action="/guardar_ausencias" method="POST">
+            <div class="form-group">
+                <label for="fechaAusencias">Elegir una fecha:</label>
+                <input type="date" id="fechaAusencias" name="fechaAusencias" required>
+            </div>
+            <button type="submit">Guardar Fecha</button>
+        </form>
+
+        <div id="diasAusencias">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dia in ausencias %}
+                    <tr>
+                        <td>{{ dia }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

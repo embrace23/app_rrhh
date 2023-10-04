@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias
 import mysql.connector
 
 app = Flask(__name__)
@@ -56,7 +56,8 @@ def ausencias():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('ausencias.html', usuario=usuario, empleado=empleado)
+        ausencias = obtener_ausencias(empleado)
+        return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
     else:
         return redirect(url_for('index'))
 
@@ -106,6 +107,10 @@ def guardar_fecha_route():
 def guardar_home_route():
     return guardar_fecha_generico('homeoffice', 'fechaHome')
 
+@app.route('/guardar_ausencias', methods=['POST'])
+def guardar_ausencias_route():
+    return guardar_fecha_generico('ausencias', 'fechaAusencias')
+
 def guardar_fecha_generico(pagina, campo_fecha):
     if 'user' in session:
         correo = session['user']
@@ -117,7 +122,7 @@ def guardar_fecha_generico(pagina, campo_fecha):
         if resultado:
             return redirect(url_for(pagina))
         else:
-            return "Error al garudar la fecha"
+            return "Error al guardar la fecha"
     else:
         return redirect(url_for('index'))
 

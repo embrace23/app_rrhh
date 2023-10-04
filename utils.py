@@ -84,6 +84,8 @@ def guardar_fecha(usuario, fecha, pagina):
             tabla = 'dia_estudio'
         elif pagina == 'homeoffice':
             tabla = 'home'
+        elif pagina == 'ausencias':
+            tabla = 'ausencias'
 
         if conexion.is_connected():
             cursor = conexion.cursor()
@@ -168,3 +170,33 @@ def obtener_homeoffice(nombre_empleado):
 
     return homeoffice
 
+def obtener_ausencias(nombre_empleado):
+    ausencias = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT fecha FROM ausencias WHERE empleado = %s"
+            cursor.execute(consulta, (nombre_empleado,))
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                ausencias.append(resultado[0])
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return ausencias

@@ -60,7 +60,30 @@
     </div>
 
     <div id="mainContainer">
-        HOME OFFICE
+        <form action="/guardar_home" method="POST">
+            <div class="form-group">
+                <label for="fechaHome">Elegir una fecha:</label>
+                <input type="date" id="fechaHome" name="fechaHome" required>
+            </div>
+            <button type="submit">Guardar Fecha</button>
+        </form>
+
+        <div id="diasHome">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dia in homeoffice %}
+                    <tr>
+                        <td>{{ dia }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

@@ -100,6 +100,35 @@ def guardar_fecha(usuario, fecha):
 
     return False
 
+def guardar_home(usuario, fecha):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "INSERT INTO home (empleado, fecha) VALUES (%s, %s)"
+            cursor.execute(consulta, (usuario, fecha))
+
+            conexion.commit()
+
+            cursor.close()
+            return True  
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False
+
 #Función para generar la tabla según los dias de estudio solicitados por el empleado
 def obtener_dias_estudio(nombre_empleado):
     dias_estudio = []
@@ -132,5 +161,34 @@ def obtener_dias_estudio(nombre_empleado):
 
     return dias_estudio
 
+def obtener_homeoffice(nombre_empleado):
+    homeoffice = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
 
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT fecha FROM home WHERE empleado = %s"
+            cursor.execute(consulta, (nombre_empleado,))
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                homeoffice.append(resultado[0])
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return homeoffice
 

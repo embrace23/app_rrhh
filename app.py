@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, guardar_home, obtener_homeoffice
 import mysql.connector
 
 app = Flask(__name__)
@@ -76,7 +76,8 @@ def homeoffice():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('homeoffice.html', usuario=usuario, empleado=empleado)
+        homeoffice = obtener_homeoffice(empleado)
+        return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
     else:
         return redirect(url_for('index'))
 
@@ -108,6 +109,22 @@ def guardar_fecha_route():
 
         if resultado:
             return redirect(url_for('estudio'))
+        else:
+            return "Error al guardar la fecha"
+    else:
+        return redirect(url_for('index'))
+    
+@app.route('/guardar_home', methods=['POST'])
+def guardar_home_route():
+    if 'user' in session:
+        correo = session['user']
+        nombre_empleado = obtener_empleado(correo)
+        fecha = request.form.get('fechaHome')
+
+        resultado = guardar_home(nombre_empleado, fecha)
+
+        if resultado:
+            return redirect(url_for('homeoffice'))
         else:
             return "Error al guardar la fecha"
     else:

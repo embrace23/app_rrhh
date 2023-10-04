@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, guardar_home, obtener_homeoffice
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice
 import mysql.connector
 
 app = Flask(__name__)
@@ -100,33 +100,24 @@ def logout():
 #GUARDAR FECHA AL HACER CLIC EN EL BOTÓN
 @app.route('/guardar_fecha', methods=['POST'])
 def guardar_fecha_route():
-    if 'user' in session:
-        correo = session['user']
-        nombre_empleado = obtener_empleado(correo)
-        fecha = request.form.get('fecha')
-
-        resultado = guardar_fecha(nombre_empleado, fecha)
-
-        if resultado:
-            return redirect(url_for('estudio'))
-        else:
-            return "Error al guardar la fecha"
-    else:
-        return redirect(url_for('index'))
+    return guardar_fecha_generico('estudio', 'fecha')
     
 @app.route('/guardar_home', methods=['POST'])
 def guardar_home_route():
+    return guardar_fecha_generico('homeoffice', 'fechaHome')
+
+def guardar_fecha_generico(pagina, campo_fecha):
     if 'user' in session:
         correo = session['user']
         nombre_empleado = obtener_empleado(correo)
-        fecha = request.form.get('fechaHome')
+        fecha = request.form.get(campo_fecha)
 
-        resultado = guardar_home(nombre_empleado, fecha)
+        resultado = guardar_fecha(nombre_empleado, fecha, pagina)
 
         if resultado:
-            return redirect(url_for('homeoffice'))
+            return redirect(url_for(pagina))
         else:
-            return "Error al guardar la fecha"
+            return "Error al garudar la fecha"
     else:
         return redirect(url_for('index'))
 

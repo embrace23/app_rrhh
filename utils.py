@@ -71,7 +71,7 @@ def obtener_empleado(correo):
     return empleado
 
 #Función para guardar la fecha segun el empleado
-def guardar_fecha(usuario, fecha):
+def guardar_fecha(usuario, fecha, pagina):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -80,39 +80,15 @@ def guardar_fecha(usuario, fecha):
             database="rrhh"
         )
 
-        if conexion.is_connected():
-            cursor = conexion.cursor()
-
-            consulta = "INSERT INTO dia_estudio (empleado, fecha) VALUES (%s, %s)"
-            cursor.execute(consulta, (usuario, fecha))
-
-            conexion.commit()
-
-            cursor.close()
-            return True  
-
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-
-    finally:
-        if 'conexion' in locals():
-            conexion.close()
-
-    return False
-
-def guardar_home(usuario, fecha):
-    try:
-        conexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="rrhh"
-        )
+        if pagina == 'estudio':
+            tabla = 'dia_estudio'
+        elif pagina == 'homeoffice':
+            tabla = 'home'
 
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "INSERT INTO home (empleado, fecha) VALUES (%s, %s)"
+            consulta = f"INSERT INTO {tabla} (empleado, fecha) VALUES (%s, %s)"
             cursor.execute(consulta, (usuario, fecha))
 
             conexion.commit()

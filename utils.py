@@ -200,3 +200,34 @@ def obtener_ausencias(nombre_empleado):
             conexion.close()
 
     return ausencias
+
+def obtener_vacaciones(nombre_empleado):
+    vacaciones = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s"
+            cursor.execute(consulta, (nombre_empleado,))
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                vacaciones.append(resultado)
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return vacaciones

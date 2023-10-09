@@ -71,6 +71,23 @@
             </div>
             <button type="submit">Guardar Vacaciones</button>
         </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fecha_inicio, fecha_fin in vacaciones %}
+                    <tr>
+                        <td>{{ fecha_inicio }}</td>
+                        <td>{{ fecha_fin }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

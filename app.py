@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones
 import mysql.connector
 
 app = Flask(__name__)
@@ -88,7 +88,8 @@ def vacaciones():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('vacaciones.html', usuario=usuario, empleado=empleado)
+        vacaciones = obtener_vacaciones(empleado)
+        return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
     else:
         return redirect(url_for('index'))
 

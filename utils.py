@@ -266,3 +266,42 @@ def insertar_registro(tabla, campos):
             conexion.close()
     return False
 
+# Función para verificar si una contraseña cumple con requisitos de seguridad (personalizar según tus criterios)
+def cumple_requisitos_seguridad(password):
+    # Aquí debes implementar tus criterios de seguridad, por ejemplo, longitud mínima, caracteres especiales, etc.
+    if len(password) >= 8:
+        return True
+    else:
+        return False
+
+# Función para actualizar la contraseña en la base de datos
+def actualizar_contrasena(usuario, contrasena_nueva):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"  # Reemplaza con el nombre de tu base de datos
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            # Actualizar la contraseña en la base de datos
+            consulta = "UPDATE nomina SET contrasena = %s WHERE mail = %s"
+            cursor.execute(consulta, (contrasena_nueva, usuario))
+            conexion.commit()
+
+            cursor.close()
+            return True  # Contraseña actualizada con éxito
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False  # Hubo un error en la actualización de la contraseña
+
+

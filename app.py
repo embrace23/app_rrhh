@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad
 import mysql.connector
 
 app = Flask(__name__)
@@ -149,6 +149,38 @@ def guardar_vacaciones():
             return "Debes proporcionar ambas fechas de inicio y fin"
     else:
         return redirect(url_for('index'))
+
+
+
+@app.route('/cambiar_contrasena', methods=['POST'])
+def cambiar_contrasena():
+    if 'user' in session:
+        usuario = session['user']
+        password_actual = request.form.get('password_actual')
+        password_nueva = request.form.get('password_nueva')
+        password_nueva_repetir = request.form.get('password_nueva_repetir')
+        
+        if verificar_credenciales(usuario, password_actual):
+            if password_nueva == password_nueva_repetir:
+                if cumple_requisitos_seguridad(password_nueva):
+                    if actualizar_contrasena(usuario, password_nueva):
+                        return "Contraseña cambiada exitosamente"
+                    else:
+                        return "Error al actualizar la contraseña en la base de datos"
+                else:
+                    return "La nueva contraseña no cumple con los requisitos de seguridad"
+            else:
+                return "Las contraseñas nuevas no coinciden"
+        else:
+            return "La contraseña actual es incorrecta"
+
+    else:
+        return redirect(url_for('index'))
+
+
+
+
+
 
 #INICIO DE APP
 if __name__ == '__main__':

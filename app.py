@@ -125,6 +125,59 @@ def guardar_fecha_generico(pagina, campo_fecha):
             return "Error al guardar la fecha"
     else:
         return redirect(url_for('index'))
+    
+@app.route('/guardar_vacaciones', methods=['POST'])
+def guardar_vacaciones():
+    def insertar_registro(tabla, campos):
+        try:
+            conexion = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="rrhh"
+            )
+
+            if conexion.is_connected():
+                cursor = conexion.cursor()
+
+                campos_nombres = ', '.join(campos.keys())
+                campos_valores = ', '.join(['%s'] * len(campos))
+
+                consulta = f"INSERT INTO {tabla} ({campos_nombres}) VALUES ({campos_valores})"
+                valores = tuple(campos.values())
+
+                cursor.execute(consulta, valores)
+                conexion.commit()
+
+                cursor.close()
+                return True
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+        finally:
+            if 'conexion' in locals():
+                conexion.close()
+        return False
+
+    if 'user' in session:
+        correo = session['user']
+        nombre_empleado = obtener_empleado(correo)
+        
+        fecha_inicio = request.form.get('fecha_inicio')
+        fecha_fin = request.form.get('fecha_fin')
+
+        if fecha_inicio and fecha_fin:
+            tabla = 'vacaciones'
+            campos = {'empleado': nombre_empleado, 'fecha_inicio': fecha_inicio, 'fecha_fin': fecha_fin}
+            resultado = insertar_registro(tabla, campos)
+
+            if resultado:
+                return redirect(url_for('vacaciones'))
+            else:
+                return "Error al guardar las fechas de vacaciones"
+        else:
+            return "Debes proporcionar ambas fechas de inicio y fin"
+    else:
+        return redirect(url_for('index'))
 
 #INICIO DE APP
 if __name__ == '__main__':

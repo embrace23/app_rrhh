@@ -139,6 +139,7 @@ def obtener_dias_estudio(nombre_empleado):
 
     return dias_estudio
 
+#Función para generar la tabla según los dias de homeoffice solicitados por el empleado
 def obtener_homeoffice(nombre_empleado):
     homeoffice = []
     try:
@@ -170,6 +171,7 @@ def obtener_homeoffice(nombre_empleado):
 
     return homeoffice
 
+#Función para generar la tabla según los dias de ausencia solicitados por el empleado
 def obtener_ausencias(nombre_empleado):
     ausencias = []
     try:
@@ -201,6 +203,7 @@ def obtener_ausencias(nombre_empleado):
 
     return ausencias
 
+#Función para generar la tabla según los dias de vacaciones solicitados por el empleado
 def obtener_vacaciones(nombre_empleado):
     vacaciones = []
     try:
@@ -232,6 +235,7 @@ def obtener_vacaciones(nombre_empleado):
 
     return vacaciones
 
+#Función para insertar los dias de vacaciones a la tabla correspondiente
 def insertar_registro(tabla, campos):
     try:
         conexion = mysql.connector.connect(
@@ -261,3 +265,4 @@ def insertar_registro(tabla, campos):
         if 'conexion' in locals():
             conexion.close()
     return False
+

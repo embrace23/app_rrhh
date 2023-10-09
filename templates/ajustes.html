@@ -60,7 +60,18 @@
     </div>
 
     <div id="mainContainer">
-        Ajustes
+        <form action="/cambiar_contrasena" method="POST">
+            <label for="password_actual">Contraseña Actual:</label>
+            <input type="password" id="password_actual" name="password_actual" required>
+        
+            <label for="password_nueva">Nueva Contraseña:</label>
+            <input type="password" id="password_nueva" name="password_nueva" required>
+        
+            <label for="password_nueva_repetir">Repetir Nueva Contraseña:</label>
+            <input type="password" id="password_nueva_repetir" name="password_nueva_repetir" required>
+        
+            <button type="submit">Cambiar Contraseña</button>
+        </form>        
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

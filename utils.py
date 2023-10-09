@@ -16,7 +16,7 @@ def verificar_credenciales(email, password):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT cuil FROM nomina WHERE mail = %s"
+            consulta = "SELECT contrasena FROM nomina WHERE mail = %s"
             cursor.execute(consulta, (email,))
             resultado = cursor.fetchone()
 
@@ -231,3 +231,33 @@ def obtener_vacaciones(nombre_empleado):
             conexion.close()
 
     return vacaciones
+
+def insertar_registro(tabla, campos):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            campos_nombres = ', '.join(campos.keys())
+            campos_valores = ', '.join(['%s'] * len(campos))
+
+            consulta = f"INSERT INTO {tabla} ({campos_nombres}) VALUES ({campos_valores})"
+            valores = tuple(campos.values())
+
+            cursor.execute(consulta, valores)
+            conexion.commit()
+
+            cursor.close()
+            return True
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+    return False

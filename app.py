@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro
 import mysql.connector
 
 app = Flask(__name__)
@@ -129,36 +129,6 @@ def guardar_fecha_generico(pagina, campo_fecha):
     
 @app.route('/guardar_vacaciones', methods=['POST'])
 def guardar_vacaciones():
-    def insertar_registro(tabla, campos):
-        try:
-            conexion = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="",
-                database="rrhh"
-            )
-
-            if conexion.is_connected():
-                cursor = conexion.cursor()
-
-                campos_nombres = ', '.join(campos.keys())
-                campos_valores = ', '.join(['%s'] * len(campos))
-
-                consulta = f"INSERT INTO {tabla} ({campos_nombres}) VALUES ({campos_valores})"
-                valores = tuple(campos.values())
-
-                cursor.execute(consulta, valores)
-                conexion.commit()
-
-                cursor.close()
-                return True
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-        finally:
-            if 'conexion' in locals():
-                conexion.close()
-        return False
-
     if 'user' in session:
         correo = session['user']
         nombre_empleado = obtener_empleado(correo)

@@ -52,6 +52,13 @@
                 <div class="title"><a href="{{ url_for('ajustes') }}"><span>Ajustes</span></a></div>
             </div>
 
+            {% if empleado == 'DANIELA GALLARDO' or empleado == 'DI SALVO CLARA MICAELA' %}
+            <div class="item">
+                <div class="icon"><a href="#"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
+                <div class="title"><a href="#"><span>Cambiar Información</span></a></div>
+            </div>
+            {% endif %}
+
             <div class="item">
                 <div class="icon"><a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='images/cerrar-sesion.png') }}" alt="Cerrar sesion"></a></div>
                 <div class="title"><a href="{{ url_for('logout') }}"><span>Cerrar sesión</span></a></div>

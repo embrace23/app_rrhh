@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Días de estudio</title>
+    <title>Inicio</title>
 </head>
 <body>
     <div id="sidemenu" class="menuCollapsed">
@@ -54,8 +54,8 @@
 
             {% if empleado == 'DANIELA GALLARDO' or empleado == 'DI SALVO CLARA MICAELA' %}
             <div class="item">
-                <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
-                <div class="title"><a href="{{ url_for('editar') }}"><span>Cambiar Información</span></a></div>
+                <div class="icon"><a href="#"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
+                <div class="title"><a href="#"><span>Cambiar Información</span></a></div>
             </div>
             {% endif %}
 
@@ -67,30 +67,7 @@
     </div>
 
     <div id="mainContainer">
-        <form action="/guardar_fecha" method="POST">
-            <div class="form-group">
-                <label for="fecha">Elegir una fecha:</label>
-                <input type="date" id="fecha" name="fecha" required>
-            </div>
-            <button type="submit">Guardar Fecha</button>
-        </form>
-
-        <div id="dias">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for dia in dias_estudio %}
-                    <tr>
-                        <td>{{ dia }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        EDITAR
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

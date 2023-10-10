@@ -54,8 +54,8 @@
 
             {% if empleado == 'DANIELA GALLARDO' or empleado == 'DI SALVO CLARA MICAELA' %}
             <div class="item">
-                <div class="icon"><a href="#"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
-                <div class="title"><a href="#"><span>Cambiar Información</span></a></div>
+                <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
+                <div class="title"><a href="{{ url_for('editar') }}"><span>Cambiar Información</span></a></div>
             </div>
             {% endif %}
 

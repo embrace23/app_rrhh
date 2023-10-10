@@ -92,6 +92,16 @@ def vacaciones():
         return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
     else:
         return redirect(url_for('index'))
+    
+#RUTA A EDITAR
+@app.route('/editar')
+def editar():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        return render_template('editar.html', usuario=usuario, empleado=empleado)
+    else:
+        return redirect(url_for('index'))
 
 #CIERRE DE SESION   
 @app.route('/logout')

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal, obtener_datos
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal, obtener_datos, actualizar_datos_empleado
 import mysql.connector
 
 app = Flask(__name__)
@@ -203,7 +203,30 @@ def editar_informacion():
                 else:
                     return redirect(url_for('index'))
 
+@app.route('/guardar_informacion', methods=['POST'])
+def guardar_informacion():
+    if request.method == 'POST':
+        # Obtén los datos actualizados del formulario
+        nombre = request.form.get('empleado')
+        cuenta = request.form.get('cuenta')
+        forma = request.form.get('forma')
+        turno = request.form.get('turno')
+        area = request.form.get('area')
+        equipo = request.form.get('equipo')
+        convenio = request.form.get('convenio')
+        legajo = request.form.get('legajo')
+        mail = request.form.get('mail')
 
+        # Realiza la actualización en la base de datos (debes implementar esta función)
+        exito_actualizacion = actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail)
+
+        if exito_actualizacion:
+            # Si la actualización fue exitosa, redirige a una página de confirmación
+            return redirect(url_for('editar'))
+        else:
+            # Si hubo un error en la actualización, puedes manejarlo aquí
+            # Por ejemplo, mostrar un mensaje de error y redirigir a una página de error
+            return redirect(url_for('editar'))
 
 
 #INICIO DE APP

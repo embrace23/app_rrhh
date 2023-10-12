@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
 from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal, obtener_datos, actualizar_datos_empleado
 import mysql.connector
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -46,6 +47,7 @@ def estudio():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         dias_estudio = obtener_dias_estudio(empleado)
+        eliminar_registros_antiguos('dia_estudio')
         return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
@@ -57,6 +59,7 @@ def ausencias():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         ausencias = obtener_ausencias(empleado)
+        eliminar_registros_antiguos('ausencias')
         return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
     else:
         return redirect(url_for('index'))
@@ -78,6 +81,7 @@ def homeoffice():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         homeoffice = obtener_homeoffice(empleado)
+        eliminar_registros_antiguos('home')
         return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
     else:
         return redirect(url_for('index'))
@@ -89,6 +93,7 @@ def vacaciones():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         vacaciones = obtener_vacaciones(empleado)
+        eliminar_registros_antiguos('vacaciones')
         return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
     else:
         return redirect(url_for('index'))
@@ -227,6 +232,33 @@ def guardar_informacion():
             # Si hubo un error en la actualización, puedes manejarlo aquí
             # Por ejemplo, mostrar un mensaje de error y redirigir a una página de error
             return redirect(url_for('editar'))
+
+def eliminar_registros_antiguos(tabla):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            # Calcular la fecha límite (hoy - 60 días)
+            fecha_limite = datetime.now() - timedelta(days=60)
+
+            # Consulta para eliminar registros
+            consulta = f"DELETE FROM {tabla} WHERE fecha < %s"
+            valores = (fecha_limite,)
+
+            cursor.execute(consulta, valores)
+            conexion.commit()
+
+            cursor.close()
+            conexion.close()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
 
 
 #INICIO DE APP

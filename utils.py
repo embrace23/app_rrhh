@@ -303,5 +303,3 @@ def actualizar_contrasena(usuario, contrasena_nueva):
             conexion.close()
 
     return False  # Hubo un error en la actualización de la contraseña
-
-

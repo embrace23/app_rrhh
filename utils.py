@@ -338,3 +338,46 @@ def obtener_personal():
             conexion.close()
 
     return empleados
+
+def obtener_datos(empleado):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            # Definir la consulta SQL para seleccionar los datos del empleado
+            consulta = "SELECT empleado, cuenta, forma, turno, area, equipo, convenio, legajo, mail FROM nomina WHERE empleado = %s"
+            cursor.execute(consulta, (empleado,))
+            resultado = cursor.fetchone()  # Suponemos que el empleado es único
+
+            # Verificar si se encontró información del empleado
+            if resultado:
+                datos_empleado = {
+                    'empleado': resultado[0],
+                    'cuenta': resultado[1],
+                    'forma': resultado[2],
+                    'turno': resultado[3],
+                    'area': resultado[4],
+                    'equipo': resultado[5],
+                    'convenio': resultado[6],
+                    'legajo': resultado[7],
+                    'mail': resultado[8]
+                }
+                return datos_empleado
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return None

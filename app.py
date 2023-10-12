@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal, obtener_datos
 import mysql.connector
 
 app = Flask(__name__)
@@ -162,7 +162,6 @@ def guardar_vacaciones():
         return redirect(url_for('index'))
 
 
-
 @app.route('/cambiar_contrasena', methods=['POST'])
 def cambiar_contrasena():
     if 'user' in session:
@@ -188,7 +187,21 @@ def cambiar_contrasena():
     else:
         return redirect(url_for('index'))
 
+@app.route('/editar_informacion', methods=['POST'])
+def editar_informacion():
+    if request.method == 'POST':
+        empleado_editar =  request.form.get('empleado')
 
+        if empleado_editar:
+            informacion_empleado = obtener_datos(empleado_editar)
+            if informacion_empleado:
+                if 'user' in session:
+                    usuario = session['user']
+                    empleado = obtener_empleado(usuario)
+                    personal = obtener_personal()
+                    return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado)
+                else:
+                    return redirect(url_for('index'))
 
 
 

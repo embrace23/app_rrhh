@@ -67,7 +67,7 @@
     </div>
 
     <div id="mainContainer">
-        <form action="" method="POST">
+        <form action="/editar_informacion" method="POST">
             <div class="form-group">
                 <label for="seleccionar_empleado">Seleccionar Empleado:</label>
                 <select id="seleccionar_empleado" name="empleado" required>
@@ -79,6 +79,21 @@
             </div>
             <button type="submit">Editar Empleado</button>
         </form>
+
+        <div id="informacion">
+            {% if datos %}
+                <h2>Información del Empleado:</h2>
+                <p><strong>Nombre:</strong> {{ datos.empleado }}</p>
+                <p><strong>Cuenta:</strong> {{ datos.cuenta }}</p>
+                <p><strong>Forma:</strong> {{ datos.forma }}</p>
+                <p><strong>Turno:</strong> {{ datos.turno }}</p>
+                <p><strong>Área:</strong> {{ datos.area }}</p>
+                <p><strong>Equipo:</strong> {{ datos.equipo }}</p>
+                <p><strong>Convenio:</strong> {{ datos.convenio }}</p>
+                <p><strong>Legajo:</strong> {{ datos.legajo }}</p>
+                <p><strong>Correo Electrónico:</strong> {{ datos.mail }}</p>
+            {% endif %}
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

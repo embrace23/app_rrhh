@@ -82,18 +82,48 @@
 
         <div id="informacion">
             {% if datos %}
-                <h2>Información del Empleado:</h2>
-                <p><strong>Nombre:</strong> {{ datos.empleado }}</p>
-                <p><strong>Cuenta:</strong> {{ datos.cuenta }}</p>
-                <p><strong>Forma:</strong> {{ datos.forma }}</p>
-                <p><strong>Turno:</strong> {{ datos.turno }}</p>
-                <p><strong>Área:</strong> {{ datos.area }}</p>
-                <p><strong>Equipo:</strong> {{ datos.equipo }}</p>
-                <p><strong>Convenio:</strong> {{ datos.convenio }}</p>
-                <p><strong>Legajo:</strong> {{ datos.legajo }}</p>
-                <p><strong>Correo Electrónico:</strong> {{ datos.mail }}</p>
+            <h2>Información del Empleado:</h2>
+            <form action="/guardar_informacion" method="POST">
+                <div class="form-group">
+                    <label for="empleado">Empleado:</label>
+                    <input type="text" name="empleado" id="empleado" value="{{ datos.empleado }}">
+                </div>
+                <div class="form-group">
+                    <label for="cuenta">Cuenta:</label>
+                    <input type="text" name="cuenta" id="cuenta" value="{{ datos.cuenta }}">
+                </div>
+                <div class="form-group">
+                    <label for="forma">Forma:</label>
+                    <input type="text" name="forma" id="forma" value="{{ datos.forma }}">
+                </div>
+                <div class="form-group">
+                    <label for="turno">Turno:</label>
+                    <input type="text" name="turno" id="turno" value="{{ datos.turno }}">
+                </div>
+                <div class="form-group">
+                    <label for="area">Área:</label>
+                    <input type="text" name="area" id="area" value="{{ datos.area }}">
+                </div>
+                <div class="form-group">
+                    <label for="equipo">Equipo:</label>
+                    <input type="text" name="equipo" id="equipo" value="{{ datos.equipo }}">
+                </div>
+                <div class ="form-group">
+                    <label for="convenio">Convenio:</label>
+                    <input type="text" name="convenio" id="convenio" value="{{ datos.convenio }}">
+                </div>
+                <div class="form-group">
+                    <label for="legajo">Legajo:</label>
+                    <input type="text" name="legajo" id="legajo" value="{{ datos.legajo }}">
+                </div>
+                <div class="form-group">
+                    <label for="mail">Correo Electrónico:</label>
+                    <input type="text" name="mail" id="mail" value="{{ datos.mail }}">
+                </div>
+                <button type="submit">Guardar Cambios</button>
+            </form>
             {% endif %}
-        </div>
+        </div>        
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

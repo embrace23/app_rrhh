@@ -67,7 +67,18 @@
     </div>
 
     <div id="mainContainer">
-        EDITAR
+        <form action="" method="POST">
+            <div class="form-group">
+                <label for="seleccionar_empleado">Seleccionar Empleado:</label>
+                <select id="seleccionar_empleado" name="empleado" required>
+                    <option value="" disabled selected>Elige un empleado</option>
+                    {% for empleado in personal %}
+                        <option value="{{ empleado }}">{{ empleado }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit">Editar Empleado</button>
+        </form>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

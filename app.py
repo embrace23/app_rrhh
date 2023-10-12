@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal
 import mysql.connector
 
 app = Flask(__name__)
@@ -99,7 +99,8 @@ def editar():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('editar.html', usuario=usuario, empleado=empleado)
+        personal = obtener_personal()
+        return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
     else:
         return redirect(url_for('index'))
 

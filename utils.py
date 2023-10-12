@@ -303,3 +303,38 @@ def actualizar_contrasena(usuario, contrasena_nueva):
             conexion.close()
 
     return False  # Hubo un error en la actualización de la contraseña
+
+def obtener_personal():
+    empleados = []
+    
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+            
+            # Consulta para obtener los nombres de los empleados desde la tabla "nomina"
+            consulta = "SELECT empleado FROM nomina"
+            cursor.execute(consulta)
+            
+            # Recupera todos los nombres de empleados
+            resultados = cursor.fetchall()
+            
+            for resultado in resultados:
+                empleados.append(resultado[0])
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return empleados

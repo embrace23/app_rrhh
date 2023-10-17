@@ -67,6 +67,27 @@
     </div>
 
     <div id="mainContainer">
+        {% if estudio %}
+        <h2>Días de Estudio:</h2>
+        <div id="dias">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resultado in estudio %}
+                    <tr>
+                        <td>{{ resultado[0] }}</td> {# Empleado #}
+                        <td>{{ resultado[1] }}</td> {# Fecha #}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}        
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

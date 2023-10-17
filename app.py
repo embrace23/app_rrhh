@@ -37,10 +37,15 @@ def inicio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('inicio.html', usuario=usuario, empleado=empleado)
+
+        if empleado in ["DI SALVO CLARA MICAELA", "DANIELA GALLARDO"]:
+            estudio = obtener_dias_estudio()
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio)
+        else:
+            return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
-    
+
 #RUTA A ESTUDIO
 @app.route('/estudio')
 def estudio():

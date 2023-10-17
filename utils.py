@@ -108,7 +108,7 @@ def guardar_fecha(usuario, fecha, pagina):
     return False
 
 #Función para generar la tabla según los dias de estudio solicitados por el empleado
-def obtener_dias_estudio(nombre_empleado):
+def obtener_dias_estudio(nombre_empleado=None):
     dias_estudio = []
     try:
         conexion = mysql.connector.connect(
@@ -121,12 +121,22 @@ def obtener_dias_estudio(nombre_empleado):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT fecha FROM dia_estudio WHERE empleado = %s"
-            cursor.execute(consulta, (nombre_empleado,))
+            if nombre_empleado:
+                consulta = "SELECT fecha FROM dia_estudio WHERE empleado = %s"
+                cursor.execute(consulta, (nombre_empleado,))
+            else: 
+                consulta = "SELECT empleado, fecha FROM dia_estudio"
+                cursor.execute(consulta)
+
             resultados = cursor.fetchall()
 
             for resultado in resultados:
-                dias_estudio.append(resultado[0])
+                if nombre_empleado:
+                    dias_estudio.append(resultado[0])
+                else:
+                    empleado = resultado[0]
+                    fecha = resultado[1]
+                    dias_estudio.append((empleado, fecha))
 
             cursor.close()
 

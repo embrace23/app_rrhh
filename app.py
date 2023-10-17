@@ -53,7 +53,6 @@ def estudio():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         dias_estudio = obtener_dias_estudio(empleado)
-        eliminar_registros_antiguos('dia_estudio')
         return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
@@ -65,7 +64,6 @@ def ausencias():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         ausencias = obtener_ausencias(empleado)
-        eliminar_registros_antiguos('ausencias')
         return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
     else:
         return redirect(url_for('index'))
@@ -87,7 +85,6 @@ def homeoffice():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         homeoffice = obtener_homeoffice(empleado)
-        eliminar_registros_antiguos('home')
         return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
     else:
         return redirect(url_for('index'))
@@ -99,7 +96,6 @@ def vacaciones():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         vacaciones = obtener_vacaciones(empleado)
-        eliminar_registros_antiguos('vacaciones')
         return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
     else:
         return redirect(url_for('index'))
@@ -179,7 +175,6 @@ def guardar_vacaciones():
             return "Debes proporcionar ambas fechas de inicio y fin"
     else:
         return redirect(url_for('index'))
-
 
 @app.route('/cambiar_contrasena', methods=['POST'])
 def cambiar_contrasena():

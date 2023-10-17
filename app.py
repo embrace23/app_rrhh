@@ -220,7 +220,6 @@ def editar_informacion():
 @app.route('/guardar_informacion', methods=['POST'])
 def guardar_informacion():
     if request.method == 'POST':
-        # Obtén los datos actualizados del formulario
         nombre = request.form.get('empleado')
         cuenta = request.form.get('cuenta')
         forma = request.form.get('forma')
@@ -231,15 +230,11 @@ def guardar_informacion():
         legajo = request.form.get('legajo')
         mail = request.form.get('mail')
 
-        # Realiza la actualización en la base de datos (debes implementar esta función)
         exito_actualizacion = actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail)
 
         if exito_actualizacion:
-            # Si la actualización fue exitosa, redirige a una página de confirmación
             return redirect(url_for('editar'))
         else:
-            # Si hubo un error en la actualización, puedes manejarlo aquí
-            # Por ejemplo, mostrar un mensaje de error y redirigir a una página de error
             return redirect(url_for('editar'))
 
 def eliminar_registros_antiguos(tabla):

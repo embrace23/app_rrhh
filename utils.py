@@ -1,6 +1,6 @@
 import schedule
 import time
-import datetime
+from datetime import datetime
 import mysql.connector
 
 #Función para chequear que el mail y la contraseña sean los correctos
@@ -90,7 +90,7 @@ def guardar_fecha(usuario, fecha, pagina):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = f"INSERT INTO {tabla} (empleado, fecha) VALUES (%s, %s)"
+            consulta = f"INSERT INTO {tabla} (empleado, fecha, fecha_modificacion) VALUES (%s, %s, NOW())"
             cursor.execute(consulta, (usuario, fecha))
 
             conexion.commit()
@@ -384,7 +384,6 @@ def obtener_datos(empleado):
 
     return None
 
-
 def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail):
     try:
         conexion = mysql.connector.connect(
@@ -419,3 +418,31 @@ def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, conven
             conexion.close()
 
     return False  # Hubo un error en la actualización
+
+def registrar_inicio_sesion(usuario):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            # Obtiene la hora actual
+            hora_actual = datetime.now()
+            hora_actual_form = hora_actual.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Inserta el registro en la tabla inicio_sesion
+            consulta = "INSERT INTO inicio_sesion (empleado, fecha_hora) VALUES (%s, %s)"
+            valores = (usuario, hora_actual_form)
+
+            cursor.execute(consulta, valores)
+            conexion.commit()
+
+            cursor.close()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+

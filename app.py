@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal, obtener_datos, actualizar_datos_empleado
+from utils import obtener_empleado, guardar_fecha, obtener_dias_estudio, verificar_credenciales, obtener_homeoffice, obtener_ausencias, obtener_vacaciones, insertar_registro, actualizar_contrasena, cumple_requisitos_seguridad, obtener_personal, obtener_datos, actualizar_datos_empleado, registrar_inicio_sesion
 import mysql.connector
 from datetime import datetime, timedelta
 
@@ -25,6 +25,7 @@ def login():
 
     if verificar_credenciales(email, password):
         session['user'] = email
+        registrar_inicio_sesion(email)
         return redirect(url_for('inicio'))
     else:
         return "Credenciales incorrectas"
@@ -154,7 +155,15 @@ def guardar_vacaciones():
 
         if fecha_inicio and fecha_fin:
             tabla = 'vacaciones'
-            campos = {'empleado': nombre_empleado, 'fecha_inicio': fecha_inicio, 'fecha_fin': fecha_fin}
+
+            fecha_modificacion = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            campos = {
+                'empleado': nombre_empleado,
+                'fecha_inicio': fecha_inicio,
+                'fecha_fin': fecha_fin,
+                'fecha_modificacion': fecha_modificacion
+            }
             resultado = insertar_registro(tabla, campos)
 
             if resultado:

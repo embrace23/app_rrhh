@@ -394,6 +394,7 @@ def obtener_datos(empleado):
 
     return None
 
+#Función para cargar los datos en la base de datos si se decide modificar
 def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail):
     try:
         conexion = mysql.connector.connect(

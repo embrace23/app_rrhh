@@ -200,3 +200,13 @@ body{
 #sidemenu #menuItems .item:last-child .icon img {
     width: 24px;
 }
+
+#calendarSection{
+    display: flex;
+    justify-content: center;
+}
+
+#calendar {
+    width: 800px;
+    height: 600px;
+}

@@ -57,6 +57,20 @@
                 <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>
             </div>
+
+            <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  var calendarEl = document.getElementById('calendar');
+                  var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: '/obtener_eventos_estudio',
+                
+                  });
+                
+                  calendar.render();
+                });
+            </script>
             {% endif %}
 
             <div class="item">
@@ -89,7 +103,13 @@
         </div>
         {% endif %}        
     </div>
+    
+    <section id="calendarSection">
+        <div id="calendar"></div>
+    </section>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+        
 </body>
 </html>

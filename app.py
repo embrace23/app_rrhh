@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_session import Session
 from utils import *
 import mysql.connector
@@ -13,11 +13,16 @@ app.secret_key = 'tu_clave_secreta'
 
 Session(app)
 
+"""
+RUTAS PARA LOGIN Y LOGOUT
+"""
+
 @app.route('/')
 
 def index():
     return render_template('index.html')
 
+#INICIO DE SESION
 @app.route('/login', methods = ['POST'])
 def login():
     email = request.form.get('email')
@@ -25,11 +30,78 @@ def login():
 
     if verificar_credenciales(email, password):
         session['user'] = email
-        registrar_inicio_sesion(email)
+        #registrar_inicio_sesion(email)
         return redirect(url_for('inicio'))
     else:
         return "Credenciales incorrectas"
     
+#CIERRE DE SESION   
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
+
+
+
+
+###################################################################################
+"""
+RUTAS PARA DISTINTAS PAGINAS
+"""
+
+#RUTA A AJUSTES
+@app.route('/ajustes')
+def ajustes():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        return render_template('ajustes.html', usuario=usuario, empleado=empleado)
+    else:
+        return redirect(url_for('index'))
+    
+#RUTA A AUSENCIAS
+@app.route('/ausencias')
+def ausencias():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        ausencias = obtener_ausencias(empleado)
+        return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
+    else:
+        return redirect(url_for('index'))
+    
+#RUTA A EDITAR
+@app.route('/editar')
+def editar():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        personal = obtener_personal()
+        return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
+    else:
+        return redirect(url_for('index'))
+
+#RUTA A ESTUDIO
+@app.route('/estudio')
+def estudio():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        dias_estudio = obtener_dias_estudio(empleado)
+        return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
+    else:
+        return redirect(url_for('index'))
+
+#RUTA A HOMEOFFICE
+@app.route('/homeoffice')
+def homeoffice():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        homeoffice = obtener_homeoffice(empleado)
+        return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
+    else:
+        return redirect(url_for('index'))
 
 #RUTA A INICIO
 @app.route('/inicio')
@@ -46,49 +118,6 @@ def inicio():
     else:
         return redirect(url_for('index'))
 
-#RUTA A ESTUDIO
-@app.route('/estudio')
-def estudio():
-    if 'user' in session:
-        usuario = session['user']
-        empleado = obtener_empleado(usuario)
-        dias_estudio = obtener_dias_estudio(empleado)
-        return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
-    else:
-        return redirect(url_for('index'))
-    
-#RUTA A AUSENCIAS
-@app.route('/ausencias')
-def ausencias():
-    if 'user' in session:
-        usuario = session['user']
-        empleado = obtener_empleado(usuario)
-        ausencias = obtener_ausencias(empleado)
-        return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
-    else:
-        return redirect(url_for('index'))
-
-#RUTA A AJUSTES
-@app.route('/ajustes')
-def ajustes():
-    if 'user' in session:
-        usuario = session['user']
-        empleado = obtener_empleado(usuario)
-        return render_template('ajustes.html', usuario=usuario, empleado=empleado)
-    else:
-        return redirect(url_for('index'))
-
-#RUTA A HOMEOFFICE
-@app.route('/homeoffice')
-def homeoffice():
-    if 'user' in session:
-        usuario = session['user']
-        empleado = obtener_empleado(usuario)
-        homeoffice = obtener_homeoffice(empleado)
-        return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
-    else:
-        return redirect(url_for('index'))
-
 #RUTA A VACACIONES
 @app.route('/vacaciones')
 def vacaciones():
@@ -100,51 +129,29 @@ def vacaciones():
     else:
         return redirect(url_for('index'))
     
-#RUTA A EDITAR
-@app.route('/editar')
-def editar():
-    if 'user' in session:
-        usuario = session['user']
-        empleado = obtener_empleado(usuario)
-        personal = obtener_personal()
-        return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
-    else:
-        return redirect(url_for('index'))
 
-#CIERRE DE SESION   
-@app.route('/logout')
-def logout():
-    session.pop('user', None)
-    return redirect(url_for('index'))
 
-#GUARDAR FECHA AL HACER CLIC EN EL BOTÓN
-@app.route('/guardar_fecha', methods=['POST'])
+#########################################################################
+"""
+RUTAS Y FUNCIONES EXTRAS
+"""
+
+#GUARDAR FECHA DE ESTUDIO
+@app.route('/guardar_estudio', methods=['POST'])
 def guardar_fecha_route():
-    return guardar_fecha_generico('estudio', 'fecha')
+    return guardar_fecha_generico('estudio', 'fechaEstudio')
     
+#GUARDAR FECHA DE HOME OFFICE
 @app.route('/guardar_home', methods=['POST'])
 def guardar_home_route():
     return guardar_fecha_generico('homeoffice', 'fechaHome')
 
+#GUARDAR FECHA DE AUSENCIAS
 @app.route('/guardar_ausencias', methods=['POST'])
 def guardar_ausencias_route():
     return guardar_fecha_generico('ausencias', 'fechaAusencias')
 
-def guardar_fecha_generico(pagina, campo_fecha):
-    if 'user' in session:
-        correo = session['user']
-        nombre_empleado = obtener_empleado(correo)
-        fecha = request.form.get(campo_fecha)
-
-        resultado = guardar_fecha(nombre_empleado, fecha, pagina)
-
-        if resultado:
-            return redirect(url_for(pagina))
-        else:
-            return "Error al guardar la fecha"
-    else:
-        return redirect(url_for('index'))
-    
+#GUARDAR FECHA DE VACACIONES
 @app.route('/guardar_vacaciones', methods=['POST'])
 def guardar_vacaciones():
     if 'user' in session:
@@ -176,6 +183,23 @@ def guardar_vacaciones():
     else:
         return redirect(url_for('index'))
 
+#FUNCION PARA GUARDAR FECHA DE FORMA GENERICA PARA SER REUTILIZADA
+def guardar_fecha_generico(pagina, campo_fecha):
+    if 'user' in session:
+        correo = session['user']
+        nombre_empleado = obtener_empleado(correo)
+        fecha = request.form.get(campo_fecha)
+
+        resultado = guardar_fecha(nombre_empleado, fecha, pagina)
+
+        if resultado:
+            return redirect(url_for(pagina))
+        else:
+            return "Error al guardar la fecha"
+    else:
+        return redirect(url_for('index'))
+    
+#CAMBIAR LA CONTRASEÑA
 @app.route('/cambiar_contrasena', methods=['POST'])
 def cambiar_contrasena():
     if 'user' in session:
@@ -201,6 +225,7 @@ def cambiar_contrasena():
     else:
         return redirect(url_for('index'))
 
+#ELEGIR USUARIO Y GUARDAR LOS DATOS DEL EMPLEADO
 @app.route('/editar_informacion', methods=['POST'])
 def editar_informacion():
     if request.method == 'POST':
@@ -217,6 +242,7 @@ def editar_informacion():
                 else:
                     return redirect(url_for('index'))
 
+#GUARDAR LA INFORMACION CAMBIADA A LOS EMPLEADOS
 @app.route('/guardar_informacion', methods=['POST'])
 def guardar_informacion():
     if request.method == 'POST':
@@ -237,6 +263,8 @@ def guardar_informacion():
         else:
             return redirect(url_for('editar'))
 
+#Comentario para eliminar registros de las bases de datos
+"""
 def eliminar_registros_antiguos(tabla):
     try:
         conexion = mysql.connector.connect(
@@ -263,8 +291,40 @@ def eliminar_registros_antiguos(tabla):
             conexion.close()
     except mysql.connector.Error as err:
         print(f"Error: {err}")
+"""
 
 
+
+
+
+################################################################################
+"""
+RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA CLARA Y DANIELA)
+"""
+
+def obtener_eventos_estudio():
+    diasdeestudio = obtener_dias_estudio()
+    eventos = []
+    
+    for tupla in diasdeestudio:
+        empleado, fecha = tupla
+        eventos.append({
+            'title': empleado,
+            'start': fecha
+        })
+
+    return eventos
+
+@app.route('/obtener_eventos_estudio', methods=['GET'])
+def obtener_eventos_estudio_route():
+    eventos = obtener_eventos_estudio()
+    return jsonify(eventos)
+
+
+
+
+
+################################################################################3
 #INICIO DE APP
 if __name__ == '__main__':
     app.run(debug=True)

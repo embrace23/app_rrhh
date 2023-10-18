@@ -430,6 +430,7 @@ def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, conven
 
     return False  # Hubo un error en la actualización
 
+""""
 def registrar_inicio_sesion(usuario):
     try:
         conexion = mysql.connector.connect(
@@ -456,4 +457,4 @@ def registrar_inicio_sesion(usuario):
             cursor.close()
     except mysql.connector.Error as err:
         print(f"Error: {err}")
-
+"""

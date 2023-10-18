@@ -150,8 +150,8 @@ def obtener_dias_estudio(nombre_empleado=None):
     return dias_estudio
 
 #Función para generar la tabla según los dias de homeoffice solicitados por el empleado
-def obtener_homeoffice(nombre_empleado):
-    homeoffice = []
+def obtener_homeoffice(nombre_empleado=None):
+    home = []
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -163,12 +163,22 @@ def obtener_homeoffice(nombre_empleado):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT fecha FROM home WHERE empleado = %s"
-            cursor.execute(consulta, (nombre_empleado,))
+            if nombre_empleado:
+                consulta = "SELECT fecha FROM home WHERE empleado = %s"
+                cursor.execute(consulta, (nombre_empleado,))
+            else: 
+                consulta = "SELECT empleado, fecha FROM home"
+                cursor.execute(consulta)
+
             resultados = cursor.fetchall()
 
             for resultado in resultados:
-                homeoffice.append(resultado[0])
+                if nombre_empleado:
+                    home.append(resultado[0])
+                else:
+                    empleado = resultado[0]
+                    fecha = resultado[1]
+                    home.append((empleado, fecha))
 
             cursor.close()
 
@@ -179,10 +189,10 @@ def obtener_homeoffice(nombre_empleado):
         if 'conexion' in locals():
             conexion.close()
 
-    return homeoffice
+    return home
 
 #Función para generar la tabla según los dias de ausencia solicitados por el empleado
-def obtener_ausencias(nombre_empleado):
+def obtener_ausencias(nombre_empleado=None):
     ausencias = []
     try:
         conexion = mysql.connector.connect(
@@ -195,12 +205,22 @@ def obtener_ausencias(nombre_empleado):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT fecha FROM ausencias WHERE empleado = %s"
-            cursor.execute(consulta, (nombre_empleado,))
+            if nombre_empleado:
+                consulta = "SELECT fecha FROM ausencias WHERE empleado = %s"
+                cursor.execute(consulta, (nombre_empleado,))
+            else: 
+                consulta = "SELECT empleado, fecha FROM ausencias"
+                cursor.execute(consulta)
+
             resultados = cursor.fetchall()
 
             for resultado in resultados:
-                ausencias.append(resultado[0])
+                if nombre_empleado:
+                    ausencias.append(resultado[0])
+                else:
+                    empleado = resultado[0]
+                    fecha = resultado[1]
+                    ausencias.append((empleado, fecha))
 
             cursor.close()
 

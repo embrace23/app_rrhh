@@ -112,7 +112,9 @@ def inicio():
 
         if empleado in ["DI SALVO CLARA MICAELA", "DANIELA GALLARDO"]:
             estudio = obtener_dias_estudio()
-            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio)
+            ausencias = obtener_ausencias()
+            home = obtener_homeoffice()
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:
@@ -321,7 +323,42 @@ def obtener_eventos_estudio_route():
     return jsonify(eventos)
 
 
+def obtener_eventos_ausencias():
+    diasdeausencias = obtener_ausencias()
+    eventos = []
+    
+    for tupla in diasdeausencias:
+        empleado, fecha = tupla
+        eventos.append({
+            'title': empleado,
+            'start': fecha
+        })
 
+    return eventos
+
+@app.route('/obtener_eventos_ausencias', methods=['GET'])
+def obtener_eventos_ausencias_route():
+    eventos = obtener_eventos_ausencias()
+    return jsonify(eventos)
+
+
+def obtener_eventos_home():
+    diasdehome = obtener_homeoffice()
+    eventos = []
+    
+    for tupla in diasdehome:
+        empleado, fecha = tupla
+        eventos.append({
+            'title': empleado,
+            'start': fecha
+        })
+
+    return eventos
+
+@app.route('/obtener_eventos_home', methods=['GET'])
+def obtener_eventos_home_route():
+    eventos = obtener_eventos_home()
+    return jsonify(eventos)
 
 
 ################################################################################3

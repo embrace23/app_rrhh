@@ -52,7 +52,7 @@
                 <div class="title"><a href="{{ url_for('ajustes') }}"><span>Ajustes</span></a></div>
             </div>
 
-            {% if empleado == 'DANIELA GALLARDO' or empleado == 'DI SALVO CLARA MICAELA' %}
+            {% if jerarquia %}
             <div class="item">
                 <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>

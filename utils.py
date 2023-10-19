@@ -70,6 +70,41 @@ def obtener_empleado(correo):
 
     return empleado
 
+def obtener_jerarquia(correo):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT jerarquia FROM nomina WHERE mail = %s"
+            cursor.execute(consulta, (correo,))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                jerarquia = resultado[0]
+            else:
+                jerarquia = "Mail de usuario no encontrado"
+
+            cursor.close()
+
+        else:
+            jerarquia = "Error en la conexión a la base de datos"
+
+    except mysql.connector.Error as err:
+        jerarquia = f"Error: {err}"
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return jerarquia
+
 #Función para guardar la fecha segun el empleado
 def guardar_fecha(usuario, fecha, pagina):
     try:

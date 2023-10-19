@@ -109,12 +109,13 @@ def inicio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
+        jerarquia = obtener_jerarquia(usuario)
 
-        if empleado in ["DI SALVO CLARA MICAELA", "DANIELA GALLARDO"]:
+        if jerarquia in ["Direccion", "Gerencia"]:
             estudio = obtener_dias_estudio()
             ausencias = obtener_ausencias()
             home = obtener_homeoffice()
-            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home)
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:

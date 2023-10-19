@@ -58,7 +58,7 @@ def ajustes():
         return render_template('ajustes.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
-    
+
 #RUTA A AUSENCIAS
 @app.route('/ausencias')
 def ausencias():
@@ -363,25 +363,11 @@ def obtener_eventos_home_route():
     return jsonify(eventos)
 """
 
-def obtener_eventos_cumpleanos():
-    diasdecumpleanos = obtener_cumpleanos()
-    eventos = []
-    
-    for tupla in diasdecumpleanos:
-        empleado, fecha = tupla
-        eventos.append({
-            'title': empleado,
-            'start': fecha
-        })
-    
-    return eventos
-
 
 def obtener_todos_los_eventos():
     eventos_estudio = obtener_eventos_estudio()
     eventos_ausencias = obtener_eventos_ausencias()
     eventos_home = obtener_eventos_home()
-    eventos_cumpleanos = obtener_eventos_cumpleanos()
 
     for evento in eventos_estudio:
         evento['color'] = 'blue'
@@ -389,10 +375,8 @@ def obtener_todos_los_eventos():
         evento['color'] = 'green'
     for evento in eventos_ausencias:
         evento['color'] = 'red'
-    for evento in eventos_cumpleanos:
-        evento['color'] = "blue"
 
-    eventos = eventos_estudio + eventos_ausencias + eventos_home + eventos_cumpleanos
+    eventos = eventos_estudio + eventos_ausencias + eventos_home
 
     return eventos
 

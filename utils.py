@@ -79,19 +79,20 @@ def guardar_fecha(usuario, fecha, pagina):
             password="",
             database="rrhh"
         )
-
+        """
         if pagina == 'estudio':
             tabla = 'dia_estudio'
         elif pagina == 'homeoffice':
             tabla = 'home'
         elif pagina == 'ausencias':
             tabla = 'ausencias'
+        """
 
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = f"INSERT INTO {tabla} (empleado, fecha, fecha_modificacion) VALUES (%s, %s, NOW())"
-            cursor.execute(consulta, (usuario, fecha))
+            consulta = f"INSERT INTO dias_pedidos (empleado, fecha, fecha_modificacion, concepto) VALUES (%s, %s, NOW(), %s)"
+            cursor.execute(consulta, (usuario, fecha, pagina))
 
             conexion.commit()
 
@@ -122,10 +123,10 @@ def obtener_dias_estudio(nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha FROM dia_estudio WHERE empleado = %s"
+                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s and concepto = 'estudio'"
                 cursor.execute(consulta, (nombre_empleado,))
             else: 
-                consulta = "SELECT empleado, fecha FROM dia_estudio"
+                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = 'estudio'"
                 cursor.execute(consulta)
 
             resultados = cursor.fetchall()
@@ -164,10 +165,10 @@ def obtener_homeoffice(nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha FROM home WHERE empleado = %s"
+                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = 'homeoffice'"
                 cursor.execute(consulta, (nombre_empleado,))
             else: 
-                consulta = "SELECT empleado, fecha FROM home"
+                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = 'homeoffice'"
                 cursor.execute(consulta)
 
             resultados = cursor.fetchall()
@@ -191,39 +192,6 @@ def obtener_homeoffice(nombre_empleado=None):
 
     return home
 
-def obtener_cumpleanos():
-    cumpleanos = []
-    try:
-        conexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="rrhh"
-        )
-
-        if conexion.is_connected():
-            cursor = conexion.cursor()
-
-            consulta = "SELECT empleado, fecha_nacimiento FROM nomina"
-            cursor.execute(consulta)
-
-            resultados = cursor.fetchall()
-
-            for resultado in resultados:
-                empleado = resultado[0]
-                fecha = resultado[1]
-                cumpleanos.append((empleado, fecha))
-
-            cursor.close()
-
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-
-    finally:
-        if 'conexion' in locals():
-            conexion.close()
-
-    return cumpleanos
 
 #Función para generar la tabla según los dias de ausencia solicitados por el empleado
 def obtener_ausencias(nombre_empleado=None):
@@ -240,10 +208,10 @@ def obtener_ausencias(nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha FROM ausencias WHERE empleado = %s"
+                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = 'ausencias'"
                 cursor.execute(consulta, (nombre_empleado,))
             else: 
-                consulta = "SELECT empleado, fecha FROM ausencias"
+                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = 'ausencias'"
                 cursor.execute(consulta)
 
             resultados = cursor.fetchall()

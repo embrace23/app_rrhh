@@ -361,6 +361,29 @@ def obtener_eventos_home_route():
     return jsonify(eventos)
 
 
+
+def obtener_todos_los_eventos():
+    eventos_estudio = obtener_eventos_estudio()
+    eventos_ausencias = obtener_eventos_ausencias()
+    eventos_home = obtener_eventos_home()
+
+    for evento in eventos_estudio:
+        evento['color'] = 'blue'
+    for evento in eventos_home:
+        evento['color'] = 'green'
+    for evento in eventos_ausencias:
+        evento['color'] = 'red'
+
+    eventos = eventos_estudio + eventos_ausencias + eventos_home
+
+    return eventos
+
+
+@app.route('/obtener_todos_los_eventos', methods=['GET'])
+def obtener_todos_los_eventos_route():
+    eventos = obtener_todos_los_eventos()
+    return jsonify(eventos)
+
 ################################################################################3
 #INICIO DE APP
 if __name__ == '__main__':

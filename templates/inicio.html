@@ -64,10 +64,10 @@
                   var calendarEl = document.getElementById('calendar');
                   var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
-                    events: '/obtener_eventos_home',
-                
+                    events: '/obtener_todos_los_eventos',
+                    
                   });
-                
+
                   calendar.render();
                 });
             </script>
@@ -92,7 +92,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for resultado in home %}
+                    {% for resultado in estudio %}
                     <tr>
                         <td>{{ resultado[0] }}</td> {# Empleado #}
                         <td>{{ resultado[1] }}</td> {# Fecha #}

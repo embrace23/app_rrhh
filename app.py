@@ -44,7 +44,7 @@ def logout():
 
 
 
-###################################################################################
+################################################################################
 """
 RUTAS PARA DISTINTAS PAGINAS
 """
@@ -133,7 +133,7 @@ def vacaciones():
     
 
 
-#########################################################################
+################################################################################
 """
 RUTAS Y FUNCIONES EXTRAS
 """
@@ -317,11 +317,12 @@ def obtener_eventos_estudio():
 
     return eventos
 
+"""
 @app.route('/obtener_eventos_estudio', methods=['GET'])
 def obtener_eventos_estudio_route():
     eventos = obtener_eventos_estudio()
     return jsonify(eventos)
-
+"""
 
 def obtener_eventos_ausencias():
     diasdeausencias = obtener_ausencias()
@@ -336,11 +337,12 @@ def obtener_eventos_ausencias():
 
     return eventos
 
+"""
 @app.route('/obtener_eventos_ausencias', methods=['GET'])
 def obtener_eventos_ausencias_route():
     eventos = obtener_eventos_ausencias()
     return jsonify(eventos)
-
+"""
 
 def obtener_eventos_home():
     diasdehome = obtener_homeoffice()
@@ -354,18 +356,32 @@ def obtener_eventos_home():
         })
 
     return eventos
-
+"""
 @app.route('/obtener_eventos_home', methods=['GET'])
 def obtener_eventos_home_route():
     eventos = obtener_eventos_home()
     return jsonify(eventos)
+"""
 
+def obtener_eventos_cumpleanos():
+    diasdecumpleanos = obtener_cumpleanos()
+    eventos = []
+    
+    for tupla in diasdecumpleanos:
+        empleado, fecha = tupla
+        eventos.append({
+            'title': empleado,
+            'start': fecha
+        })
+    
+    return eventos
 
 
 def obtener_todos_los_eventos():
     eventos_estudio = obtener_eventos_estudio()
     eventos_ausencias = obtener_eventos_ausencias()
     eventos_home = obtener_eventos_home()
+    eventos_cumpleanos = obtener_eventos_cumpleanos()
 
     for evento in eventos_estudio:
         evento['color'] = 'blue'
@@ -373,8 +389,10 @@ def obtener_todos_los_eventos():
         evento['color'] = 'green'
     for evento in eventos_ausencias:
         evento['color'] = 'red'
+    for evento in eventos_cumpleanos:
+        evento['color'] = "blue"
 
-    eventos = eventos_estudio + eventos_ausencias + eventos_home
+    eventos = eventos_estudio + eventos_ausencias + eventos_home + eventos_cumpleanos
 
     return eventos
 
@@ -384,7 +402,7 @@ def obtener_todos_los_eventos_route():
     eventos = obtener_todos_los_eventos()
     return jsonify(eventos)
 
-################################################################################3
+################################################################################
 #INICIO DE APP
 if __name__ == '__main__':
     app.run(debug=True)

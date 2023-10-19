@@ -191,6 +191,40 @@ def obtener_homeoffice(nombre_empleado=None):
 
     return home
 
+def obtener_cumpleanos():
+    cumpleanos = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT empleado, fecha_nacimiento FROM nomina"
+            cursor.execute(consulta)
+
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                empleado = resultado[0]
+                fecha = resultado[1]
+                cumpleanos.append((empleado, fecha))
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return cumpleanos
+
 #Función para generar la tabla según los dias de ausencia solicitados por el empleado
 def obtener_ausencias(nombre_empleado=None):
     ausencias = []

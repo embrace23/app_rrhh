@@ -27,24 +27,33 @@
         <!-- Items -->
         <div id="menuItems">
             <div class="item">
-                <div class="icon"><a href="{{ url_for('estudio') }}"><img src="{{ url_for('static', filename='images/estudio.png') }}" alt=""></a></div>
-                <div class="title"><a href="{{ url_for('estudio') }}"><span>Días de estudio</span></a></div>
-
+                <a href="javascript:void(0);" class="solicitarDias">
+                    <div class="icon"><span>&#9660;</span></div>
+                    <div class="title"><span>Solicitar días</span></div>
+                </a>
             </div>
 
-            <div class="item">
-                <div class="icon"><a href="{{ url_for('homeoffice') }}"><img src="{{ url_for('static', filename='images/casa.png') }}" alt=""></a></div>
-                <div class="title"><a href="{{ url_for('homeoffice') }}"><span>Home office</span></a></div>
-            </div>
-
-            <div class="item">
-                <div class="icon"><a href="{{ url_for('ausencias') }}"><img src="{{ url_for('static', filename='images/ausencia.png') }}" alt=""></a></div>
-                <div class="title"><a href="{{ url_for('ausencias') }}"><span>Ausencias</span></a></div>
-            </div>
-
-            <div class="item">
-                <div class="icon"><a href="{{ url_for('vacaciones') }}"><img src="{{ url_for('static', filename='images/vacaciones.png') }}" alt=""></a></div>
-                <div class="title"><a href="{{ url_for('vacaciones') }}"><span>Vacaciones</span></a></div>
+            <div class="solicitarDiasItems" style="display: none;">
+                <div class="item">
+                    <div class="icon"><a href="{{ url_for('estudio') }}"><img src="{{ url_for('static', filename='images/estudio.png') }}" alt=""></a></div>
+                    <div class="title"><a href="{{ url_for('estudio') }}"><span>Días de estudio</span></a></div>
+    
+                </div>
+    
+                <div class="item">
+                    <div class="icon"><a href="{{ url_for('homeoffice') }}"><img src="{{ url_for('static', filename='images/casa.png') }}" alt=""></a></div>
+                    <div class="title"><a href="{{ url_for('homeoffice') }}"><span>Home office</span></a></div>
+                </div>
+    
+                <div class="item">
+                    <div class="icon"><a href="{{ url_for('ausencias') }}"><img src="{{ url_for('static', filename='images/ausencia.png') }}" alt=""></a></div>
+                    <div class="title"><a href="{{ url_for('ausencias') }}"><span>Ausencias</span></a></div>
+                </div>
+    
+                <div class="item">
+                    <div class="icon"><a href="{{ url_for('vacaciones') }}"><img src="{{ url_for('static', filename='images/vacaciones.png') }}" alt=""></a></div>
+                    <div class="title"><a href="{{ url_for('vacaciones') }}"><span>Vacaciones</span></a></div>
+                </div>
             </div>
             
             <div class="item">

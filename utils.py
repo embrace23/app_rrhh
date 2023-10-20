@@ -145,6 +145,7 @@ def guardar_fecha(usuario, fecha, area, jerarquia, pagina):
 
     return False
 
+#Funcion para obtener los dias pedidos por el empleado de la tabla general
 def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
     dias_pedidos = []
 

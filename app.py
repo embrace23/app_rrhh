@@ -109,12 +109,13 @@ def inicio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        jerarquia = obtener_area_jerarquia(usuario)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
 
         if jerarquia in ["Direccion", "Gerencia"]:
-            estudio = obtener_dias_pedidos('estudio')
-            ausencias = obtener_dias_pedidos('ausencias')
-            home = obtener_dias_pedidos('homeoffice')
+            estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
+            ausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
+            home = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
             return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
@@ -309,7 +310,7 @@ RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA CLARA Y DA
 """
 
 def obtener_eventos_estudio():
-    diasdeestudio = obtener_dias_pedidos('estudio')
+    diasdeestudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
     eventos = []
     
     for tupla in diasdeestudio:
@@ -329,7 +330,7 @@ def obtener_eventos_estudio_route():
 """
 
 def obtener_eventos_ausencias():
-    diasdeausencias = obtener_dias_pedidos('ausencias')
+    diasdeausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
     eventos = []
     
     for tupla in diasdeausencias:
@@ -349,7 +350,7 @@ def obtener_eventos_ausencias_route():
 """
 
 def obtener_eventos_home():
-    diasdehome = obtener_dias_pedidos('homeoffice')
+    diasdehome = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
     eventos = []
     
     for tupla in diasdehome:

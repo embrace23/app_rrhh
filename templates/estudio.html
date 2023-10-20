@@ -26,7 +26,8 @@
 
         <!-- Items -->
         <div id="menuItems">
-            <div class="item">
+
+            <div class="item ampliarDias">
                 <a href="javascript:void(0);" class="solicitarDias">
                     <div class="icon"><span>&#9660;</span></div>
                     <div class="title"><span>Solicitar días</span></div>
@@ -37,7 +38,6 @@
                 <div class="item">
                     <div class="icon"><a href="{{ url_for('estudio') }}"><img src="{{ url_for('static', filename='images/estudio.png') }}" alt=""></a></div>
                     <div class="title"><a href="{{ url_for('estudio') }}"><span>Días de estudio</span></a></div>
-    
                 </div>
     
                 <div class="item">
@@ -56,17 +56,17 @@
                 </div>
             </div>
 
-            <div class="item">
-                <div class="icon"><a href="{{ url_for('ajustes') }}"><img src="{{ url_for('static', filename='images/configuraciones.png') }}" alt="Ajustes"></a></div>
-                <div class="title"><a href="{{ url_for('ajustes') }}"><span>Ajustes</span></a></div>
-            </div>
-
             {% if empleado == 'DANIELA GALLARDO' or empleado == 'DI SALVO CLARA MICAELA' %}
             <div class="item">
                 <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>
             </div>
             {% endif %}
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('ajustes') }}"><img src="{{ url_for('static', filename='images/configuraciones.png') }}" alt="Ajustes"></a></div>
+                <div class="title"><a href="{{ url_for('ajustes') }}"><span>Ajustes</span></a></div>
+            </div>
 
             <div class="item">
                 <div class="icon"><a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='images/cerrar-sesion.png') }}" alt="Cerrar sesion"></a></div>

@@ -71,7 +71,7 @@ def obtener_empleado(correo):
     return empleado
 
 #Funcion para obtener la jerarquia del empleado
-def obtener_jerarquia(correo):
+def obtener_area_jerarquia(correo):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -83,12 +83,13 @@ def obtener_jerarquia(correo):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT jerarquia FROM nomina WHERE mail = %s"
+            consulta = "SELECT area, jerarquia FROM nomina WHERE mail = %s"
             cursor.execute(consulta, (correo,))
             resultado = cursor.fetchone()
 
             if resultado:
-                jerarquia = resultado[0]
+                area = resultado[0]
+                jerarquia = resultado[1]
             else:
                 jerarquia = "Mail de usuario no encontrado"
 
@@ -104,10 +105,10 @@ def obtener_jerarquia(correo):
         if 'conexion' in locals():
             conexion.close()
 
-    return jerarquia
+    return (area, jerarquia)
 
 #Función para guardar la fecha segun el empleado
-def guardar_fecha(usuario, fecha, pagina):
+def guardar_fecha(usuario, fecha, area, jerarquia, pagina):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -127,8 +128,8 @@ def guardar_fecha(usuario, fecha, pagina):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = f"INSERT INTO dias_pedidos (empleado, fecha, fecha_modificacion, concepto) VALUES (%s, %s, NOW(), %s)"
-            cursor.execute(consulta, (usuario, fecha, pagina))
+            consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto) VALUES (%s, %s, %s, %s, NOW(), %s)"
+            cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina))
 
             conexion.commit()
 
@@ -144,7 +145,7 @@ def guardar_fecha(usuario, fecha, pagina):
 
     return False
 
-def obtener_dias_pedidos(concepto, nombre_empleado=None):
+def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
     dias_pedidos = []
 
     try:

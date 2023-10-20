@@ -65,7 +65,7 @@ def ausencias():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        ausencias = obtener_dias_pedidos('ausencias', empleado)
+        ausencias = obtener_dias_pedidos('ausencias', nombre_empleado=empleado)
         return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
     else:
         return redirect(url_for('index'))
@@ -87,7 +87,7 @@ def estudio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        dias_estudio = obtener_dias_pedidos('estudio', empleado)
+        dias_estudio = obtener_dias_pedidos('estudio',area=None, nombre_empleado=empleado)
         return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
@@ -98,7 +98,7 @@ def homeoffice():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        homeoffice = obtener_dias_pedidos('homeoffice', empleado)
+        homeoffice = obtener_dias_pedidos('homeoffice', nombre_empleado=empleado)
         return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
     else:
         return redirect(url_for('index'))
@@ -109,7 +109,7 @@ def inicio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        jerarquia = obtener_jerarquia(usuario)
+        jerarquia = obtener_area_jerarquia(usuario)
 
         if jerarquia in ["Direccion", "Gerencia"]:
             estudio = obtener_dias_pedidos('estudio')
@@ -191,9 +191,12 @@ def guardar_fecha_generico(pagina, campo_fecha):
     if 'user' in session:
         correo = session['user']
         nombre_empleado = obtener_empleado(correo)
+        tupla = obtener_area_jerarquia(correo)
+        area, jerarquia = tupla
+        
         fecha = request.form.get(campo_fecha)
 
-        resultado = guardar_fecha(nombre_empleado, fecha, pagina)
+        resultado = guardar_fecha(nombre_empleado, fecha, area, jerarquia, pagina)
 
         if resultado:
             return redirect(url_for(pagina))

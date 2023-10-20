@@ -65,7 +65,7 @@ def ausencias():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        ausencias = obtener_ausencias(empleado)
+        ausencias = obtener_dias_pedidos('ausencias', empleado)
         return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
     else:
         return redirect(url_for('index'))
@@ -87,7 +87,7 @@ def estudio():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        dias_estudio = obtener_dias_estudio(empleado)
+        dias_estudio = obtener_dias_pedidos('estudio', empleado)
         return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
@@ -98,7 +98,7 @@ def homeoffice():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        homeoffice = obtener_homeoffice(empleado)
+        homeoffice = obtener_dias_pedidos('homeoffice', empleado)
         return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
     else:
         return redirect(url_for('index'))
@@ -112,9 +112,9 @@ def inicio():
         jerarquia = obtener_jerarquia(usuario)
 
         if jerarquia in ["Direccion", "Gerencia"]:
-            estudio = obtener_dias_estudio()
-            ausencias = obtener_ausencias()
-            home = obtener_homeoffice()
+            estudio = obtener_dias_pedidos('estudio')
+            ausencias = obtener_dias_pedidos('ausencias')
+            home = obtener_dias_pedidos('homeoffice')
             return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
@@ -306,7 +306,7 @@ RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA CLARA Y DA
 """
 
 def obtener_eventos_estudio():
-    diasdeestudio = obtener_dias_estudio()
+    diasdeestudio = obtener_dias_pedidos('estudio')
     eventos = []
     
     for tupla in diasdeestudio:
@@ -326,7 +326,7 @@ def obtener_eventos_estudio_route():
 """
 
 def obtener_eventos_ausencias():
-    diasdeausencias = obtener_ausencias()
+    diasdeausencias = obtener_dias_pedidos('ausencias')
     eventos = []
     
     for tupla in diasdeausencias:
@@ -346,7 +346,7 @@ def obtener_eventos_ausencias_route():
 """
 
 def obtener_eventos_home():
-    diasdehome = obtener_homeoffice()
+    diasdehome = obtener_dias_pedidos('homeoffice')
     eventos = []
     
     for tupla in diasdehome:

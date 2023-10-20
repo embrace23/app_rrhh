@@ -70,6 +70,7 @@ def obtener_empleado(correo):
 
     return empleado
 
+#Funcion para obtener la jerarquia del empleado
 def obtener_jerarquia(correo):
     try:
         conexion = mysql.connector.connect(
@@ -143,9 +144,9 @@ def guardar_fecha(usuario, fecha, pagina):
 
     return False
 
-#Función para generar la tabla según los dias de estudio solicitados por el empleado
-def obtener_dias_estudio(nombre_empleado=None):
-    dias_estudio = []
+def obtener_dias_pedidos(concepto, nombre_empleado=None):
+    dias_pedidos = []
+
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -158,21 +159,21 @@ def obtener_dias_estudio(nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s and concepto = 'estudio'"
-                cursor.execute(consulta, (nombre_empleado,))
-            else: 
-                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = 'estudio'"
-                cursor.execute(consulta)
+                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s"
+                cursor.execute(consulta, (nombre_empleado, concepto))
+            else:
+                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s"
+                cursor.execute(consulta, (concepto,))
 
             resultados = cursor.fetchall()
 
             for resultado in resultados:
                 if nombre_empleado:
-                    dias_estudio.append(resultado[0])
+                    dias_pedidos.append(resultado[0])
                 else:
                     empleado = resultado[0]
                     fecha = resultado[1]
-                    dias_estudio.append((empleado, fecha))
+                    dias_pedidos.append((empleado, fecha))
 
             cursor.close()
 
@@ -183,92 +184,7 @@ def obtener_dias_estudio(nombre_empleado=None):
         if 'conexion' in locals():
             conexion.close()
 
-    return dias_estudio
-
-#Función para generar la tabla según los dias de homeoffice solicitados por el empleado
-def obtener_homeoffice(nombre_empleado=None):
-    home = []
-    try:
-        conexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="rrhh"
-        )
-
-        if conexion.is_connected():
-            cursor = conexion.cursor()
-
-            if nombre_empleado:
-                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = 'homeoffice'"
-                cursor.execute(consulta, (nombre_empleado,))
-            else: 
-                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = 'homeoffice'"
-                cursor.execute(consulta)
-
-            resultados = cursor.fetchall()
-
-            for resultado in resultados:
-                if nombre_empleado:
-                    home.append(resultado[0])
-                else:
-                    empleado = resultado[0]
-                    fecha = resultado[1]
-                    home.append((empleado, fecha))
-
-            cursor.close()
-
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-
-    finally:
-        if 'conexion' in locals():
-            conexion.close()
-
-    return home
-
-
-#Función para generar la tabla según los dias de ausencia solicitados por el empleado
-def obtener_ausencias(nombre_empleado=None):
-    ausencias = []
-    try:
-        conexion = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="rrhh"
-        )
-
-        if conexion.is_connected():
-            cursor = conexion.cursor()
-
-            if nombre_empleado:
-                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = 'ausencias'"
-                cursor.execute(consulta, (nombre_empleado,))
-            else: 
-                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = 'ausencias'"
-                cursor.execute(consulta)
-
-            resultados = cursor.fetchall()
-
-            for resultado in resultados:
-                if nombre_empleado:
-                    ausencias.append(resultado[0])
-                else:
-                    empleado = resultado[0]
-                    fecha = resultado[1]
-                    ausencias.append((empleado, fecha))
-
-            cursor.close()
-
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-
-    finally:
-        if 'conexion' in locals():
-            conexion.close()
-
-    return ausencias
+    return dias_pedidos
 
 #Función para generar la tabla según los dias de vacaciones solicitados por el empleado
 def obtener_vacaciones(nombre_empleado):

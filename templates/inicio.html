@@ -36,69 +36,54 @@
 
             <div class="solicitarDiasItems" style="display: none;">
                 <div class="item">
-                    <div class="icon"><a href="{{ url_for('estudio') }}"><img src="{{ url_for('static', filename='images/estudio.png') }}" alt=""></a></div>
+                    <div class="icon"><a href="{{ url_for('estudio') }}"><img src="{{ url_for('static', filename='images/estudio.png') }}" alt="" title="Solicitar día de estudio"></a></div>
                     <div class="title"><a href="{{ url_for('estudio') }}"><span>Días de estudio</span></a></div>
                 </div>
     
                 <div class="item">
-                    <div class="icon"><a href="{{ url_for('homeoffice') }}"><img src="{{ url_for('static', filename='images/casa.png') }}" alt=""></a></div>
+                    <div class="icon"><a href="{{ url_for('homeoffice') }}"><img src="{{ url_for('static', filename='images/casa.png') }}" alt=""  title="Notificar día de homeoffice"></a></div>
                     <div class="title"><a href="{{ url_for('homeoffice') }}"><span>Home office</span></a></div>
                 </div>
     
                 <div class="item">
-                    <div class="icon"><a href="{{ url_for('ausencias') }}"><img src="{{ url_for('static', filename='images/ausencia.png') }}" alt=""></a></div>
+                    <div class="icon"><a href="{{ url_for('ausencias') }}"><img src="{{ url_for('static', filename='images/ausencia.png') }}" alt="" title="Notificar día de ausencia"></a></div>
                     <div class="title"><a href="{{ url_for('ausencias') }}"><span>Ausencias</span></a></div>
                 </div>
     
                 <div class="item">
-                    <div class="icon"><a href="{{ url_for('vacaciones') }}"><img src="{{ url_for('static', filename='images/vacaciones.png') }}" alt=""></a></div>
+                    <div class="icon"><a href="{{ url_for('vacaciones') }}"><img src="{{ url_for('static', filename='images/vacaciones.png') }}" alt="" title="Solicitar días de vacaciones"></a></div>
                     <div class="title"><a href="{{ url_for('vacaciones') }}"><span>Vacaciones</span></a></div>
                 </div>
             </div>
 
             {% if jerarquia %}
             <div class="item">
-                <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información"></a></div>
+                <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información" title="Editar información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>
             </div>
             {% endif %}
 
             <div class="item">
-                <div class="icon"><a href="{{ url_for('ajustes') }}"><img src="{{ url_for('static', filename='images/configuraciones.png') }}" alt="Ajustes"></a></div>
+                <div class="icon"><a href="{{ url_for('ajustes') }}"><img src="{{ url_for('static', filename='images/configuraciones.png') }}" alt="Ajustes" title="Ajustes"></a></div>
                 <div class="title"><a href="{{ url_for('ajustes') }}"><span>Ajustes</span></a></div>
             </div>
 
             <div class="item">
-                <div class="icon"><a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='images/cerrar-sesion.png') }}" alt="Cerrar sesion"></a></div>
+                <div class="icon"><a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='images/cerrar-sesion.png') }}" alt="Cerrar sesion" title="Cerrar sesión"></a></div>
                 <div class="title"><a href="{{ url_for('logout') }}"><span>Cerrar sesión</span></a></div>
             </div>
         </div>
     </div>
-    <!--
+
     <div id="mainContainer">
-        {% if estudio %}
-        <h2>Días de Estudio:</h2>
-        <div id="dias">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Empleado</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for resultado in estudio %}
-                    <tr>
-                        <td>{{ resultado[0] }}</td> {# Empleado #}
-                        <td>{{ resultado[1] }}</td> {# Fecha #}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="links">
+            <a href="{{ url_for('estudio') }}">Solicitar día de estudio</a>
+            <a href="{{ url_for('ausencias') }}">Notificar día de ausencia</a>
+            <a href="{{ url_for('homeoffice') }}">Notificar día de home office</a>
+            <a href="{{ url_for('vacaciones') }}">Solicitar días de vacaciones</a>
         </div>
-        {% endif %}        
     </div>
-    -->
+
     <section id="calendarSection">
         <div id="calendar"></div>
     </section>

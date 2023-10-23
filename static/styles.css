@@ -217,3 +217,7 @@ body{
     margin-top: 10px;
     border-bottom: 2px solid #000;
 }
+
+.links a{
+    display: block;
+}

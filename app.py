@@ -117,7 +117,7 @@ def inicio():
             estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
             ausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
             home = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
-            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia)
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:

@@ -95,7 +95,7 @@
           var calendarEl = document.getElementById('calendar');
           var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            events: '/obtener_todos_los_eventos',
+            events: '{% if area == "Account Manager" %}/obtener_todos_los_eventosAccount{% else %}/obtener_todos_los_eventos{% endif %}',
           });
 
           calendar.render();

@@ -323,10 +323,10 @@ def obtener_eventos(concepto, area=None):
     
     return eventos
 
-def obtener_todos_los_eventos():
-    eventos_estudio = obtener_eventos('estudio')
-    eventos_ausencias = obtener_eventos('ausencias')
-    eventos_home = obtener_eventos('homeoffice')
+def obtener_todos_los_eventos(area=None):
+    eventos_estudio = obtener_eventos('estudio', area=area)
+    eventos_ausencias = obtener_eventos('ausencias', area=area)
+    eventos_home = obtener_eventos('homeoffice', area=area)
 
     for evento in eventos_estudio:
         evento['color'] = 'blue'
@@ -343,6 +343,16 @@ def obtener_todos_los_eventos():
 @app.route('/obtener_todos_los_eventos', methods=['GET'])
 def obtener_todos_los_eventos_route():
     eventos = obtener_todos_los_eventos()
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosPagos', methods=['GET'])
+def obtener_todos_los_eventosPagos_route():
+    eventos = obtener_todos_los_eventos("Pagos")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosAccount', methods=['GET'])
+def obtener_todos_los_eventosAccount_route():
+    eventos = obtener_todos_los_eventos("Account Manager")
     return jsonify(eventos)
 
 ################################################################################

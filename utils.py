@@ -164,8 +164,12 @@ def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
                 consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s"
                 cursor.execute(consulta, (nombre_empleado, concepto))
             else:
-                consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s"
-                cursor.execute(consulta, (concepto,))
+                if area:
+                    consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s AND area = %s"
+                    cursor.execute(consulta, (concepto, area))
+                else:
+                    consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s"
+                    cursor.execute(consulta, (concepto,)) 
 
             resultados = cursor.fetchall()
 

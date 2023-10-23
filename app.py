@@ -307,7 +307,7 @@ def eliminar_registros_antiguos(tabla):
 
 ################################################################################
 """
-RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA CLARA Y DANIELA)
+RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA RRHH, DIRECCION Y GERENTES)
 """
 
 def obtener_eventos(concepto, area=None):
@@ -339,10 +339,51 @@ def obtener_todos_los_eventos(area=None):
 
     return eventos
 
-
+#Ruta para el calendario general (RRHH y Direccion)
 @app.route('/obtener_todos_los_eventos', methods=['GET'])
 def obtener_todos_los_eventos_route():
     eventos = obtener_todos_los_eventos()
+    return jsonify(eventos)
+
+#Rutas por sector
+@app.route('/obtener_todos_los_eventosAccount', methods=['GET'])
+def obtener_todos_los_eventosAccount_route():
+    eventos = obtener_todos_los_eventos("Account Manager")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosAnalytics', methods=['GET'])
+def obtener_todos_los_eventosAnalytics_route():
+    eventos = obtener_todos_los_eventos("Analytics")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosBorderaux', methods=['GET'])
+def obtener_todos_los_eventosBorderaux_route():
+    eventos = obtener_todos_los_eventos("Borderaux")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosComercial', methods=['GET'])
+def obtener_todos_los_eventosComercial_route():
+    eventos = obtener_todos_los_eventos("Comercial")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosClaims', methods=['GET'])
+def obtener_todos_los_eventosClaims_route():
+    eventos = obtener_todos_los_eventos("Data Claims")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosIntegrity', methods=['GET'])
+def obtener_todos_los_eventosIntegrity_route():
+    eventos = obtener_todos_los_eventos("Data Integrity")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosMaestranza', methods=['GET'])
+def obtener_todos_los_eventosMaestranza_route():
+    eventos = obtener_todos_los_eventos("Maestranza")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosOperaciones', methods=['GET'])
+def obtener_todos_los_eventosOperaciones_route():
+    eventos = obtener_todos_los_eventos("Operaciones")
     return jsonify(eventos)
 
 @app.route('/obtener_todos_los_eventosPagos', methods=['GET'])
@@ -350,9 +391,24 @@ def obtener_todos_los_eventosPagos_route():
     eventos = obtener_todos_los_eventos("Pagos")
     return jsonify(eventos)
 
-@app.route('/obtener_todos_los_eventosAccount', methods=['GET'])
-def obtener_todos_los_eventosAccount_route():
-    eventos = obtener_todos_los_eventos("Account Manager")
+@app.route('/obtener_todos_los_eventosQuality', methods=['GET'])
+def obtener_todos_los_eventosQuality_route():
+    eventos = obtener_todos_los_eventos("Quality")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosReintegros', methods=['GET'])
+def obtener_todos_los_eventosReintegros_route():
+    eventos = obtener_todos_los_eventos("Reintegros")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosRRHH', methods=['GET'])
+def obtener_todos_los_eventosRRHH_route():
+    eventos = obtener_todos_los_eventos("RRHH")
+    return jsonify(eventos)
+
+@app.route('/obtener_todos_los_eventosSistemas', methods=['GET'])
+def obtener_todos_los_eventosSistemas_route():
+    eventos = obtener_todos_los_eventos("Sistemas")
     return jsonify(eventos)
 
 ################################################################################

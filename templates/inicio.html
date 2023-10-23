@@ -92,16 +92,51 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-          var calendarEl = document.getElementById('calendar');
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: '{% if area == "Account Manager" %}/obtener_todos_los_eventosAccount{% else %}/obtener_todos_los_eventos{% endif %}',
-          });
-
-          calendar.render();
+            let calendarEl = document.getElementById('calendar');
+            let area = "{{ area }}"
+            let url;
+            if (area == "Account Manager") {
+                url = '/obtener_todos_los_eventosAccount';
+            } else if (area == "Analytics") {
+                url = '/obtener_todos_los_eventosAnalytics';
+            //} else if (area == "Billing") {
+                //url = '/obtener_todos_los_eventosBilling';
+            } else if (area == "Borderaux") {
+                url = '/obtener_todos_los_eventosBorderaux';
+            //} else if (area == "Comercial") {
+                //url = '/obtener_todos_los_eventosComercial';
+            } else if (area == "Data Claims") {
+                url = '/obtener_todos_los_eventosClaims';
+            } else if (area == "Data Integrity") {
+                url = '/obtener_todos_los_eventosIntegrity';
+            //} else if (area == "RRHH") {
+                //url = '/obtener_todos_los_eventosMaestranza';
+            } else if (area == "Operaciones") {
+                url = '/obtener_todos_los_eventosOperaciones';
+            } else if (area == "Pagos") {
+                url = '/obtener_todos_los_eventosPagos';
+            //} else if (area == "Quality") {
+                //url = '/obtener_todos_los_eventosQuality';
+            } else if (area == "Reintegros") {
+                url = '/obtener_todos_los_eventosReintegros';
+            //} else if (area == "RRHH") {
+                //url = '/obtener_todos_los_eventosRRHH';
+            //} else if (area == "Sistemas") {
+                //url = '/obtener_todos_los_eventosSistemas';
+            } else {
+                url = '/obtener_todos_los_eventos';
+            }
+    
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: url, // Utiliza la URL determinada en base al área
+            });
+    
+            calendar.render();
         });
     </script>
     {% endif %}
+    
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
         

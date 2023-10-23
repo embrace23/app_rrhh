@@ -111,6 +111,7 @@ def inicio():
         empleado = obtener_empleado(usuario)
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
+        area = tupla[0]
 
         if jerarquia in ["Direccion", "Gerencia"]:
             estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
@@ -309,70 +310,23 @@ def eliminar_registros_antiguos(tabla):
 RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA CLARA Y DANIELA)
 """
 
-def obtener_eventos_estudio():
-    diasdeestudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
+def obtener_eventos(concepto, area=None):
+    dias_eventos = obtener_dias_pedidos(concepto, area=area, nombre_empleado=None)
     eventos = []
     
-    for tupla in diasdeestudio:
+    for tupla in dias_eventos:
         empleado, fecha = tupla
         eventos.append({
             'title': empleado,
             'start': fecha
         })
-
-    return eventos
-
-"""
-@app.route('/obtener_eventos_estudio', methods=['GET'])
-def obtener_eventos_estudio_route():
-    eventos = obtener_eventos_estudio()
-    return jsonify(eventos)
-"""
-
-def obtener_eventos_ausencias():
-    diasdeausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
-    eventos = []
     
-    for tupla in diasdeausencias:
-        empleado, fecha = tupla
-        eventos.append({
-            'title': empleado,
-            'start': fecha
-        })
-
     return eventos
-
-"""
-@app.route('/obtener_eventos_ausencias', methods=['GET'])
-def obtener_eventos_ausencias_route():
-    eventos = obtener_eventos_ausencias()
-    return jsonify(eventos)
-"""
-
-def obtener_eventos_home():
-    diasdehome = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
-    eventos = []
-    
-    for tupla in diasdehome:
-        empleado, fecha = tupla
-        eventos.append({
-            'title': empleado,
-            'start': fecha
-        })
-
-    return eventos
-"""
-@app.route('/obtener_eventos_home', methods=['GET'])
-def obtener_eventos_home_route():
-    eventos = obtener_eventos_home()
-    return jsonify(eventos)
-"""
-
 
 def obtener_todos_los_eventos():
-    eventos_estudio = obtener_eventos_estudio()
-    eventos_ausencias = obtener_eventos_ausencias()
-    eventos_home = obtener_eventos_home()
+    eventos_estudio = obtener_eventos('estudio')
+    eventos_ausencias = obtener_eventos('ausencias')
+    eventos_home = obtener_eventos('homeoffice')
 
     for evento in eventos_estudio:
         evento['color'] = 'blue'

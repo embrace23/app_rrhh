@@ -294,9 +294,9 @@ def actualizar_contrasena(usuario, contrasena_nueva):
     return False  # Hubo un error en la actualización de la contraseña
 
 #Función para obtener todo el personal de la empresa
-def obtener_personal():
+def obtener_personal(area=None):
     empleados = []
-    
+
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -309,10 +309,14 @@ def obtener_personal():
             cursor = conexion.cursor()
             
             # Consulta para obtener los nombres de los empleados desde la tabla "nomina"
-            consulta = "SELECT empleado FROM nomina"
-            cursor.execute(consulta)
+            if area:
+                consulta = "SELECT empleado FROM nomina WHERE area = %s"
+                cursor.execute(consulta, (area,))
+            else:
+                consulta = "SELECT empleado FROM nomina"
+                cursor.execute(consulta)
             
-            # Recupera todos los nombres de empleados
+            # Recupera los nombres de empleados
             resultados = cursor.fetchall()
             
             for resultado in resultados:

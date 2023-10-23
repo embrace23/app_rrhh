@@ -76,8 +76,16 @@ def editar():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        personal = obtener_personal()
-        return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+        area = tupla[0]
+
+        if jerarquia == "Gerencia":
+            personal = obtener_personal(area)
+            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
+        else:
+            personal = obtener_personal()
+            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
     else:
         return redirect(url_for('index'))
 
@@ -245,7 +253,15 @@ def editar_informacion():
                 if 'user' in session:
                     usuario = session['user']
                     empleado = obtener_empleado(usuario)
-                    personal = obtener_personal()
+                    tupla = obtener_area_jerarquia(usuario)
+                    jerarquia = tupla[1]
+                    area = tupla[0]
+
+                    if jerarquia == "Gerencia":
+                        personal = obtener_personal(area)
+                    else:
+                        personal = obtener_personal()
+
                     return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado)
                 else:
                     return redirect(url_for('index'))

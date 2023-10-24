@@ -511,6 +511,32 @@ def aprobar_solicitud(empleado, fecha):
             conexion.close()
 
 
+def eliminar_solicitud(empleado, fecha):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha = %s"
+            cursor.execute(consulta, (empleado, fecha))
+
+            conexion.commit()
+
+            cursor.close()
+    
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
 """"
 def registrar_inicio_sesion(usuario):
     try:

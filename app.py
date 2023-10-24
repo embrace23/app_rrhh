@@ -376,7 +376,20 @@ def aprobar_solicitud_route():
     else:
         return "Método no permitido"
 
-
+#Funcion para eliminar la solicitud del personal
+@app.route('/eliminar_solicitud', methods=['POST'])
+def eliminar_solicitud_route():
+    if request.method == 'POST':
+        empleado = request.form.get('empleado')
+        fecha = request.form.get('fecha')
+        
+        if empleado and fecha:
+            eliminar_solicitud(empleado, fecha)
+            return redirect(url_for('inicio'))
+        else:
+            return redirect(url_for('inicio'))
+    else:
+        return "Método no permitido"
 
 ################################################################################
 """

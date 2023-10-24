@@ -299,17 +299,17 @@ def editar_informacion():
 @app.route('/guardar_informacion', methods=['POST'])
 def guardar_informacion():
     if request.method == 'POST':
-        nombre = request.form.get('empleado')
-        cuenta = request.form.get('cuenta')
+        empleado = request.form.get('empleado')
+        legajo = request.form.get('legajo')
+        mail = request.form.get('mail')
         forma = request.form.get('forma')
         turno = request.form.get('turno')
         area = request.form.get('area')
+        jerarquia = request.form.get('jerarquia')
         equipo = request.form.get('equipo')
         convenio = request.form.get('convenio')
-        legajo = request.form.get('legajo')
-        mail = request.form.get('mail')
 
-        exito_actualizacion = actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail)
+        exito_actualizacion = actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio)
 
         if exito_actualizacion:
             return redirect(url_for('editar'))

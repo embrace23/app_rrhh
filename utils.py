@@ -412,7 +412,7 @@ def actualizar_cuenta(empleado):
     
 
 #Función para cargar los datos en la base de datos si se decide modificar
-def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail):
+def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -427,10 +427,10 @@ def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, conven
             # Query para actualizar los datos del empleado
             consulta = """
                 UPDATE nomina
-                SET cuenta = %s, forma = %s, turno = %s, area = %s, equipo = %s, convenio = %s, legajo = %s, mail = %s
+                SET legajo = %s, mail = %s, forma = %s, turno = %s, area = %s, jerarquia = %s, equipo = %s, convenio = %s
                 WHERE empleado = %s
             """
-            valores = (cuenta, forma, turno, area, equipo, convenio, legajo, mail, nombre)
+            valores = (legajo, mail, forma, turno, area, jerarquia, equipo, convenio, empleado)
 
             cursor.execute(consulta, valores)
             conexion.commit()

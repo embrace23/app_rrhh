@@ -91,19 +91,36 @@
                 <th>Empleado</th>
                 <th>Fecha</th>
                 <th>Fecha de Modificación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        <tbody id="diasAutorizar">
+        <tbody>
             {% for dia in dias_autorizar %}
             <tr>
                 <td>{{ dia.empleado }}</td>
                 <td>{{ dia.fecha }}</td>
                 <td>{{ dia.fecha_modificacion }}</td>
+                <td>
+                    <div id="botonAprobacion">
+                        <form action="/aprobar_solicitud" method="POST">
+                            <input type="hidden" name="empleado" value="{{ dia.empleado }}">
+                            <input type="hidden" name="fecha" value="{{ dia.fecha }}">
+                            <button type="submit">Aprobar</button>
+                        </form>
+                        <form action="/eliminar_solicitud" method="POST">
+                            <input type="hidden" name="empleado" value="{{ dia.empleado }}">
+                            <input type="hidden" name="fecha" value="{{ dia.fecha }}">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </div>
+                </td>
             </tr>
-            {% endfor %}
+        {% endfor %}
+        
         </tbody>
     </table>
     {% endif %}
+    
 
 
     

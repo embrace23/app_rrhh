@@ -466,7 +466,7 @@ def dias_por_autorizar(area=None):
             else:
                 consulta = "SELECT empleado, fecha, fecha_modificacion FROM dias_pedidos WHERE aprobado = 'NO'"
                 cursor.execute(consulta)
-                
+
             resultados = cursor.fetchall()
 
             for resultado in resultados:
@@ -483,6 +483,32 @@ def dias_por_autorizar(area=None):
         if 'conexion' in locals():
             conexion.close()
     return dias_a_autorizar
+
+def aprobar_solicitud(empleado, fecha):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s and fecha = %s"
+            cursor.execute(consulta, (empleado, fecha))
+
+            conexion.commit()
+
+            cursor.close()
+    
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
 
 
 """"

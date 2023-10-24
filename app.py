@@ -361,7 +361,20 @@ def eliminar_registros_antiguos(tabla):
         print(f"Error: {err}")
 """
 
-
+#Funcion para aprobar la solicitud del personal
+@app.route('/aprobar_solicitud', methods=['POST'])
+def aprobar_solicitud_route():
+    if request.method == 'POST':
+        empleado = request.form.get('empleado')
+        fecha = request.form.get('fecha')
+        
+        if empleado and fecha:
+            aprobar_solicitud(empleado, fecha)
+            return redirect(url_for('inicio'))
+        else:
+            return redirect(url_for('inicio'))
+    else:
+        return "Método no permitido"
 
 
 

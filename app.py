@@ -286,6 +286,17 @@ def guardar_informacion():
             return redirect(url_for('editar'))
         else:
             return redirect(url_for('editar'))
+        
+#Eliminar empleado
+@app.route('/eliminar_empleado', methods=['POST'])
+def eliminar_empleado():
+    if request.method == 'POST':
+        empleado_a_eliminar = request.form.get('empleado')
+        if empleado_a_eliminar:
+            actualizar_cuenta(empleado_a_eliminar)
+            return redirect(url_for('editar'))
+        else:
+            return "Nombre del empleado no encontrado", 400
 
 #Comentario para eliminar registros de las bases de datos
 """
@@ -328,13 +339,28 @@ RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA RRHH, DIRE
 
 def obtener_eventos(concepto, area=None):
     dias_eventos = obtener_dias_pedidos(concepto, area=area, nombre_empleado=None)
+    
     eventos = []
     
     for tupla in dias_eventos:
         empleado, fecha = tupla
         eventos.append({
             'title': empleado,
-            'start': fecha
+            'start': fecha,
+            'end': fecha
+        })
+    
+    return eventos
+
+def obtener_eventos_vacaciones(area=None):
+    dias_vacaciones = obtener_vacaciones(area=area, nombre_empleado=None)
+    eventos = []
+    for vacaciones in dias_vacaciones:
+        empleado, fecha_inicio, fecha_fin = vacaciones
+        eventos.append({
+            'title': empleado,
+            'start': fecha_inicio,
+            'end': fecha_fin
         })
     
     return eventos
@@ -343,6 +369,7 @@ def obtener_todos_los_eventos(area=None):
     eventos_estudio = obtener_eventos('estudio', area=area)
     eventos_ausencias = obtener_eventos('ausencias', area=area)
     eventos_home = obtener_eventos('homeoffice', area=area)
+    eventos_vacaciones = obtener_eventos_vacaciones(area=area)
 
     for evento in eventos_estudio:
         evento['color'] = 'blue'
@@ -350,8 +377,10 @@ def obtener_todos_los_eventos(area=None):
         evento['color'] = 'green'
     for evento in eventos_ausencias:
         evento['color'] = 'red'
+    for evento in eventos_vacaciones:
+        evento['color'] = 'pink'
 
-    eventos = eventos_estudio + eventos_ausencias + eventos_home
+    eventos = eventos_estudio + eventos_ausencias + eventos_home + eventos_vacaciones
 
     return eventos
 

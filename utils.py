@@ -193,7 +193,7 @@ def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
     return dias_pedidos
 
 #Función para generar la tabla según los dias de vacaciones solicitados por el empleado
-def obtener_vacaciones(nombre_empleado):
+def obtener_vacaciones(area=None, nombre_empleado=None):
     vacaciones = []
     try:
         conexion = mysql.connector.connect(
@@ -206,8 +206,17 @@ def obtener_vacaciones(nombre_empleado):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s"
-            cursor.execute(consulta, (nombre_empleado,))
+            if nombre_empleado:
+                consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s"
+                cursor.execute(consulta, (nombre_empleado,))
+            else:
+                if area:
+                    consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE area = %s"
+                    cursor.execute(consulta, (area,))
+                else:
+                    consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones"
+                    cursor.execute(consulta)
+                    
             resultados = cursor.fetchall()
 
             for resultado in resultados:
@@ -310,10 +319,10 @@ def obtener_personal(area=None):
             
             # Consulta para obtener los nombres de los empleados desde la tabla "nomina"
             if area:
-                consulta = "SELECT empleado FROM nomina WHERE area = %s"
+                consulta = "SELECT empleado FROM nomina WHERE area = %s AND cuenta = 'SI'"
                 cursor.execute(consulta, (area,))
             else:
-                consulta = "SELECT empleado FROM nomina"
+                consulta = "SELECT empleado FROM nomina WHERE cuenta = 'SI'"
                 cursor.execute(consulta)
             
             # Recupera los nombres de empleados
@@ -346,23 +355,21 @@ def obtener_datos(empleado):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            # Definir la consulta SQL para seleccionar los datos del empleado
-            consulta = "SELECT empleado, cuenta, forma, turno, area, equipo, convenio, legajo, mail FROM nomina WHERE empleado = %s"
+            consulta = "SELECT empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio FROM nomina WHERE empleado = %s"
             cursor.execute(consulta, (empleado,))
-            resultado = cursor.fetchone()  # Suponemos que el empleado es único
+            resultado = cursor.fetchone()
 
-            # Verificar si se encontró información del empleado
             if resultado:
                 datos_empleado = {
                     'empleado': resultado[0],
-                    'cuenta': resultado[1],
-                    'forma': resultado[2],
-                    'turno': resultado[3],
-                    'area': resultado[4],
-                    'equipo': resultado[5],
-                    'convenio': resultado[6],
-                    'legajo': resultado[7],
-                    'mail': resultado[8]
+                    'legajo': resultado[1],
+                    'mail': resultado[2],
+                    'forma': resultado[3],
+                    'turno': resultado[4],
+                    'area': resultado[5],
+                    'jerarquia': resultado[6],
+                    'equipo': resultado[7],
+                    'convenio': resultado[8]
                 }
                 return datos_empleado
 
@@ -376,6 +383,33 @@ def obtener_datos(empleado):
             conexion.close()
 
     return None
+
+#Función para actualizar la cuenta
+def actualizar_cuenta(empleado):
+    try:
+        conexion = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = '',
+            database = 'rrhh'
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+            
+            consulta = "UPDATE nomina SET cuenta = 'NO' WHERE empleado = %s"
+            cursor.execute(consulta, (empleado,))
+
+            conexion.commit()
+
+            cursor.close()
+    
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if conexion in locals():
+            conexion.close()
+    
 
 #Función para cargar los datos en la base de datos si se decide modificar
 def actualizar_datos_empleado(nombre, cuenta, forma, turno, area, equipo, convenio, legajo, mail):

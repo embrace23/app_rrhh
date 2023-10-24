@@ -98,8 +98,12 @@
                     <input type="text" name="empleado" id="empleado" value="{{ datos.empleado }}">
                 </div>
                 <div class="form-group">
-                    <label for="cuenta">Cuenta:</label>
-                    <input type="text" name="cuenta" id="cuenta" value="{{ datos.cuenta }}">
+                    <label for="legajo">Legajo:</label>
+                    <input type="text" name="legajo" id="legajo" value="{{ datos.legajo }}">
+                </div>
+                <div class="form-group">
+                    <label for="mail">Correo Electrónico:</label>
+                    <input type="text" name="mail" id="mail" value="{{ datos.mail }}">
                 </div>
                 <div class="form-group">
                     <label for="forma">Forma:</label>
@@ -114,6 +118,10 @@
                     <input type="text" name="area" id="area" value="{{ datos.area }}">
                 </div>
                 <div class="form-group">
+                    <label for="jerarquia">Jerarquia:</label>
+                    <input type="text" name="jerarquia" id="jerarquia" value="{{ datos.jerarquia }}">
+                </div>
+                <div class="form-group">
                     <label for="equipo">Equipo:</label>
                     <input type="text" name="equipo" id="equipo" value="{{ datos.equipo }}">
                 </div>
@@ -121,15 +129,14 @@
                     <label for="convenio">Convenio:</label>
                     <input type="text" name="convenio" id="convenio" value="{{ datos.convenio }}">
                 </div>
-                <div class="form-group">
-                    <label for="legajo">Legajo:</label>
-                    <input type="text" name="legajo" id="legajo" value="{{ datos.legajo }}">
-                </div>
-                <div class="form-group">
-                    <label for="mail">Correo Electrónico:</label>
-                    <input type="text" name="mail" id="mail" value="{{ datos.mail }}">
-                </div>
+
+
                 <button type="submit">Guardar Cambios</button>
+            </form>
+
+            <form action="/eliminar_empleado" method="POST">
+                <input type="hidden" name="empleado" value="{{ datos.empleado }}">
+                <button type="submit">Eliminar Empleado</button>
             </form>
             {% endif %}
         </div>        

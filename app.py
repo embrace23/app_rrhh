@@ -55,7 +55,13 @@ def ajustes():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        return render_template('ajustes.html', usuario=usuario, empleado=empleado)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+
+        if jerarquia in ["Direccion", "Gerencia"]:
+            return render_template('ajustes.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia)
+        else:
+            return render_template('ajustes.html', usuario=usuario, empleado=empleado)
     else:
         return redirect(url_for('index'))
 
@@ -66,7 +72,12 @@ def ausencias():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         ausencias = obtener_dias_pedidos('ausencias', nombre_empleado=empleado)
-        return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+        if jerarquia in ["Direccion", "Gerencia"]:
+            return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias, jerarquia=jerarquia)
+        else:
+            return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias=ausencias)
     else:
         return redirect(url_for('index'))
     
@@ -82,10 +93,10 @@ def editar():
 
         if jerarquia == "Gerencia":
             personal = obtener_personal(area)
-            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
+            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
         else:
             personal = obtener_personal()
-            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal)
+            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
     else:
         return redirect(url_for('index'))
 
@@ -96,7 +107,13 @@ def estudio():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         dias_estudio = obtener_dias_pedidos('estudio',area=None, nombre_empleado=empleado)
-        return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+
+        if jerarquia in ["Direccion", "Gerencia"]:
+            return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio, jerarquia=jerarquia)
+        else:
+            return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_estudio=dias_estudio)
     else:
         return redirect(url_for('index'))
 
@@ -107,7 +124,13 @@ def homeoffice():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         homeoffice = obtener_dias_pedidos('homeoffice', nombre_empleado=empleado)
-        return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+
+        if jerarquia in ["Direccion", "Gerencia"]:
+            return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice, jerarquia=jerarquia)
+        else:
+            return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice=homeoffice)
     else:
         return redirect(url_for('index'))
 
@@ -138,7 +161,13 @@ def vacaciones():
         usuario = session['user']
         empleado = obtener_empleado(usuario)
         vacaciones = obtener_vacaciones(empleado)
-        return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+        
+        if jerarquia in ["Direccion", "Gerencia"]:
+            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones, jerarquia=jerarquia)
+        else:
+            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
     else:
         return redirect(url_for('index'))
     

@@ -447,6 +447,44 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
 
     return False  # Hubo un error en la actualización
 
+def dias_por_autorizar(area=None):
+    dias_a_autorizar = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            if area:
+                consulta = "SELECT empleado, fecha, fecha_modificacion FROM dias_pedidos WHERE area = %s AND aprobado = 'NO'"
+                cursor.execute(consulta, (area,))
+            else:
+                consulta = "SELECT empleado, fecha, fecha_modificacion FROM dias_pedidos WHERE aprobado = 'NO'"
+                cursor.execute(consulta)
+                
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                empleado, fecha, fecha_modificacion = resultado
+                dias_a_autorizar.append({'empleado': empleado, 'fecha': fecha, 'fecha_modificacion': fecha_modificacion[:10]})
+
+            cursor.close()
+            return dias_a_autorizar
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+    return dias_a_autorizar
+
+
 """"
 def registrar_inicio_sesion(usuario):
     try:

@@ -84,6 +84,28 @@
         </div>
     </div>
 
+    {% if dias_autorizar %}
+    <table>
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Fecha</th>
+                <th>Fecha de Modificación</th>
+            </tr>
+        </thead>
+        <tbody id="diasAutorizar">
+            {% for dia in dias_autorizar %}
+            <tr>
+                <td>{{ dia.empleado }}</td>
+                <td>{{ dia.fecha }}</td>
+                <td>{{ dia.fecha_modificacion }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+
     
     {% if jerarquia %}
     <section id="calendarSection">

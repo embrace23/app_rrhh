@@ -231,3 +231,7 @@ body{
     color: #000;
     text-decoration: none;
 }
+
+#diasAutorizar{
+    text-align: right;
+}

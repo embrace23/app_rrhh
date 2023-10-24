@@ -218,6 +218,16 @@ body{
     border-bottom: 2px solid #000;
 }
 
+.links{
+    display: flex;
+}
+
 .links a{
     display: block;
+    padding: 10px;
+}
+
+.links a:visited{
+    color: #000;
+    text-decoration: none;
 }

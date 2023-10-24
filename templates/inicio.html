@@ -84,11 +84,11 @@
         </div>
     </div>
 
+    
+    {% if jerarquia %}
     <section id="calendarSection">
         <div id="calendar"></div>
     </section>
-
-    {% if jerarquia %}
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -129,7 +129,7 @@
     
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                events: url, // Utiliza la URL determinada en base al área
+                events: url,
             });
     
             calendar.render();

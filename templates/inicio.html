@@ -91,6 +91,7 @@
                 <th>Empleado</th>
                 <th>Fecha</th>
                 <th>Fecha de Modificación</th>
+                <th>Concepto</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -100,16 +101,19 @@
                 <td>{{ dia.empleado }}</td>
                 <td>{{ dia.fecha }}</td>
                 <td>{{ dia.fecha_modificacion }}</td>
+                <td>{{ dia.concepto }}</td>
                 <td>
                     <div id="botonAprobacion">
                         <form action="/aprobar_solicitud" method="POST">
                             <input type="hidden" name="empleado" value="{{ dia.empleado }}">
                             <input type="hidden" name="fecha" value="{{ dia.fecha }}">
+                            <input type="hidden" name="concepto" value="{{ dia.concepto }}">
                             <button type="submit">Aprobar</button>
                         </form>
                         <form action="/eliminar_solicitud" method="POST">
                             <input type="hidden" name="empleado" value="{{ dia.empleado }}">
                             <input type="hidden" name="fecha" value="{{ dia.fecha }}">
+                            <input type="hidden" name="concepto" value="{{ dia.concepto }}">
                             <button type="submit">Eliminar</button>
                         </form>
                     </div>

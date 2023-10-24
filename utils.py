@@ -161,14 +161,14 @@ def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s"
+                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'SI'"
                 cursor.execute(consulta, (nombre_empleado, concepto))
             else:
                 if area:
-                    consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s AND area = %s"
+                    consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s AND area = %s AND aprobado = 'SI'"
                     cursor.execute(consulta, (concepto, area))
                 else:
-                    consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s"
+                    consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s AND aprobado = 'SI'"
                     cursor.execute(consulta, (concepto,)) 
 
             resultados = cursor.fetchall()
@@ -410,7 +410,6 @@ def actualizar_cuenta(empleado):
         if conexion in locals():
             conexion.close()
     
-
 #Función para cargar los datos en la base de datos si se decide modificar
 def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio):
     try:
@@ -447,6 +446,7 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
 
     return False  # Hubo un error en la actualización
 
+#Funcion para traer los dias que necesitan autorizacion aun
 def dias_por_autorizar(area=None):
     dias_a_autorizar = []
     try:
@@ -461,17 +461,17 @@ def dias_por_autorizar(area=None):
             cursor = conexion.cursor()
 
             if area:
-                consulta = "SELECT empleado, fecha, fecha_modificacion FROM dias_pedidos WHERE area = %s AND aprobado = 'NO'"
+                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE area = %s AND aprobado = 'NO'"
                 cursor.execute(consulta, (area,))
             else:
-                consulta = "SELECT empleado, fecha, fecha_modificacion FROM dias_pedidos WHERE aprobado = 'NO'"
+                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE aprobado = 'NO'"
                 cursor.execute(consulta)
 
             resultados = cursor.fetchall()
 
             for resultado in resultados:
-                empleado, fecha, fecha_modificacion = resultado
-                dias_a_autorizar.append({'empleado': empleado, 'fecha': fecha, 'fecha_modificacion': fecha_modificacion[:10]})
+                empleado, fecha, fecha_modificacion, concepto = resultado
+                dias_a_autorizar.append({'empleado': empleado, 'fecha': fecha, 'fecha_modificacion': fecha_modificacion[:10], 'concepto': concepto})
 
             cursor.close()
             return dias_a_autorizar
@@ -484,7 +484,8 @@ def dias_por_autorizar(area=None):
             conexion.close()
     return dias_a_autorizar
 
-def aprobar_solicitud(empleado, fecha):
+#Funcion para aprobar los dias
+def aprobar_solicitud(empleado, fecha, concepto):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -496,8 +497,8 @@ def aprobar_solicitud(empleado, fecha):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s and fecha = %s"
-            cursor.execute(consulta, (empleado, fecha))
+            consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s AND fecha = %s AND concepto = %s"
+            cursor.execute(consulta, (empleado, fecha, concepto))
 
             conexion.commit()
 
@@ -510,7 +511,7 @@ def aprobar_solicitud(empleado, fecha):
         if 'conexion' in locals():
             conexion.close()
 
-
+#Funcion para eliminar la solicitud
 def eliminar_solicitud(empleado, fecha):
     try:
         conexion = mysql.connector.connect(

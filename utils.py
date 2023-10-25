@@ -464,7 +464,7 @@ def dias_por_autorizar(area=None):
                 consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE area = %s AND aprobado = 'NO'"
                 cursor.execute(consulta, (area,))
             else:
-                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE aprobado = 'NO'"
+                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE aprobado = 'NO' or aprobado = 'Aprobado por Gerencia'"
                 cursor.execute(consulta)
 
             resultados = cursor.fetchall()
@@ -485,7 +485,7 @@ def dias_por_autorizar(area=None):
     return dias_a_autorizar
 
 #Funcion para aprobar los dias
-def aprobar_solicitud(empleado, fecha, concepto):
+def aprobar_solicitud(empleado, fecha, concepto, jerarquia):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -497,8 +497,12 @@ def aprobar_solicitud(empleado, fecha, concepto):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s AND fecha = %s AND concepto = %s"
-            cursor.execute(consulta, (empleado, fecha, concepto))
+            if jerarquia == "Gerencia":
+                consulta = "UPDATE dias_pedidos SET aprobado = 'Aprobado por Gerencia' WHERE empleado = %s AND fecha = %s AND concepto = %s"
+                cursor.execute(consulta, (empleado, fecha, concepto))
+            if jerarquia == "Direccion":
+                consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s and fecha = %s AND concepto = %s"
+                cursor.execute(consulta, (empleado, fecha, concepto))
 
             conexion.commit()
 
@@ -512,7 +516,7 @@ def aprobar_solicitud(empleado, fecha, concepto):
             conexion.close()
 
 #Funcion para eliminar la solicitud
-def eliminar_solicitud(empleado, fecha):
+def eliminar_solicitud(empleado, fecha, concepto):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -524,8 +528,8 @@ def eliminar_solicitud(empleado, fecha):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha = %s"
-            cursor.execute(consulta, (empleado, fecha))
+            consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha = %s and concepto = %s"
+            cursor.execute(consulta, (empleado, fecha, concepto))
 
             conexion.commit()
 

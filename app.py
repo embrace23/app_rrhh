@@ -368,9 +368,10 @@ def aprobar_solicitud_route():
         empleado = request.form.get('empleado')
         fecha = request.form.get('fecha')
         concepto = request.form.get('concepto')
+        jerarquia = request.form.get('jerarquia')
         
         if empleado and fecha:
-            aprobar_solicitud(empleado, fecha, concepto)
+            aprobar_solicitud(empleado, fecha, concepto, jerarquia)
             return redirect(url_for('inicio'))
         else:
             return redirect(url_for('inicio'))
@@ -386,7 +387,7 @@ def eliminar_solicitud_route():
         concepto = request.form.get('concepto')
         
         if empleado and fecha:
-            eliminar_solicitud(empleado, fecha)
+            eliminar_solicitud(empleado, fecha, concepto)
             return redirect(url_for('inicio'))
         else:
             return redirect(url_for('inicio'))

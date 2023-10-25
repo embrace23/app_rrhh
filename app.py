@@ -295,7 +295,7 @@ def editar_informacion():
                     else:
                         personal = obtener_personal()
 
-                    return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado)
+                    return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado, jerarquia=jerarquia)
                 else:
                     return redirect(url_for('index'))
 

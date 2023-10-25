@@ -203,6 +203,8 @@ def guardar_vacaciones():
     if 'user' in session:
         correo = session['user']
         nombre_empleado = obtener_empleado(correo)
+        tupla = obtener_area_jerarquia(correo)
+        area = tupla[0]
         
         fecha_inicio = request.form.get('fecha_inicio')
         fecha_fin = request.form.get('fecha_fin')
@@ -216,7 +218,9 @@ def guardar_vacaciones():
                 'empleado': nombre_empleado,
                 'fecha_inicio': fecha_inicio,
                 'fecha_fin': fecha_fin,
-                'fecha_modificacion': fecha_modificacion
+                'fecha_modificacion': fecha_modificacion,
+                'area': area,
+                'aprobado': "NO"
             }
             resultado = insertar_registro(tabla, campos)
 

@@ -211,7 +211,7 @@ def obtener_vacaciones(area=None, nombre_empleado=None):
                 cursor.execute(consulta, (nombre_empleado,))
             
             if area:
-                consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE area = %s WHERE aprobado = 'SI'"
+                consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE area = %s AND aprobado = 'SI'"
                 cursor.execute(consulta, (area,))
             else:
                 consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE aprobado = 'SI'"

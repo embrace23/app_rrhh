@@ -150,9 +150,11 @@ def inicio():
             home = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
             if jerarquia == "Gerencia":
                 dias_para_autorizar = dias_por_autorizar(area)
+                vacaciones_autorizar = vacaciones_por_autorizar(area)
             else:
                 dias_para_autorizar = dias_por_autorizar()
-            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area, dias_autorizar=dias_para_autorizar)
+                vacaciones_autorizar = vacaciones_por_autorizar()
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area, dias_autorizar=dias_para_autorizar, vacaciones_autorizar=vacaciones_autorizar)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
     else:
@@ -164,12 +166,13 @@ def vacaciones():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        vacaciones = obtener_vacaciones(empleado)
+        vacaciones = obtener_vacaciones(nombre_empleado=empleado)
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
+        area = tupla[0]
         
         if jerarquia in ["Direccion", "Gerencia"]:
-            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones, jerarquia=jerarquia)
+            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones, jerarquia=jerarquia, area=area)
         else:
             return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
     else:

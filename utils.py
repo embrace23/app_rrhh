@@ -207,15 +207,15 @@ def obtener_vacaciones(area=None, nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s"
+                consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s and aprobado <> 'NO'"
                 cursor.execute(consulta, (nombre_empleado,))
+            
+            if area:
+                consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE area = %s WHERE aprobado = 'SI'"
+                cursor.execute(consulta, (area,))
             else:
-                if area:
-                    consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE area = %s"
-                    cursor.execute(consulta, (area,))
-                else:
-                    consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones"
-                    cursor.execute(consulta)
+                consulta = "SELECT empleado, fecha_inicio, fecha_fin FROM vacaciones WHERE aprobado = 'SI'"
+                cursor.execute(consulta)
                     
             resultados = cursor.fetchall()
 
@@ -484,6 +484,43 @@ def dias_por_autorizar(area=None):
             conexion.close()
     return dias_a_autorizar
 
+def vacaciones_por_autorizar(area=None):
+    vacaciones_a_autorizar = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            if area:
+                consulta = "SELECT empleado, fecha_inicio, fecha_fin , fecha_modificacion FROM vacaciones WHERE area = %s AND aprobado = 'NO'"
+                cursor.execute(consulta, (area,))
+            else:
+                consulta = "SELECT empleado, fecha_inicio, fecha_fin, fecha_modificacion FROM vacaciones WHERE aprobado = 'NO'"
+                cursor.execute(consulta)
+
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                empleado, fecha_inicio, fecha_fin, fecha_modificacion = resultado
+                vacaciones_a_autorizar.append({'empleado': empleado, 'fecha_inicio': fecha_inicio, 'fecha_fin': fecha_fin, 'fecha_modificacion': fecha_modificacion[:10]})
+
+            cursor.close()
+            return vacaciones_a_autorizar
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+    return vacaciones_a_autorizar
+
 #Funcion para aprobar los dias
 def aprobar_solicitud(empleado, fecha, concepto, jerarquia):
     try:
@@ -497,13 +534,13 @@ def aprobar_solicitud(empleado, fecha, concepto, jerarquia):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            if jerarquia == "Gerencia":
-                consulta = "UPDATE dias_pedidos SET aprobado = 'Aprobado por Gerencia' WHERE empleado = %s AND fecha = %s AND concepto = %s"
-                cursor.execute(consulta, (empleado, fecha, concepto))
-            if jerarquia == "Direccion":
-                consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s and fecha = %s AND concepto = %s"
-                cursor.execute(consulta, (empleado, fecha, concepto))
-
+            if concepto != "vacaciones":
+                if jerarquia:
+                    consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s AND fecha = %s AND concepto = %s"
+                    cursor.execute(consulta, (empleado, fecha, concepto))
+            elif concepto == "vacaciones":
+                consulta = "UPDATE vacaciones SET aprobado = 'SI' WHERE empleado = %s AND fecha_inicio = %s"
+                cursor.execute(consulta, (empleado, fecha))
             conexion.commit()
 
             cursor.close()
@@ -528,9 +565,12 @@ def eliminar_solicitud(empleado, fecha, concepto):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha = %s and concepto = %s"
-            cursor.execute(consulta, (empleado, fecha, concepto))
-
+            if concepto != "vacaciones":
+                consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha = %s and concepto = %s"
+                cursor.execute(consulta, (empleado, fecha, concepto))
+            elif concepto == "vacaciones":
+                consulta = "UPDATE vacaciones SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha_inicio = %s"
+                cursor.execute(consulta, (empleado, fecha))
             conexion.commit()
 
             cursor.close()

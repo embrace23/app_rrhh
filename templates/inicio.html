@@ -120,13 +120,53 @@
                     </div>
                 </td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         
         </tbody>
     </table>
     {% endif %}
     
-
+    {% if vacaciones_autorizar %}
+    <table>
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Fecha de Modificación</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vacaciones in vacaciones_autorizar %}
+            <tr>
+                <td>{{ vacaciones.empleado }}</td>
+                <td>{{ vacaciones.fecha_inicio }}</td>
+                <td>{{ vacaciones.fecha_fin }}</td>
+                <td>{{ vacaciones.fecha_modificacion }}</td>
+                <td>
+                    <div id="botonAprobacion">
+                        <form action="/aprobar_solicitud" method="POST">
+                            <input type="hidden" name="empleado" value="{{ vacaciones.empleado }}">
+                            <input type="hidden" name="fecha" value="{{ vacaciones.fecha_inicio }}">
+                            <input type="hidden" name="concepto" value="vacaciones">
+                            <input type="hidden" name="jerarquia" value="{{ jerarquia }}">
+                            <button type="submit">Aprobar</button>
+                        </form>
+                        <form action="/eliminar_solicitud" method="POST">
+                            <input type="hidden" name="empleado" value="{{ vacaciones.empleado }}">
+                            <input type="hidden" name="fecha" value="{{ vacaciones.fecha_inicio }}">
+                            <input type="hidden" name="concepto" value="vacaciones">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        
+        </tbody>
+    </table>
+    {% endif %}
 
     
     {% if jerarquia %}

@@ -146,7 +146,7 @@ def guardar_fecha(usuario, fecha, area, jerarquia, pagina):
     return False
 
 #Funcion para obtener los dias pedidos por el empleado de la tabla general
-def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
+def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None, aprobado=None):
     dias_pedidos = []
 
     try:
@@ -161,7 +161,10 @@ def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None):
             cursor = conexion.cursor()
 
             if nombre_empleado:
-                consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'SI'"
+                if aprobado == "SI":
+                    consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'SI'"
+                elif aprobado == "NO":
+                    consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'NO'"
                 cursor.execute(consulta, (nombre_empleado, concepto))
             else:
                 if area:

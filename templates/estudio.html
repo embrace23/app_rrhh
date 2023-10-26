@@ -84,7 +84,8 @@
             <button type="submit">Guardar Fecha</button>
         </form>
 
-        <div id="dias">
+        <div id="tablasFechas">
+            <h2>Fechas Aprobadas</h2>
             <table>
                 <thead>
                     <tr>
@@ -92,11 +93,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for dia in dias_estudio %}
+                    {% if dias_aprobados %}
+                        {% for dia in dias_aprobados %}
+                        <tr>
+                            <td>{{ dia }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No hay fechas aprobadas</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        
+            <h2>Fechas en Espera de Autorización</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ dia }}</td>
+                        <th>Fecha</th>
                     </tr>
-                    {% endfor %}
+                </thead>
+                <tbody>
+                    {% if dias_espera %}
+                        {% for dia in dias_espera %}
+                        <tr>
+                            <td>{{ dia }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No hay fechas en espera de autorización</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>

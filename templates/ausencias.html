@@ -85,20 +85,51 @@
         </form>
 
         <div id="diasAusencias">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for dia in ausencias %}
-                    <tr>
-                        <td>{{ dia }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div id="tablasFechas">
+                <h2>Fechas notificadas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ausencias_notificadas %}
+                            {% for dia in ausencias_notificadas %}
+                            <tr>
+                                <td>{{ dia }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>No hay fechas notificadas</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            
+                <h2>Fechas en espera de notificación</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ausencias_por_notificar %}
+                            {% for dia in ausencias_por_notificar %}
+                            <tr>
+                                <td>{{ dia }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>No hay fechas sin notificar</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

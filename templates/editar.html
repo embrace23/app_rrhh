@@ -138,6 +138,17 @@
                 <input type="hidden" name="empleado" value="{{ datos.empleado }}">
                 <button type="submit">Eliminar Empleado</button>
             </form>
+
+            <form action="/agregar_home_empleado" method="POST">
+                <input type="hidden" name="empleado" value="{{ datos.empleado }}">
+                <input type="hidden" name="area" value="{{ datos.area }}">
+                <input type="hidden" area="jerarquia" value="{{ datos.jerarquia }}">
+                <div class="form-group">
+                    <label for="fechaHomeG">Elegir una fecha:</label>
+                    <input type="date" id="fechaHomeG" name="fechaHomeG" required>
+                </div>
+                <button type="submit">Guardar fecha</button>
+            </form>
             {% endif %}
         </div>        
     </div>

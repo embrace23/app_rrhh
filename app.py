@@ -3,6 +3,7 @@ from flask_session import Session
 from utils import *
 import mysql.connector
 from datetime import datetime, timedelta
+from notifypy import Notify
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -403,6 +404,24 @@ def eliminar_solicitud_route():
             return redirect(url_for('inicio'))
     else:
         return "Método no permitido"
+    
+@app.route('/agregar_home_empleado', methods=['POST'])
+def agregar_home_empleado():
+    if request.method == 'POST':
+        empleado = request.form.get('empleado')
+        fecha = request.form.get('fechaHomeG')
+        area = request.form.get('area')
+        jerarquia = request.form.get('jerarquia')
+        concepto = 'homeoffice'
+
+        resultado = guardar_fecha(empleado, fecha, area, jerarquia, concepto)
+
+        if resultado:
+            return redirect(url_for('homeoffice'))
+        else:
+            return "Error al guardar la fecha"
+    else:
+        return redirect(url_for('index'))
 
 ################################################################################
 """
@@ -532,3 +551,9 @@ def obtener_todos_los_eventosSistemas_route():
 #INICIO DE APP
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+notificacion = Notify()
+notificacion.title = "Titulo"
+notificacion.message = "Hola"
+notificacion.send()

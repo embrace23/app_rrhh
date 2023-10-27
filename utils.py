@@ -108,7 +108,7 @@ def obtener_area_jerarquia(correo):
     return (area, jerarquia)
 
 #Función para guardar la fecha segun el empleado
-def guardar_fecha(usuario, fecha, area, jerarquia, pagina):
+def guardar_fecha(usuario, fecha, area, jerarquia, pagina, aprobado=None):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -130,6 +130,10 @@ def guardar_fecha(usuario, fecha, area, jerarquia, pagina):
 
             consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto) VALUES (%s, %s, %s, %s, NOW(), %s)"
             cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina))
+
+            if aprobado:
+                consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto, aprobado) VALUES (%s, %s, %s, %s, NOW(), %s, %s)"
+                cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina, aprobado))
 
             conexion.commit()
 

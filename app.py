@@ -407,17 +407,18 @@ def eliminar_solicitud_route():
     
 @app.route('/agregar_home_empleado', methods=['POST'])
 def agregar_home_empleado():
-    if request.method == 'POST':
-        empleado = request.form.get('empleado')
-        fecha = request.form.get('fechaHomeG')
-        area = request.form.get('area')
-        jerarquia = request.form.get('jerarquia')
+    if request.method == 'POST': 
+        empleado = request.form.get('empleadoHome')
+        fecha = request.form.get('fechaHome')
+        area = request.form.get('areaHome')
+        jerarquia = request.form.get('jerarquiaHome')
         concepto = 'homeoffice'
+        aprobado = "SI"
 
-        resultado = guardar_fecha(empleado, fecha, area, jerarquia, concepto)
+        resultado = guardar_fecha(empleado, fecha, area, jerarquia, concepto, aprobado)
 
         if resultado:
-            return redirect(url_for('homeoffice'))
+            return redirect(url_for('editar'))
         else:
             return "Error al guardar la fecha"
     else:

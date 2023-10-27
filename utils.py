@@ -128,12 +128,14 @@ def guardar_fecha(usuario, fecha, area, jerarquia, pagina, aprobado=None):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto) VALUES (%s, %s, %s, %s, NOW(), %s)"
-            cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina))
 
             if aprobado:
                 consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto, aprobado) VALUES (%s, %s, %s, %s, NOW(), %s, %s)"
                 cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina, aprobado))
+            else:
+                consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto) VALUES (%s, %s, %s, %s, NOW(), %s)"
+                cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina))
+
 
             conexion.commit()
 
@@ -491,6 +493,7 @@ def dias_por_autorizar(area=None):
             conexion.close()
     return dias_a_autorizar
 
+#Funcion para trar las vacaciones que necesitan autorizacion aun
 def vacaciones_por_autorizar(area=None):
     vacaciones_a_autorizar = []
     try:

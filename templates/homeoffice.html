@@ -84,6 +84,16 @@
             <button type="submit">Guardar Fecha</button>
         </form>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-message flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
         <div id="diasHome">
             <div id="tablasFechas">
                 <h2>Fechas notificadas</h2>

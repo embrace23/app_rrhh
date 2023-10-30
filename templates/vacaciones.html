@@ -88,6 +88,16 @@
             <button type="submit">Guardar Vacaciones</button>
         </form>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-message flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
         <table>
             <thead>
                 <tr>

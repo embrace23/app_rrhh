@@ -192,16 +192,19 @@ RUTAS Y FUNCIONES EXTRAS
 #GUARDAR FECHA DE ESTUDIO
 @app.route('/guardar_estudio', methods=['POST'])
 def guardar_fecha_route():
+    flash('Se ha solicitado el día de estudio correctamente, el mismo quedará en espera de ser aprobado por su superior inmediato.', 'success')
     return guardar_fecha_generico('estudio', 'fechaEstudio')
     
 #GUARDAR FECHA DE HOME OFFICE
 @app.route('/guardar_home', methods=['POST'])
 def guardar_home_route():
+    flash('Se ha informado el día de home office correctamente, el mismo quedará en espera de ser notificado a su superior inmediato.', 'success')
     return guardar_fecha_generico('homeoffice', 'fechaHome')
 
 #GUARDAR FECHA DE AUSENCIAS
 @app.route('/guardar_ausencias', methods=['POST'])
 def guardar_ausencias_route():
+    flash('Se ha guardado la fecha de ausencias correctamente, la misma quedará en espera de ser notificada a su superior inmediato.', 'success')
     return guardar_fecha_generico('ausencias', 'fechaAusencias')
 
 #GUARDAR FECHA DE VACACIONES
@@ -232,6 +235,7 @@ def guardar_vacaciones():
             resultado = insertar_registro(tabla, campos)
 
             if resultado:
+                flash('Se han solicitado los días de vacaciones correctamente, la solicitud quedará en espera de ser aprobada por su superior inmediato.', 'success')
                 return redirect(url_for('vacaciones'))
             else:
                 return "Error al guardar las fechas de vacaciones"
@@ -287,8 +291,8 @@ def cambiar_contrasena():
         return redirect(url_for('index'))
 
 #ELEGIR USUARIO Y GUARDAR LOS DATOS DEL EMPLEADO
-@app.route('/editar_informacion', methods=['POST'])
-def editar_informacion():
+@app.route('/elegir_empleado', methods=['POST'])
+def elegir_empleado():
     if request.method == 'POST':
         empleado_editar =  request.form.get('empleado')
 
@@ -328,6 +332,7 @@ def guardar_informacion():
         exito_actualizacion = actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio)
 
         if exito_actualizacion:
+            flash('Los ajustes se han guardado con éxito', 'success')
             return redirect(url_for('editar'))
         else:
             return redirect(url_for('editar'))
@@ -339,6 +344,7 @@ def eliminar_empleado():
         empleado_a_eliminar = request.form.get('empleado')
         if empleado_a_eliminar:
             actualizar_cuenta(empleado_a_eliminar)
+            flash('Se ha eliminado al empleado correctamente.', 'success')
             return redirect(url_for('editar'))
         else:
             return "Nombre del empleado no encontrado", 400
@@ -419,6 +425,7 @@ def agregar_home_empleado():
         resultado = guardar_fecha(empleado, fecha, area, jerarquia, concepto, aprobado)
 
         if resultado:
+            flash('Se ha guardado la fecha de home office correctamente.', 'success')
             return redirect(url_for('editar'))
         else:
             return "Error al guardar la fecha"

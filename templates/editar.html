@@ -76,7 +76,7 @@
     </div>
 
     <div id="mainContainer">
-        <form action="/editar_informacion" method="POST">
+        <form action="/elegir_empleado" method="POST">
             <div class="form-group">
                 <label for="seleccionar_empleado">Seleccionar Empleado:</label>
                 <select id="seleccionar_empleado" name="empleado" required>
@@ -88,6 +88,16 @@
             </div>
             <button type="submit">Editar Empleado</button>
         </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-message flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
 
         <div id="informacion">
             {% if datos %}

@@ -34,7 +34,8 @@ def login():
         #registrar_inicio_sesion(email)
         return redirect(url_for('inicio'))
     else:
-        return "Credenciales incorrectas"
+        flash('Credenciales incorrectas.', 'success')
+        return redirect(url_for('inicio'))
     
 #CIERRE DE SESION   
 @app.route('/logout')

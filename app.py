@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_session import Session
 from utils import *
 import mysql.connector
@@ -272,7 +272,8 @@ def cambiar_contrasena():
             if password_nueva == password_nueva_repetir:
                 if cumple_requisitos_seguridad(password_nueva):
                     if actualizar_contrasena(usuario, password_nueva):
-                        return "Contraseña cambiada exitosamente"
+                        flash('Los ajustes se han guardado con éxito', 'success')
+                        return redirect(url_for('ajustes'))
                     else:
                         return "Error al actualizar la contraseña en la base de datos"
                 else:

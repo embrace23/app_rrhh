@@ -87,7 +87,18 @@
             <input type="password" id="password_nueva_repetir" name="password_nueva_repetir" required>
         
             <button type="submit">Cambiar Contraseña</button>
-        </form>        
+        </form>       
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-message flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

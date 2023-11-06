@@ -239,3 +239,12 @@ body{
 #botonAprobacion{
     display: flex;
 }
+
+.fc-event-title.fc-sticky {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygrid-block-event.fc-h-event{
+    height: 16px;
+}

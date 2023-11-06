@@ -225,10 +225,10 @@ def guardar_vacaciones():
 
             fecha_modificacion = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             mensaje = f"{nombre_empleado} solicitó {fecha_inicio} al {fecha_fin}"
-            notificacion = Notify()
-            notificacion.title = f"Vacaciones"
-            notificacion.message = mensaje
-            notificacion.send()
+            #notificacion = Notify()
+            #notificacion.title = f"Vacaciones"
+            #notificacion.message = mensaje
+            #notificacion.send()
             
             campos = {
                 'empleado': nombre_empleado,
@@ -262,10 +262,10 @@ def guardar_fecha_generico(pagina, campo_fecha):
 
         resultado = guardar_fecha(nombre_empleado, fecha, area, jerarquia, pagina)
         mensaje = f"{nombre_empleado} solicitó {fecha}"
-        notificacion = Notify()
-        notificacion.title = f"{pagina}"
-        notificacion.message = mensaje
-        notificacion.send()
+        #notificacion = Notify()
+        #notificacion.title = f"{pagina}"
+        #notificacion.message = mensaje
+        #notificacion.send()
         if resultado:
             return redirect(url_for(pagina))
         else:
@@ -397,9 +397,10 @@ def aprobar_solicitud_route():
         fecha = request.form.get('fecha')
         concepto = request.form.get('concepto')
         jerarquia = request.form.get('jerarquia')
+        gerente = request.form.get('gerente')
         
         if empleado and fecha:
-            aprobar_solicitud(empleado, fecha, concepto, jerarquia)
+            aprobar_solicitud(empleado, fecha, concepto, jerarquia, gerente)
             return redirect(url_for('inicio'))
         else:
             return redirect(url_for('inicio'))

@@ -76,6 +76,11 @@
     </div>
 
     <div id="mainContainer">
+        <div class="linksLaborales">
+            <a href="">CRM</a>
+            <a href="">Infobip</a>
+            <a href="">Outlook</a>
+        </div>
         <div class="links">
             <a href="{{ url_for('estudio') }}">Solicitar día de estudio</a>
             <a href="{{ url_for('ausencias') }}">Notificar día de ausencia</a>
@@ -109,6 +114,7 @@
                             <input type="hidden" name="fecha" value="{{ dia.fecha }}">
                             <input type="hidden" name="concepto" value="{{ dia.concepto }}">
                             <input type="hidden" name="jerarquia" value="{{ jerarquia }}">
+                            <input type="hidden" name="gerente" value="{{ empleado }}">
                             <button type="submit">Aprobar</button>
                         </form>
                         <form action="/eliminar_solicitud" method="POST">
@@ -151,6 +157,7 @@
                             <input type="hidden" name="fecha" value="{{ vacaciones.fecha_inicio }}">
                             <input type="hidden" name="concepto" value="vacaciones">
                             <input type="hidden" name="jerarquia" value="{{ jerarquia }}">
+                            <input type="hidden" name="gerente" value="{{ empleado }}">
                             <button type="submit">Aprobar</button>
                         </form>
                         <form action="/eliminar_solicitud" method="POST">

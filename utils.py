@@ -532,7 +532,7 @@ def vacaciones_por_autorizar(area=None):
     return vacaciones_a_autorizar
 
 #Funcion para aprobar los dias
-def aprobar_solicitud(empleado, fecha, concepto, jerarquia):
+def aprobar_solicitud(empleado, fecha, concepto, jerarquia, gerente):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -544,13 +544,17 @@ def aprobar_solicitud(empleado, fecha, concepto, jerarquia):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
+            fecha_hora_actual = datetime.now()
+
+            fecha_hora_actual_str = fecha_hora_actual.strftime("%Y-%m-%d %H:%M:%S")
+
             if concepto != "vacaciones":
                 if jerarquia:
-                    consulta = "UPDATE dias_pedidos SET aprobado = 'SI' WHERE empleado = %s AND fecha = %s AND concepto = %s"
-                    cursor.execute(consulta, (empleado, fecha, concepto))
+                    consulta = "UPDATE dias_pedidos SET aprobado = 'SI', fecha_cambio_estado = %s, gerente = %s WHERE empleado = %s AND fecha = %s AND concepto = %s"
+                    cursor.execute(consulta, (fecha_hora_actual_str, gerente, empleado, fecha, concepto))
             elif concepto == "vacaciones":
-                consulta = "UPDATE vacaciones SET aprobado = 'SI' WHERE empleado = %s AND fecha_inicio = %s"
-                cursor.execute(consulta, (empleado, fecha))
+                consulta = "UPDATE vacaciones SET aprobado = 'SI', fecha_cambio_estado = %s, gerente = %s WHERE empleado = %s AND fecha_inicio = %s"
+                cursor.execute(consulta, (fecha_hora_actual_str, gerente, empleado, fecha))
             conexion.commit()
 
             cursor.close()

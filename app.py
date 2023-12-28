@@ -1,8 +1,8 @@
+from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_session import Session
 from utils import *
 import mysql.connector
-from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -224,6 +224,7 @@ def guardar_vacaciones():
 
             fecha_modificacion = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             mensaje = f"{nombre_empleado} solicitó {fecha_inicio} al {fecha_fin}"
+
             
             campos = {
                 'empleado': nombre_empleado,
@@ -257,6 +258,7 @@ def guardar_fecha_generico(pagina, campo_fecha):
 
         resultado = guardar_fecha(nombre_empleado, fecha, area, jerarquia, pagina)
         mensaje = f"{nombre_empleado} solicitó {fecha}"
+
         if resultado:
             return redirect(url_for(pagina))
         else:
@@ -388,10 +390,9 @@ def aprobar_solicitud_route():
         fecha = request.form.get('fecha')
         concepto = request.form.get('concepto')
         jerarquia = request.form.get('jerarquia')
-        gerente = request.form.get('gerente')
         
         if empleado and fecha:
-            aprobar_solicitud(empleado, fecha, concepto, jerarquia, gerente)
+            aprobar_solicitud(empleado, fecha, concepto, jerarquia)
             return redirect(url_for('inicio'))
         else:
             return redirect(url_for('inicio'))
@@ -561,4 +562,4 @@ def obtener_todos_los_eventosSistemas_route():
 ################################################################################
 #INICIO DE APP
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='192.168.1.77', port=8082)

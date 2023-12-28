@@ -38,6 +38,58 @@ body{
     text-decoration: none;
 }
 
+/*Login*/
+.logueoContainer{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.logueoContainer img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.logueo {
+    background-color: #fff;
+    height: 400px;
+    width: 500px;
+    text-align: center;
+    color: #000;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.correoLogueo, .passLogueo {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.logueo input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    width: 85%;
+}
+
+.logueo button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
 /*Header*/
 #sidemenu #header{
     box-sizing: border-box;

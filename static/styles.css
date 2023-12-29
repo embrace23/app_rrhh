@@ -24,6 +24,8 @@ body{
     margin: 10px;
 }
 
+/*Menú lateral*/
+
 #sidemenu{
     background-color: var(--bgcolor);
     color: white;
@@ -306,4 +308,56 @@ body{
 
 a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygrid-block-event.fc-h-event{
     height: 16px;
+}
+
+/*Guardar fecha*/
+.guardarFecha{
+    width: 400px;
+}
+
+.guardarFecha .form-group{
+    margin-bottom: 15px;
+}
+
+.guardarFecha label{
+    font-weight: bold;
+}
+
+.guardarFecha input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.guardarFecha button{
+    background-color: #4caf50;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.guardarFecha #tablasFechas {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.guardarFecha table {
+    width: 100%;
+    margin-top: 15px;
+    color: #000;
+    background-color: #fff;
+    border-collapse: collapse;
+}
+
+.guardarFecha th,.guardarFecha td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.guardarFecha th {
+    background-color: #4caf50;
+    color: #000;
 }

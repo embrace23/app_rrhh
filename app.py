@@ -390,9 +390,10 @@ def aprobar_solicitud_route():
         fecha = request.form.get('fecha')
         concepto = request.form.get('concepto')
         jerarquia = request.form.get('jerarquia')
+        gerente = request.form.get('gerente')
         
         if empleado and fecha:
-            aprobar_solicitud(empleado, fecha, concepto, jerarquia)
+            aprobar_solicitud(empleado, fecha, concepto, jerarquia, gerente)
             return redirect(url_for('inicio'))
         else:
             return redirect(url_for('inicio'))
@@ -562,4 +563,4 @@ def obtener_todos_los_eventosSistemas_route():
 ################################################################################
 #INICIO DE APP
 if __name__ == '__main__':
-    app.run(host='192.168.1.77', port=8082)
+    app.run(debug=True)

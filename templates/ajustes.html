@@ -76,15 +76,21 @@
     </div>
 
     <div id="mainContainer">
-        <form action="/cambiar_contrasena" method="POST">
-            <label for="password_actual">Contraseña Actual:</label>
-            <input type="password" id="password_actual" name="password_actual" required>
+        <form action="/cambiar_contrasena" method="POST" class="cambiarContrasena">
+            <div class="divContrasena">
+                <label for="password_actual">Contraseña Actual:</label>
+                <input type="password" id="password_actual" name="password_actual" required>
+            </div>
         
-            <label for="password_nueva">Nueva Contraseña:</label>
-            <input type="password" id="password_nueva" name="password_nueva" required>
+            <div class="divContrasena">
+                <label for="password_nueva">Nueva Contraseña:</label>
+                <input type="password" id="password_nueva" name="password_nueva" required>
+            </div>
         
-            <label for="password_nueva_repetir">Repetir Nueva Contraseña:</label>
-            <input type="password" id="password_nueva_repetir" name="password_nueva_repetir" required>
+            <div class="divContrasena">
+                <label for="password_nueva_repetir">Repetir Nueva Contraseña:</label>
+                <input type="password" id="password_nueva_repetir" name="password_nueva_repetir" required>
+            </div>
         
             <button type="submit">Cambiar Contraseña</button>
         </form>       

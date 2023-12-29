@@ -315,22 +315,22 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     width: 400px;
 }
 
-.guardarFecha .form-group{
+.guardarFecha .form-group, .cambiarContrasena .form-group{
     margin-bottom: 15px;
 }
 
-.guardarFecha label{
+.guardarFecha label, .cambiarContrasena label{
     font-weight: bold;
 }
 
-.guardarFecha input {
+.guardarFecha input, .cambiarContrasena input {
     width: 100%;
     padding: 8px;
     margin-top: 10px;
     box-sizing: border-box;
 }
 
-.guardarFecha button{
+.guardarFecha button, .cambiarContrasena button{
     background-color: #4caf50;
     color: #fff;
     font-weight: 600;
@@ -360,4 +360,32 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
 .guardarFecha th {
     background-color: #4caf50;
     color: #000;
+}
+
+/*Ajustes para cambiar contraseña*/
+.cambiarContrasena {
+    width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cambiarContrasena input{
+    margin-bottom: 15px;
+    width: 250px;
+}
+
+.divContrasena{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.divContrasena label{
+    width: 50%;
 }

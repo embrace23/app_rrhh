@@ -76,7 +76,7 @@
     </div>
 
     <div id="mainContainer">
-        <form action="/elegir_empleado" method="POST">
+        <form action="/elegir_empleado" method="POST" class="formEmpleado">
             <div class="form-group">
                 <label for="seleccionar_empleado">Seleccionar Empleado:</label>
                 <select id="seleccionar_empleado" name="empleado" required>
@@ -102,7 +102,7 @@
         <div id="informacion">
             {% if datos %}
             <h2>Información del Empleado:</h2>
-            <form action="/guardar_informacion" method="POST">
+            <form action="/guardar_informacion" method="POST" class="formEmpleado">
                 <div class="form-group">
                     <label for="empleado">Empleado:</label>
                     <input type="text" name="empleado" id="empleado" value="{{ datos.empleado }}">
@@ -143,20 +143,21 @@
 
                 <button type="submit">Guardar Cambios</button>
             </form>
+            <br>
 
-            <form action="/eliminar_empleado" method="POST">
+            <form action="/eliminar_empleado" method="POST" class="formEmpleado">
                 <input type="hidden" name="empleado" value="{{ datos.empleado }}">
-                <button type="submit">Eliminar Empleado</button>
+                <button type="submit" class="eliminarEmpleado">Eliminar Empleado</button>
             </form>
             {% endif %}
-
+            <br>
             {% if datos %}
-            <form action="/agregar_home_empleado" method="POST">
+            <form action="/agregar_home_empleado" method="POST" class="formEmpleado">
                 <input type="hidden" name="empleadoHome" value="{{ datos.empleado }}">
                 <input type="hidden" name="areaHome" value="{{ datos.area }}">
                 <input type="hidden" name="jerarquiaHome" value="{{ datos.jerarquia }}">
                 <div class="form-group">
-                    <label for="fechaHome">Elegir una fecha:</label>
+                    <label for="fechaHome">Elegir una fecha de home office:</label>
                     <input type="date" id="fechaHome" name="fechaHome" required>
                 </div>
                 <button type="submit">Guardar fecha</button>

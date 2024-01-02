@@ -389,3 +389,38 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
 .divContrasena label{
     width: 50%;
 }
+
+/*Editar empleado*/
+.formEmpleado{
+    width: 300px;
+    background-color: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.formEmpleado label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.formEmpleado select, .formEmpleado input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.eliminarEmpleado{
+    background-color: #af514c !important;
+}
+
+.formEmpleado button{
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}

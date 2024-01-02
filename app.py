@@ -456,7 +456,7 @@ def agregar_home_empleado():
     
 @app.route('/descargar_nomina', methods=['GET'])
 def descargar_nomina():
-    archivo_excel = obtener_nomina_y_generar_excel()  # Cambia el nombre según tu función
+    archivo_excel = obtener_nomina_y_generar_excel() 
     return send_file(
         archivo_excel,
         as_attachment=True,

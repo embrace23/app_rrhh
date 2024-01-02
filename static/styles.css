@@ -424,3 +424,12 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     cursor: pointer;
     border-radius: 4px;
 }
+
+.descargarNomina{
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}

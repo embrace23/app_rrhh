@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Días de estudio</title>
+    <title>Inicio</title>
 </head>
 <body>
     <div id="sidemenu" class="menuCollapsed">
@@ -80,71 +80,10 @@
         </div>
     </div>
 
-    <div id="mainContainer" class="guardarFecha">
-        <form action="/guardar_estudio" method="POST">
-            <div class="form-group">
-                <label for="fechaEstudio">Elegir una fecha:</label>
-                <input type="date" id="fechaEstudio" name="fechaEstudio" required>
-                <input type="hidden" value="{{ empleado }}">
-            </div>
-            <button type="submit">Guardar Fecha</button>
-        </form>
+    <div id="mainContainer">
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash-messages">
-            {% for category, message in messages %}
-                <li class="flash-message flash-{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-        {% endwith %}
+        <a href="/descargar_nomina" target="_blank"><button class="descargarNomina">Descargar nómina</button></a>
 
-        <div id="tablasFechas">
-            <h2>Fechas Aprobadas</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if dias_aprobados %}
-                        {% for dia in dias_aprobados %}
-                        <tr>
-                            <td>{{ dia }}</td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>No hay fechas aprobadas</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        
-            <h2>Fechas en Espera de Autorización</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if dias_espera %}
-                        {% for dia in dias_espera %}
-                        <tr>
-                            <td>{{ dia }}</td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td>No hay fechas en espera de autorización</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

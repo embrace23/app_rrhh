@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, send_file
 from flask_session import Session
 from utils import *
 import mysql.connector
@@ -99,6 +99,24 @@ def editar():
         else:
             personal = obtener_personal()
             return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
+    else:
+        return redirect(url_for('index'))
+    
+@app.route('/descargas')
+def descargas():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        tupla = obtener_area_jerarquia(usuario)
+        jerarquia = tupla[1]
+        area = tupla[0]
+
+        if jerarquia == "Gerencia":
+            personal = obtener_personal(area)
+            return render_template('descargas.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
+        else:
+            personal = obtener_personal()
+            return render_template('descargas.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
     else:
         return redirect(url_for('index'))
 
@@ -435,6 +453,16 @@ def agregar_home_empleado():
             return "Error al guardar la fecha"
     else:
         return redirect(url_for('index'))
+    
+@app.route('/descargar_nomina', methods=['GET'])
+def descargar_nomina():
+    archivo_excel = obtener_nomina_y_generar_excel()  # Cambia el nombre según tu función
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="nomina.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
 
 ################################################################################
 """

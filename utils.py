@@ -2,6 +2,8 @@ import schedule
 import time
 from datetime import datetime
 import mysql.connector
+from openpyxl import Workbook
+from io import BytesIO
 
 #Función para chequear que el mail y la contraseña sean los correctos
 def verificar_credenciales(email, password):
@@ -595,6 +597,52 @@ def eliminar_solicitud(empleado, fecha, concepto):
     finally:
         if 'conexion' in locals():
             conexion.close()
+
+#Funcion para guardar excel
+def obtener_nomina_y_generar_excel():
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT * FROM nomina WHERE cuenta = 'SI'"
+            cursor.execute(consulta)
+            nomina = cursor.fetchall()
+
+            output = generar_excel(nomina)
+
+            cursor.close()
+
+            return output
+    
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+def generar_excel(nomina):
+    workbook = Workbook()
+    sheet = workbook.active
+
+    encabezados = ["Empleado", "Cuil", "Fecha_ingreso", "Finaliza_pp", "Legajo", "Mail", "Cuenta", "Genero", "Fecha_nacimiento", "Forma", "Turno", "Area", "Jerarquia", "Equipo", "Convenio", "Contrasena"]
+    sheet.append(encabezados)
+
+    for fila in nomina:
+        sheet.append(fila)
+
+    output = BytesIO()
+    workbook.save(output)
+    output.seek(0)
+
+    return output
 
 """"
 def registrar_inicio_sesion(usuario):

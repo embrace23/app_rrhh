@@ -61,6 +61,11 @@
                 <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información" title="Editar información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>
             </div>
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('descargas') }}"><img src="{{ url_for('static', filename='images/Descargas.png') }}" alt="Descargas" title="Descargas"></a></div>
+                <div class="title"><a href="{{ url_for('descargas') }}"><span>Descargas</span></a></div>
+            </div>
             {% endif %}
 
             <div class="item">
@@ -157,13 +162,13 @@
                 <input type="hidden" name="areaHome" value="{{ datos.area }}">
                 <input type="hidden" name="jerarquiaHome" value="{{ datos.jerarquia }}">
                 <div class="form-group">
-                    <label for="fechaHome">Elegir una fecha de home office:</label>
+                    <label for="fechaHome">Agregar una fecha de home office:</label>
                     <input type="date" id="fechaHome" name="fechaHome" required>
                 </div>
                 <button type="submit">Guardar fecha</button>
             </form>
             {% endif %}
-        </div>        
+        </div>   
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

@@ -644,6 +644,54 @@ def generar_excel(nomina):
 
     return output
 
+#Funcion para guardar excel
+def obtener_mensual_y_generar_excel():
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            mes_actual = datetime.now().month
+
+            consulta = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_actual}"
+
+            cursor.execute(consulta)
+            nomina = cursor.fetchall()
+
+            output = generar_mensual(nomina)
+
+            cursor.close()
+
+            return output
+    
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+def generar_mensual(nomina):
+    workbook = Workbook()
+    sheet = workbook.active
+
+    encabezados = ["Empleado", "Fecha", "Area", "Jerarquia", "Fecha_modificacion", "Concepto", "Aprobado", "Fecha_cambio_estado", "Gerente", "Ruta"]
+    sheet.append(encabezados)
+
+    for fila in nomina:
+        sheet.append(fila)
+
+    output = BytesIO()
+    workbook.save(output)
+    output.seek(0)
+
+    return output
 """"
 def registrar_inicio_sesion(usuario):
     try:

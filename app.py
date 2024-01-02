@@ -464,6 +464,16 @@ def descargar_nomina():
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
+@app.route('/descargar_mensual', methods=['GET'])
+def descargar_mensual():
+    archivo_excel = obtener_mensual_y_generar_excel() 
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
 ################################################################################
 """
 RUTAS Y FUNCIONES PARA CARGAR INFORMACION EN EL CALENDARIO (SOLO PARA RRHH, DIRECCION Y GERENTES)

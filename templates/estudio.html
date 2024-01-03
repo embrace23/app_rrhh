@@ -81,6 +81,7 @@
     </div>
 
     <div id="mainContainer" class="guardarFecha">
+        <h2>Módulo de Días de estudio</h2>
         <form action="/guardar_estudio" method="POST">
             <div class="form-group">
                 <label for="fechaEstudio">Elegir una fecha:</label>
@@ -101,7 +102,7 @@
         {% endwith %}
 
         <div id="tablasFechas">
-            <h2>Fechas Aprobadas</h2>
+            <h3>Fechas Aprobadas</h3>
             <table>
                 <thead>
                     <tr>
@@ -123,7 +124,7 @@
                 </tbody>
             </table>
         
-            <h2>Fechas en Espera de Autorización</h2>
+            <h3>Fechas en Espera de Autorización</h3>
             <table>
                 <thead>
                     <tr>
@@ -145,7 +146,7 @@
                 </tbody>
             </table>
 
-            <h2>Fechas rechazadas</h2>
+            <h3>Fechas rechazadas</h3>
             <table>
                 <thead>
                     <tr>

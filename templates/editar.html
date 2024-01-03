@@ -81,6 +81,7 @@
     </div>
 
     <div id="mainContainer">
+        <h2>Módulo de edición</h2>
         <form action="/elegir_empleado" method="POST" class="formEmpleado">
             <div class="form-group">
                 <label for="seleccionar_empleado">Seleccionar Empleado:</label>
@@ -106,7 +107,7 @@
 
         <div id="informacion">
             {% if datos %}
-            <h2>Información del Empleado:</h2>
+            <h3>Información del Empleado:</h3>
             <form action="/guardar_informacion" method="POST" class="formEmpleado">
                 <div class="form-group">
                     <label for="empleado">Empleado:</label>

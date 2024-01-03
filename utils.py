@@ -211,7 +211,7 @@ def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None, aprobado=Non
                     consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'NO'"
                 elif aprobado == "RECHAZADO":
                     consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'RECHAZADO'"
-                cursor.execute(consulta, (nombre_empleado, concepto))
+                    cursor.execute(consulta, (nombre_empleado, concepto))
             else:
                 if area:
                     consulta = "SELECT empleado, fecha FROM dias_pedidos WHERE concepto = %s AND area = %s AND aprobado = 'SI'"

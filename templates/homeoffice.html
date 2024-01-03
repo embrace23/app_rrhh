@@ -149,5 +149,22 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var fechaHomeInput = document.getElementById('fechaHome');
+    
+            var fechaActual = new Date();
+    
+            var fechaLimiteAtras = new Date();
+            fechaLimiteAtras.setMonth(fechaLimiteAtras.getMonth() - 1);
+    
+            var fechaLimiteAdelante = new Date();
+            fechaLimiteAdelante.setMonth(fechaLimiteAdelante.getMonth() + 1);
+    
+            fechaHomeInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
+            fechaHomeInput.setAttribute('max', fechaLimiteAdelante.toISOString().split('T')[0]);
+        });
+    </script>
 </body>
 </html>

@@ -94,10 +94,10 @@ def editar():
         area = tupla[0]
 
         if jerarquia == "Gerencia":
-            personal = obtener_personal(area)
-            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
-        else:
-            personal = obtener_personal()
+            if area == "Gerencia":
+                personal = obtener_personal()
+            else:    
+                personal = obtener_personal(area)
             return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
     else:
         return redirect(url_for('index'))
@@ -316,25 +316,29 @@ def cambiar_contrasena():
 def elegir_empleado():
     if request.method == 'POST':
         empleado_editar =  request.form.get('empleado')
-
+        
         if empleado_editar:
-            informacion_empleado = obtener_datos(empleado_editar)
-            if informacion_empleado:
-                if 'user' in session:
-                    usuario = session['user']
-                    empleado = obtener_empleado(usuario)
-                    tupla = obtener_area_jerarquia(usuario)
-                    jerarquia = tupla[1]
-                    area = tupla[0]
+            if 'user' in session:
+                usuario = session['user']
+                empleado = obtener_empleado(usuario)
+                tupla = obtener_area_jerarquia(usuario)
+                rol = obtener_rol(usuario)
+                jerarquia = tupla[1]
+                area = tupla[0]
 
-                    if jerarquia in ["Supervisor","Gerencia"]:
+                if rol == 'Administracion':
+                    informacion_empleado = obtener_datos(empleado_editar, admin=rol)
+                else:
+                    informacion_empleado = obtener_datos(empleado_editar)
+                
+                if jerarquia in ["Supervisor","Gerencia"]:
+                    if area != "Gerencia":
                         personal = obtener_personal(area)
                     else:
                         personal = obtener_personal()
-
-                    return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado, jerarquia=jerarquia)
-                else:
-                    return redirect(url_for('index'))
+                return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado, jerarquia=jerarquia, rol=rol)
+            else:
+                return redirect(url_for('index'))
 
 #GUARDAR LA INFORMACION CAMBIADA A LOS EMPLEADOS
 @app.route('/guardar_informacion', methods=['POST'])
@@ -347,10 +351,12 @@ def guardar_informacion():
         turno = request.form.get('turno')
         area = request.form.get('area')
         jerarquia = request.form.get('jerarquia')
+        rol = request.form.get('rol')
+        categoria = request.form.get('categoria')
         equipo = request.form.get('equipo')
         convenio = request.form.get('convenio')
 
-        exito_actualizacion = actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio)
+        exito_actualizacion = actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarquia, rol, categoria, equipo, convenio)
 
         if exito_actualizacion:
             flash('Los ajustes se han guardado con éxito', 'success')

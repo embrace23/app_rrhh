@@ -109,6 +109,42 @@ def obtener_area_jerarquia(correo):
 
     return (area, jerarquia)
 
+#Funcion para obtener el rol del empleado
+def obtener_rol(correo):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT rol FROM nomina WHERE mail = %s"
+            cursor.execute(consulta, (correo,))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                resultado = resultado
+            else:
+                resultado = "Mail de usuario no encontrado"
+
+            cursor.close()
+
+        else:
+            resultado = "Error en la conexión a la base de datos"
+
+    except mysql.connector.Error as err:
+        resultado = f"Error: {err}"
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return resultado
+
 #Función para guardar la fecha segun el empleado
 def guardar_fecha(usuario, fecha, area, jerarquia, pagina, aprobado=None):
     try:
@@ -354,7 +390,7 @@ def obtener_personal(area=None):
     return empleados
 
 #Función para traer la información personal del empleado que se seleccionó en el menú desplegable
-def obtener_datos(empleado):
+def obtener_datos(empleado, admin=None):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -366,23 +402,47 @@ def obtener_datos(empleado):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT empleado, legajo, mail, forma, turno, area, jerarquia, equipo, convenio FROM nomina WHERE empleado = %s"
+            if admin:
+                consulta = "SELECT empleado, cuil, fecha_ingreso, legajo, mail, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio FROM nomina WHERE empleado = %s"
+            else:
+                consulta = "SELECT empleado, cuil, fecha_ingreso, legajo, mail, fecha_nacimiento, forma, turno, area, jerarquia, equipo, convenio FROM nomina WHERE empleado = %s"
             cursor.execute(consulta, (empleado,))
             resultado = cursor.fetchone()
 
             if resultado:
-                datos_empleado = {
+                if admin:
+                    datos_empleado = {
                     'empleado': resultado[0],
-                    'legajo': resultado[1],
-                    'mail': resultado[2],
-                    'forma': resultado[3],
-                    'turno': resultado[4],
-                    'area': resultado[5],
-                    'jerarquia': resultado[6],
-                    'equipo': resultado[7],
-                    'convenio': resultado[8]
-                }
-                return datos_empleado
+                    'cuil': resultado[1],
+                    'fecha_ingreso': resultado[2],
+                    'legajo': resultado[3],
+                    'mail': resultado[4],
+                    'fecha_nacimiento': resultado[5],
+                    'forma': resultado[6],
+                    'turno': resultado[7],
+                    'area': resultado[8],
+                    'jerarquia': resultado[9],
+                    'rol': resultado[10],
+                    'categoria': resultado[11],
+                    'equipo': resultado[12],
+                    'convenio': resultado[13]
+                    }
+                else:
+                    datos_empleado = {
+                    'empleado': resultado[0],
+                    'cuil': resultado[1],
+                    'fecha_ingreso': resultado[2],
+                    'legajo': resultado[3],
+                    'mail': resultado[4],
+                    'fecha_nacimiento': resultado[5],
+                    'forma': resultado[6],
+                    'turno': resultado[7],
+                    'area': resultado[8],
+                    'jerarquia': resultado[9],
+                    'equipo': resultado[10],
+                    'convenio': resultado[11],
+                    }
+            return datos_empleado
 
             cursor.close()
 

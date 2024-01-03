@@ -74,12 +74,13 @@ def ausencias():
         empleado = obtener_empleado(usuario)
         ausencias_notificadas = obtener_dias_pedidos('ausencias', nombre_empleado=empleado, aprobado="SI")
         ausencias_por_notificar = obtener_dias_pedidos('ausencias', nombre_empleado=empleado, aprobado="NO")
+        ausencias_rechazadas = obtener_dias_pedidos('ausencias',area=None, nombre_empleado=empleado, aprobado="RECHAZADO")
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
         if jerarquia in ["Gerencia", "Supervisor"]:
-            return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias_notificadas=ausencias_notificadas, ausencias_por_notificar=ausencias_por_notificar, jerarquia=jerarquia)
+            return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias_notificadas=ausencias_notificadas, ausencias_por_notificar=ausencias_por_notificar, ausencias_rechazadas=ausencias_rechazadas, jerarquia=jerarquia)
         else:
-            return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias_notificadas=ausencias_notificadas, ausencias_por_notificar=ausencias_por_notificar)
+            return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias_notificadas=ausencias_notificadas, ausencias_por_notificar=ausencias_por_notificar, ausencias_rechazadas=ausencias_rechazadas)
     else:
         return redirect(url_for('index'))
     
@@ -128,13 +129,14 @@ def estudio():
         empleado = obtener_empleado(usuario)
         dias_estudio_aprobados = obtener_dias_pedidos('estudio',area=None, nombre_empleado=empleado, aprobado="SI")
         dias_estudio_en_espera = obtener_dias_pedidos('estudio',area=None, nombre_empleado=empleado, aprobado="NO")
+        dias_rechazados = obtener_dias_pedidos('estudio',area=None, nombre_empleado=empleado, aprobado="RECHAZADO")
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
 
         if jerarquia in ["Gerencia", "Supervisor"]:
-            return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_aprobados=dias_estudio_aprobados, dias_espera=dias_estudio_en_espera, jerarquia=jerarquia)
+            return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_aprobados=dias_estudio_aprobados, dias_espera=dias_estudio_en_espera, dias_rechazados=dias_rechazados, jerarquia=jerarquia)
         else:
-            return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_aprobados=dias_estudio_aprobados, dias_espera=dias_estudio_en_espera)
+            return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_aprobados=dias_estudio_aprobados, dias_espera=dias_estudio_en_espera, dias_rechazados=dias_rechazados)
     else:
         return redirect(url_for('index'))
 
@@ -146,13 +148,14 @@ def homeoffice():
         empleado = obtener_empleado(usuario)
         homeoffice_notificados = obtener_dias_pedidos('homeoffice', nombre_empleado=empleado, aprobado="SI")
         homeoffice_en_espera = obtener_dias_pedidos('homeoffice', nombre_empleado=empleado, aprobado="NO")
+        home_rechazados = obtener_dias_pedidos('homeoffice',area=None, nombre_empleado=empleado, aprobado="RECHAZADO")
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
 
         if jerarquia in ["Supervisor", "Gerencia"]:
-            return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice_notificados=homeoffice_notificados, homeoffice_en_espera=homeoffice_en_espera, jerarquia=jerarquia)
+            return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice_notificados=homeoffice_notificados, homeoffice_en_espera=homeoffice_en_espera, home_rechazados=home_rechazados, jerarquia=jerarquia)
         else:
-            return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice_notificados=homeoffice_notificados,  homeoffice_en_espera=homeoffice_en_espera)
+            return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice_notificados=homeoffice_notificados,  homeoffice_en_espera=homeoffice_en_espera, home_rechazados=home_rechazados)
     else:
         return redirect(url_for('index'))
 

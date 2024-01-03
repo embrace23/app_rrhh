@@ -144,6 +144,28 @@
                     {% endif %}
                 </tbody>
             </table>
+
+            <h2>Fechas rechazadas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if dias_rechazados %}
+                        {% for dia in dias_rechazados %}
+                        <tr>
+                            <td>{{ dia }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No hay fechas rechazadas</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 

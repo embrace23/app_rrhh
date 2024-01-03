@@ -255,15 +255,53 @@ body{
     width: 24px;
 }
 
+/*Seccion del calendario*/
+
 #calendarSection{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    width: 80%;
 }
 
 #calendar {
     width: 850px;
     height: 650px;
-    margin-top: 50px;
+}
+
+#leyendaCalendario{
+    width: 10%;
+}
+
+#leyendaCalendario{
+    font-size: 13px;
+}
+
+#leyendaCalendario .estudio {
+    background-color: blue;
+    color: white;
+    padding: 3px 10px;
+    width: 70px;
+}
+
+#leyendaCalendario .homeoffice {
+    background-color: green;
+    color: white;
+    padding: 3px 10px;
+    width: 70px;
+}
+
+#leyendaCalendario .ausencias {
+    background-color: red;
+    color: white;
+    padding: 3px 10px;
+    width: 70px;
+}
+
+#leyendaCalendario .vacaciones {
+    background-color: pink;
+    color: black;
+    padding: 3px 10px;
+    width: 70px;
 }
 
 .item.ampliarDias{

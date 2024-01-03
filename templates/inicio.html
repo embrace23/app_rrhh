@@ -89,7 +89,7 @@
         <div class="links">
             <a href="{{ url_for('estudio') }}">Solicitar día de estudio</a>
             <a href="{{ url_for('ausencias') }}">Notificar día de ausencia</a>
-            <a href="{{ url_for('homeoffice') }}">Notificar día de home office</a>
+            <a href="{{ url_for('homeoffice') }}">Solicitar día de home office</a>
             <a href="{{ url_for('vacaciones') }}">Solicitar días de vacaciones</a>
         </div>
     </div>
@@ -188,6 +188,12 @@
     
     {% if jerarquia %}
     <section id="calendarSection">
+        <div id="leyendaCalendario">
+            <p class="estudio">Estudio</p>
+            <p class="homeoffice">Homeoffice</p>
+            <p class="ausencias">Ausencias</p>
+            <p class="vacaciones">Vacaciones</p>
+        </div>
         <div id="calendar"></div>
     </section>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>

@@ -50,6 +50,26 @@ def logout():
 RUTAS PARA DISTINTAS PAGINAS
 """
 
+#RUTA A AGREGAR
+@app.route('/agregar')
+def agregar():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        tupla = obtener_area_jerarquia(usuario)
+        rol = obtener_rol(usuario)
+        jerarquia = tupla[1]
+        area = tupla[0]
+
+        if jerarquia == "Gerencia":
+            if area == "Gerencia":
+                personal = obtener_personal()
+            else:    
+                personal = obtener_personal(area)
+            return render_template('agregar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia, rol=rol)
+    else:
+        return redirect(url_for('index'))
+
 #RUTA A AJUSTES
 @app.route('/ajustes')
 def ajustes():

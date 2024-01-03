@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Ausencias</title>
+    <title>Inicio</title>
 </head>
 <body>
     <div id="sidemenu" class="menuCollapsed">
@@ -85,15 +85,9 @@
         </div>
     </div>
 
-    <div id="mainContainer" class="guardarFecha">
-        <h2>Módulo de Ausencias</h2>
-        <form action="/guardar_ausencias" method="POST">
-            <div class="form-group">
-                <label for="fechaAusencias">Elegir una fecha:</label>
-                <input type="date" id="fechaAusencias" name="fechaAusencias" required>
-            </div>
-            <button type="submit">Guardar Fecha</button>
-        </form>
+    <div id="mainContainer">
+        <h2>Módulo para agregar empleado</h2>
+
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -105,94 +99,66 @@
         {% endif %}
         {% endwith %}
 
-        <div id="diasAusencias">
-            <div id="tablasFechas">
-                <h3>Fechas notificadas</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if ausencias_notificadas %}
-                            {% for dia in ausencias_notificadas %}
-                            <tr>
-                                <td>{{ dia }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>No hay fechas notificadas</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            
-                <h3>Fechas en espera de notificación</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if ausencias_por_notificar %}
-                            {% for dia in ausencias_por_notificar %}
-                            <tr>
-                                <td>{{ dia }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>No hay fechas sin notificar</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+        <div id="informacion">
+            <h3>Cargar información:</h3>
+            <form action="/guardar_empleado" method="POST" class="formEmpleado">
+                <div class="form-group">
+                    <label for="empleado">Empleado:</label>
+                    <input type="text" name="empleado" id="empleado" value="">
+                </div>
+                <div class="form-group">
+                    <label for="cuil">CUIL:</label>
+                    <input type="text" name="cuil" id="cuil" value="">
+                </div>
+                <div class="form-group">
+                    <label for="legajo">Legajo:</label>
+                    <input type="text" name="legajo" id="legajo" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mail">Correo Electrónico:</label>
+                    <input type="text" name="mail" id="mail" value="">
+                </div>
+                <div class="form-group">
+                    <label for="forma">Forma:</label>
+                    <input type="text" name="forma" id="forma" value="">
+                </div>
+                <div class="form-group">
+                    <label for="turno">Turno:</label>
+                    <input type="text" name="turno" id="turno" value="">
+                </div>
+                <div class="form-group">
+                    <label for="area">Área:</label>
+                    <input type="text" name="area" id="area" value="">
+                </div>
+                <div class="form-group">
+                    <label for="jerarquia">Jerarquia:</label>
+                    <input type="text" name="jerarquia" id="jerarquia" value="">
+                </div>
+                {% if rol %}
+                <div class="form-group">
+                    <label for="rol">Rol:</label>
+                    <input type="text" name="rol" id="rol" value="">
+                </div>
+                <div class="form-group">
+                    <label for="categoria">Categoria:</label>
+                    <input type="text" name="categoria" id="categoria" value="">
+                </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="equipo">Equipo:</label>
+                    <input type="text" name="equipo" id="equipo" value="">
+                </div>
+                <div class ="form-group">
+                    <label for="convenio">Convenio:</label>
+                    <input type="text" name="convenio" id="convenio" value="">
+                </div>
 
-                <h3>Fechas rechazadas</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if ausencias_rechazadas %}
-                            {% for dia in ausencias_rechazadas %}
-                            <tr>
-                                <td>{{ dia }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>No hay fechas rechazadas</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
+                <button type="submit">Guardar Cambios</button>
+            </form>
+        </div>   
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var fechaAusenciasInput = document.getElementById('fechaAusencias');
-    
-            var fechaActual = new Date();
-    
-            var fechaLimiteAtras = new Date();
-            fechaLimiteAtras.setMonth(fechaLimiteAtras.getMonth() - 1);
-    
-            var fechaLimiteAdelante = new Date();
-            fechaLimiteAdelante.setMonth(fechaLimiteAdelante.getMonth() + 1);
-    
-            fechaAusenciasInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
-            fechaAusenciasInput.setAttribute('max', fechaLimiteAdelante.toISOString().split('T')[0]);
-        });
-    </script>
 </body>
 </html>

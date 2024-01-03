@@ -659,7 +659,7 @@ def eliminar_solicitud(empleado, fecha, concepto):
             conexion.close()
 
 #Funcion para guardar excel
-def obtener_nomina_y_generar_excel():
+def obtener_nomina_y_generar_excel(bajas=None):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -671,7 +671,10 @@ def obtener_nomina_y_generar_excel():
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT * FROM nomina WHERE cuenta = 'SI'"
+            if bajas:
+                consulta = "SELECT empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio FROM nomina WHERE cuenta = 'NO'"
+            else:
+                consulta = "SELECT empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio FROM nomina WHERE cuenta = 'SI'"
             cursor.execute(consulta)
             nomina = cursor.fetchall()
 
@@ -692,7 +695,7 @@ def generar_excel(nomina):
     workbook = Workbook()
     sheet = workbook.active
 
-    encabezados = ["Empleado", "Cuil", "Fecha_ingreso", "Finaliza_pp", "Legajo", "Mail", "Cuenta", "Genero", "Fecha_nacimiento", "Forma", "Turno", "Area", "Jerarquia", "Equipo", "Convenio", "Contrasena"]
+    encabezados = ["Empleado", "Cuil", "Fecha_ingreso", "Finaliza_pp", "Legajo", "Mail", "Cuenta", "Genero", "Fecha_nacimiento", "Forma", "Turno", "Area", "Jerarquia", "Rol", "Categoria", "Equipo", "Convenio"]
     sheet.append(encabezados)
 
     for fila in nomina:

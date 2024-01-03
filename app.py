@@ -470,6 +470,16 @@ def descargar_nomina():
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
+@app.route('/descargar_nomina_bajas', methods=['GET'])
+def descargar_nomina_bajas():
+    archivo_excel = obtener_nomina_y_generar_excel(bajas="si") 
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="nomina de bajas.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
 @app.route('/descargar_mensual/<int:mes>', methods=['GET'])
 def descargar_mensual(mes):
     archivo_excel = obtener_mensual_y_generar_excel(mes)

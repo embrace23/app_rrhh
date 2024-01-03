@@ -59,7 +59,7 @@ def ajustes():
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
 
-        if jerarquia in ["Direccion", "Gerencia"]:
+        if jerarquia in ["Gerencia", "Supervisor"]:
             return render_template('ajustes.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia)
         else:
             return render_template('ajustes.html', usuario=usuario, empleado=empleado)
@@ -76,7 +76,7 @@ def ausencias():
         ausencias_por_notificar = obtener_dias_pedidos('ausencias', nombre_empleado=empleado, aprobado="NO")
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
-        if jerarquia in ["Direccion", "Gerencia"]:
+        if jerarquia in ["Gerencia", "Supervisor"]:
             return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias_notificadas=ausencias_notificadas, ausencias_por_notificar=ausencias_por_notificar, jerarquia=jerarquia)
         else:
             return render_template('ausencias.html', usuario=usuario, empleado=empleado, ausencias_notificadas=ausencias_notificadas, ausencias_por_notificar=ausencias_por_notificar)
@@ -111,7 +111,7 @@ def descargas():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia == "Gerencia":
+        if jerarquia in ["Gerencia", "Supervisor"] :
             personal = obtener_personal(area)
             return render_template('descargas.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
         else:
@@ -131,7 +131,7 @@ def estudio():
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
 
-        if jerarquia in ["Direccion", "Gerencia"]:
+        if jerarquia in ["Gerencia", "Supervisor"]:
             return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_aprobados=dias_estudio_aprobados, dias_espera=dias_estudio_en_espera, jerarquia=jerarquia)
         else:
             return render_template('estudio.html', usuario=usuario, empleado=empleado, dias_aprobados=dias_estudio_aprobados, dias_espera=dias_estudio_en_espera)
@@ -149,7 +149,7 @@ def homeoffice():
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
 
-        if jerarquia in ["Direccion", "Gerencia"]:
+        if jerarquia in ["Supervisor", "Gerencia"]:
             return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice_notificados=homeoffice_notificados, homeoffice_en_espera=homeoffice_en_espera, jerarquia=jerarquia)
         else:
             return render_template('homeoffice.html', usuario=usuario, empleado=empleado, homeoffice_notificados=homeoffice_notificados,  homeoffice_en_espera=homeoffice_en_espera)
@@ -166,11 +166,11 @@ def inicio():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia in ["Direccion", "Gerencia"]:
+        if jerarquia in ["Supervisor", "Gerencia"]:
             estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
             ausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
             home = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
-            if jerarquia == "Gerencia":
+            if jerarquia in ["Supervisor","Gerencia"]:
                 dias_para_autorizar = dias_por_autorizar(area)
                 vacaciones_autorizar = vacaciones_por_autorizar(area)
             else:
@@ -193,7 +193,7 @@ def vacaciones():
         jerarquia = tupla[1]
         area = tupla[0]
         
-        if jerarquia in ["Direccion", "Gerencia"]:
+        if jerarquia in ["Supervisor", "Gerencia"]:
             return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones, jerarquia=jerarquia, area=area)
         else:
             return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones)
@@ -327,7 +327,7 @@ def elegir_empleado():
                     jerarquia = tupla[1]
                     area = tupla[0]
 
-                    if jerarquia == "Gerencia":
+                    if jerarquia in ["Supervisor","Gerencia"]:
                         personal = obtener_personal(area)
                     else:
                         personal = obtener_personal()
@@ -464,9 +464,9 @@ def descargar_nomina():
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-@app.route('/descargar_mensual', methods=['GET'])
-def descargar_mensual():
-    archivo_excel = obtener_mensual_y_generar_excel() 
+@app.route('/descargar_mensual/<int:mes>', methods=['GET'])
+def descargar_mensual(mes):
+    archivo_excel = obtener_mensual_y_generar_excel(mes)
     return send_file(
         archivo_excel,
         as_attachment=True,

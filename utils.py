@@ -645,7 +645,7 @@ def generar_excel(nomina):
     return output
 
 #Funcion para guardar excel
-def obtener_mensual_y_generar_excel():
+def obtener_mensual_y_generar_excel(mes_seleccionado):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -659,7 +659,7 @@ def obtener_mensual_y_generar_excel():
 
             mes_actual = datetime.now().month
 
-            consulta = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_actual}"
+            consulta = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_seleccionado}"
 
             cursor.execute(consulta)
             nomina = cursor.fetchall()

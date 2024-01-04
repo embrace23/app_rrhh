@@ -486,9 +486,11 @@ def eliminar_solicitud_route():
         empleado = request.form.get('empleado')
         fecha = request.form.get('fecha')
         concepto = request.form.get('concepto')
+        jerarquia = request.form.get('jerarquia')
+        gerente = request.form.get('gerente')
         
         if empleado and fecha:
-            eliminar_solicitud(empleado, fecha, concepto)
+            eliminar_solicitud(empleado, fecha, concepto, jerarquia, gerente)
             return redirect(url_for('inicio'))
         else:
             return redirect(url_for('inicio'))
@@ -672,4 +674,4 @@ def obtener_todos_los_eventosSistemas_route():
 ################################################################################
 #INICIO DE APP
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='192.168.1.77', port='8082')

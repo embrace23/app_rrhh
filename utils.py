@@ -207,8 +207,10 @@ def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None, aprobado=Non
             if nombre_empleado:
                 if aprobado == "SI":
                     consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'SI'"
+                    cursor.execute(consulta, (nombre_empleado, concepto))
                 elif aprobado == "NO":
                     consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'NO'"
+                    cursor.execute(consulta, (nombre_empleado, concepto))
                 elif aprobado == "RECHAZADO":
                     consulta = "SELECT fecha FROM dias_pedidos WHERE empleado = %s AND concepto = %s AND aprobado = 'RECHAZADO'"
                     cursor.execute(consulta, (nombre_empleado, concepto))
@@ -664,7 +666,7 @@ def aprobar_solicitud(empleado, fecha, concepto, jerarquia, gerente):
             conexion.close()
 
 #Funcion para eliminar la solicitud
-def eliminar_solicitud(empleado, fecha, concepto):
+def eliminar_solicitud(empleado, fecha, concepto, jerarquia, gerente):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -676,12 +678,18 @@ def eliminar_solicitud(empleado, fecha, concepto):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
+            fecha_hora_actual = datetime.now()
+
+            fecha_hora_actual_str = fecha_hora_actual.strftime("%Y-%m-%d %H:%M:%S")
+
+
             if concepto != "vacaciones":
-                consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha = %s and concepto = %s"
-                cursor.execute(consulta, (empleado, fecha, concepto))
+                if jerarquia:
+                    consulta = "UPDATE dias_pedidos SET aprobado = 'RECHAZADO', fecha_cambio_estado = %s, gerente = %s WHERE empleado = %s AND fecha = %s AND concepto = %s"
+                    cursor.execute(consulta, (fecha_hora_actual_str, gerente, empleado, fecha, concepto))
             elif concepto == "vacaciones":
-                consulta = "UPDATE vacaciones SET aprobado = 'RECHAZADO' WHERE empleado = %s and fecha_inicio = %s"
-                cursor.execute(consulta, (empleado, fecha))
+                consulta = "UPDATE vacaciones SET aprobado = 'RECHAZADO', fecha_cambio_estado = %s, gerente = %s WHERE empleado = %s AND fecha_inicio = %s"
+                cursor.execute(consulta, (fecha_hora_actual_str, gerente, empleado, fecha))
             conexion.commit()
 
             cursor.close()

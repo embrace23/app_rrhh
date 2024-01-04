@@ -136,6 +136,8 @@
                             <input type="hidden" name="empleado" value="{{ dia.empleado }}">
                             <input type="hidden" name="fecha" value="{{ dia.fecha }}">
                             <input type="hidden" name="concepto" value="{{ dia.concepto }}">
+                            <input type="hidden" name="jerarquia" value="{{ jerarquia }}">
+                            <input type="hidden" name="gerente" value="{{ empleado }}">
                             <label for="causa">Justificación del rechazo:</label>
                             <textarea id="causa" name="causa" required></textarea>
                             <button type="submit">Eliminar</button>

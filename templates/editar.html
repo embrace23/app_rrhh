@@ -56,20 +56,22 @@
                 </div>
             </div>
 
-            {% if jerarquia %}
+            {% if jerarquia or empleado == "BUSTOS LAUTARO" %}
             <div class="item">
                 <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información" title="Editar información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>
             </div>
 
             <div class="item">
-                <div class="icon"><a href="{{ url_for('agregar') }}"><img src="{{ url_for('static', filename='images/agregar.png') }}" alt="agregar empleado" title="agregar empleado"></a></div>
-                <div class="title"><a href="{{ url_for('agregar') }}"><span>Agregar empleado</span></a></div>
-            </div>
-
-            <div class="item">
                 <div class="icon"><a href="{{ url_for('descargas') }}"><img src="{{ url_for('static', filename='images/descargar.png') }}" alt="Descargas" title="Descargas"></a></div>
                 <div class="title"><a href="{{ url_for('descargas') }}"><span>Descargas</span></a></div>
+            </div>
+            {% endif %}
+
+            {% if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO" %}
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('agregar') }}"><img src="{{ url_for('static', filename='images/agregar-usuario.png') }}" alt="agregar empleado" title="agregar empleado"></a></div>
+                <div class="title"><a href="{{ url_for('agregar') }}"><span>Agregar empleado</span></a></div>
             </div>
             {% endif %}
 
@@ -146,7 +148,7 @@
                     <label for="jerarquia">Jerarquia:</label>
                     <input type="text" name="jerarquia" id="jerarquia" value="{{ datos.jerarquia }}">
                 </div>
-                {% if rol == 'Administracion' %}
+                {% if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO" %}
                 <div class="form-group">
                     <label for="rol">Rol:</label>
                     <input type="text" name="rol" id="rol" value="{{ datos.rol }}">

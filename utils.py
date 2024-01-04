@@ -496,7 +496,6 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            # Query para actualizar los datos del empleado
             consulta = """
                 UPDATE nomina
                 SET legajo = %s, mail = %s, forma = %s, turno = %s, area = %s, jerarquia = %s, equipo = %s, convenio = %s
@@ -508,7 +507,7 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
             conexion.commit()
 
             cursor.close()
-            return True  # Actualización exitosa
+            return True
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -517,7 +516,41 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
         if 'conexion' in locals():
             conexion.close()
 
-    return False  # Hubo un error en la actualización
+    return False
+
+#GUARDAR EMPLEADO NUEVO
+def guardar_datos_empleado(empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = """
+                INSERT INTO nomina (empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            """
+            valores = (empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio)
+
+            cursor.execute(consulta, valores)
+            conexion.commit()
+
+            cursor.close()
+            return True
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False
 
 #Funcion para traer los dias que necesitan autorizacion aun
 def dias_por_autorizar(area=None):

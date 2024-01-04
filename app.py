@@ -61,8 +61,8 @@ def agregar():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia == "Gerencia":
-            if area == "Gerencia":
+        if jerarquia == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
+            if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
                 personal = obtener_personal()
             else:    
                 personal = obtener_personal(area)
@@ -114,8 +114,8 @@ def editar():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia == "Gerencia":
-            if area == "Gerencia":
+        if jerarquia == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
+            if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
                 personal = obtener_personal()
             else:    
                 personal = obtener_personal(area)
@@ -350,7 +350,7 @@ def elegir_empleado():
                 jerarquia = tupla[1]
                 area = tupla[0]
 
-                if rol == 'Administracion':
+                if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
                     informacion_empleado = obtener_datos(empleado_editar, admin=rol)
                 else:
                     informacion_empleado = obtener_datos(empleado_editar)
@@ -388,6 +388,37 @@ def guardar_informacion():
         else:
             return redirect(url_for('editar'))
         
+#GUARDAR EMPLEADO NUEVO
+@app.route('/guardar_empleado', methods=['POST'])
+def guardar_empleado():
+    if request.method == 'POST':
+        empleado = request.form.get('empleado')
+        cuil = request.form.get('cuil')
+        fecha_ingreso = request.form.get('fecha_ingreso')
+        finaliza_pp = request.form.get('finaliza_pp')
+        legajo = request.form.get('legajo')
+        mail = request.form.get('mail')
+        cuenta = request.form.get('cuenta')
+        genero = request.form.get('genero')
+        fecha_nacimiento = request.form.get('fecha_nacimiento')
+        forma = request.form.get('forma')
+        turno = request.form.get('turno')
+        area = request.form.get('area')
+        jerarquia = request.form.get('jerarquia')
+        rol = request.form.get('rol')
+        categoria = request.form.get('categoria')
+        equipo = request.form.get('equipo')
+        convenio = request.form.get('convenio')
+        medife = request.form.get('medife')
+
+        exito_actualizacion = guardar_datos_empleado(empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio)
+
+        if exito_actualizacion:
+            flash('Los ajustes se han guardado con éxito', 'success')
+            return redirect(url_for('editar'))
+        else:
+            return redirect(url_for('editar'))
+
 #Eliminar empleado
 @app.route('/eliminar_empleado', methods=['POST'])
 def eliminar_empleado():

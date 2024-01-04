@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Home Office</title>
+    <title>Días de estudio</title>
 </head>
 <body>
     <div id="sidemenu" class="menuCollapsed">
@@ -92,102 +92,44 @@
         </div>
     </div>
 
-    <div id="mainContainer" class="guardarFecha">
-        <h2>Módulo de home office</h2>
-        <form action="/guardar_home" method="POST">
-            <div class="form-group">
-                <label for="fechaHome">Elegir una fecha:</label>
-                <input type="date" id="fechaHome" name="fechaHome" required>
-            </div>
-            <button type="submit">Guardar Fecha</button>
-        </form>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash-messages">
-            {% for category, message in messages %}
-                <li class="flash-message flash-{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
+    <div id="mainContainer" class="recursosAsignados">
+        <h2>Recursos Asignados</h2>
+    
+        {% if recursos %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Equipo</th>
+                        <th>Serie</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for empleado in recursos %}
+                        <tr>
+                            <td>{{ empleado['ID'] }}</td>
+                            <td>{{ empleado['Equipo'] }}</td>
+                            <td>{{ empleado['Serie'] }}</td>
+                            <td>{{ empleado['Marca'] }}</td>
+                            <td>{{ empleado['Modelo'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No tiene recursos asignados.</p>
         {% endif %}
-        {% endwith %}
-
-        <div id="diasHome">
-            <div id="tablasFechas">
-                <h3>Fechas notificadas</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if homeoffice_notificados %}
-                            {% for dia in homeoffice_notificados %}
-                            <tr>
-                                <td>{{ dia }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>No hay fechas notificadas</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            
-                <h3>Fechas en Espera de notificación</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if homeoffice_en_espera %}
-                            {% for dia in homeoffice_en_espera %}
-                            <tr>
-                                <td>{{ dia }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>No hay fechas en espera de notificación</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-
-                <h3>Fechas rechazadas</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if home_rechazados %}
-                            {% for dia in home_rechazados %}
-                            <tr>
-                                <td>{{ dia }}</td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>No hay fechas rechazadas</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    
     </div>
+    
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var fechaHomeInput = document.getElementById('fechaHome');
+            var fechaEstudioInput = document.getElementById('fechaEstudio');
     
             var fechaActual = new Date();
     
@@ -197,9 +139,10 @@
             var fechaLimiteAdelante = new Date();
             fechaLimiteAdelante.setMonth(fechaLimiteAdelante.getMonth() + 1);
     
-            fechaHomeInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
-            fechaHomeInput.setAttribute('max', fechaLimiteAdelante.toISOString().split('T')[0]);
+            fechaEstudioInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
+            fechaEstudioInput.setAttribute('max', fechaLimiteAdelante.toISOString().split('T')[0]);
         });
     </script>
+    
 </body>
 </html>

@@ -70,10 +70,15 @@
 
             {% if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO" %}
             <div class="item">
-                <div class="icon"><a href="{{ url_for('agregar') }}"><img src="{{ url_for('static', filename='images/agregar-usuario.png') }}" alt="agregar empleado" title="agregar empleado"></a></div>
+                <div class="icon"><a href="{{ url_for('agregar') }}"><img src="{{ url_for('static', filename='images/agregar-usuario.png') }}" alt="Agregar empleado" title="Agregar empleado"></a></div>
                 <div class="title"><a href="{{ url_for('agregar') }}"><span>Agregar empleado</span></a></div>
             </div>
             {% endif %}
+
+            <div class="item">
+                <div class="icon"><a href="{{ url_for('recursos') }}"><img src="{{ url_for('static', filename='images/ordenador-portatil.png') }}" alt="Recursos" title="Recursos"></a></div>
+                <div class="title"><a href="{{ url_for('recursos') }}"><span>Recursos</span></a></div>
+            </div>
 
             <div class="item">
                 <div class="icon"><a href="{{ url_for('ajustes') }}"><img src="{{ url_for('static', filename='images/configuraciones.png') }}" alt="Ajustes" title="Ajustes"></a></div>

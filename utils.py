@@ -72,6 +72,50 @@ def obtener_empleado(correo):
 
     return empleado
 
+#Función para obtener los recursos por empleado
+def obtener_recursos(usuario):
+    resultados = []
+
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT ID, Equipo, Serie, Marca, Modelo FROM recursos WHERE Usuario = %s"
+            cursor.execute(consulta, (usuario,))
+            filas = cursor.fetchall()
+
+            for fila in filas:
+                empleado = {
+                    'ID': fila[0],
+                    'Equipo': fila[1],
+                    'Serie': fila[2],
+                    'Marca': fila[3],
+                    'Modelo': fila[4]
+                }
+                resultados.append(empleado)
+
+            cursor.close()
+
+        else:
+            resultados.append({'Error': 'Error en la conexión a la base de datos'})
+
+    except mysql.connector.Error as err:
+        resultados.append({'Error': f"Error: {err}"})
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return resultados
+
+
 #Funcion para obtener la jerarquia del empleado
 def obtener_area_jerarquia(correo):
     try:

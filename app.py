@@ -114,7 +114,7 @@ def editar():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
+        if jerarquia in ["Gerencia", "Supervisor"] or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
             if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
                 personal = obtener_personal()
             else:    
@@ -122,7 +122,8 @@ def editar():
             return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
     else:
         return redirect(url_for('index'))
-    
+
+#RUTA A DESCARGAS
 @app.route('/descargas')
 def descargas():
     if 'user' in session:
@@ -203,6 +204,23 @@ def inicio():
             return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area, dias_autorizar=dias_para_autorizar, vacaciones_autorizar=vacaciones_autorizar)
         else:
             return render_template('inicio.html', usuario=usuario, empleado=empleado)
+    else:
+        return redirect(url_for('index'))
+
+#RUTA A recursos
+@app.route('/recursos')
+def recursos():
+    if 'user' in session:
+        usuario = session['user']
+        empleado = obtener_empleado(usuario)
+        tupla = obtener_area_jerarquia(usuario)
+        recursos = obtener_recursos(empleado)
+        jerarquia = tupla[1]
+
+        if jerarquia in ["Gerencia", "Supervisor"]:
+            return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos)
+        else:
+            return render_template('recursos.html', usuario=usuario, empleado=empleado, recursos=recursos)
     else:
         return redirect(url_for('index'))
 
@@ -674,4 +692,4 @@ def obtener_todos_los_eventosSistemas_route():
 ################################################################################
 #INICIO DE APP
 if __name__ == '__main__':
-    app.run(host='192.168.1.77', port='8082')
+    app.run(debug=True)

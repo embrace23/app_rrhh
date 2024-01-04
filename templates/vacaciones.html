@@ -94,7 +94,7 @@
 
     <div id="mainContainer" class="guardarFecha">
         <h2>Módulo de vacaciones</h2>
-        <form action="/guardar_vacaciones" method="POST">
+        <form action="/guardar_vacaciones" method="POST" id="vacacionesForm">
             <div class="form-group">
                 <label for="fecha_inicio">Fecha de Inicio:</label>
                 <input type="date" id="fecha_inicio" name="fecha_inicio" required>
@@ -138,14 +138,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var fechaInicioInput = document.getElementById('fecha_inicio');
+            let fechaInicioInput = document.getElementById('fecha_inicio');
     
-            var fechaActual = new Date();
+            let fechaActual = new Date();
     
-            var fechaLimiteAtras = new Date();
+            let fechaLimiteAtras = new Date();
             fechaLimiteAtras.setMonth(fechaLimiteAtras.getMonth() - 2);
     
-            var fechaLimiteAdelante = new Date();
+            let fechaLimiteAdelante = new Date();
             fechaLimiteAdelante.setMonth(fechaLimiteAdelante.getMonth() + 4);
     
             fechaInicioInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
@@ -153,18 +153,28 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            var fechaFinInput = document.getElementById('fecha_fin');
+            let fechaFinInput = document.getElementById('fecha_fin');
     
-            var fechaActual = new Date();
+            let fechaActual = new Date();
     
-            var fechaLimiteAtras = new Date();
+            let fechaLimiteAtras = new Date();
             fechaLimiteAtras.setMonth(fechaLimiteAtras.getMonth() - 2);
     
-            var fechaLimiteAdelante = new Date();
+            let fechaLimiteAdelante = new Date();
             fechaLimiteAdelante.setMonth(fechaLimiteAdelante.getMonth() + 4);
     
             fechaFinInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
             fechaFinInput.setAttribute('max', fechaLimiteAdelante.toISOString().split('T')[0]);
+        });
+
+        document.getElementById('vacacionesForm').addEventListener('submit', function(event) {
+            let fechaInicio = new Date(document.getElementById('fecha_inicio').value);
+            let fechaFin = new Date(document.getElementById('fecha_fin').value);
+
+            if (fechaFin < fechaInicio) {
+                alert('La fecha de fin no puede ser menor que la fecha de inicio.');
+                event.preventDefault();
+            }
         });
     </script>
 </body>

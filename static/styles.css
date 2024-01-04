@@ -471,3 +471,26 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     cursor: pointer;
     border-radius: 4px;
 }
+
+/* Recursos asignados */
+.recursosAsignados table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.recursosAsignados th, .recursosAsignados td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.recursosAsignados th {
+    background-color: #4caf50;
+}
+
+.recursosAsignados p {
+    margin-top: 20px;
+    font-style: italic;
+    color: #888888;
+}

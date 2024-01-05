@@ -532,3 +532,37 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     background-color: #4caf50;
     color: #000;
 }
+
+
+/*Tabla cumpleaños*/
+/*Tabla de claves*/
+.contenedorCumpleanios{
+    width: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.contenedorCumpleanios h3{
+    color: #fff;
+}
+
+.tablaCumpleanios{
+    width: 50%;
+    color: #000;
+    background-color: #fff;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+
+.tablaCumpleanios td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    height: 12px;
+}
+
+.tablaCumpleanios th{
+    background-color: #4caf50;
+    color: #000;
+}

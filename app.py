@@ -187,6 +187,7 @@ def inicio():
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
         area = tupla[0]
+        cumpleanios = obtener_cumplianos()
 
         if jerarquia in ["Supervisor", "Gerencia"]:
             estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
@@ -199,9 +200,9 @@ def inicio():
                 else:
                     dias_para_autorizar = dias_por_autorizar()
                     vacaciones_autorizar = vacaciones_por_autorizar()
-            return render_template('inicio.html', usuario=usuario, empleado=empleado, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area, dias_autorizar=dias_para_autorizar, vacaciones_autorizar=vacaciones_autorizar)
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, cumpleanios=cumpleanios, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area, dias_autorizar=dias_para_autorizar, vacaciones_autorizar=vacaciones_autorizar)
         else:
-            return render_template('inicio.html', usuario=usuario, empleado=empleado)
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, cumpleanios=cumpleanios)
     else:
         return redirect(url_for('index'))
 

@@ -439,6 +439,52 @@ def obtener_pendientes_vacaciones(empleado):
 
     return pendientes_vacaciones
 
+#Función para obtener los cumpleaños del mes
+from datetime import datetime
+
+def obtener_cumplianos():
+    cumplianos = []
+
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT empleado, fecha_nacimiento FROM nomina WHERE MONTH(STR_TO_DATE(fecha_nacimiento, '%d/%m/%Y')) = MONTH(CURDATE()) AND cuenta = 'SI'"
+            cursor.execute(consulta)
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                empleado = resultado[0]
+                fecha_nacimiento = resultado[1]
+                fecha_nacimiento_dt = datetime.strptime(fecha_nacimiento, '%d/%m/%Y')
+                
+                dia = fecha_nacimiento_dt.day
+                mes = fecha_nacimiento_dt.month
+
+                cumplianos.append({'empleado': empleado, 'dia': dia, 'mes': mes})
+
+            # Ordenar la lista por la columna 'dia'
+            cumplianos = sorted(cumplianos, key=lambda x: x['dia'])
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return cumplianos
+
+
 
 
 #Función para insertar los dias de vacaciones a la tabla correspondiente

@@ -284,7 +284,34 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="contenedorCumpleanios">
+            <h3>Cumpleaños del Mes</h3>
+
+            {% if cumpleanios %}
+                <table class="tablaCumpleanios">
+                    <thead>
+                        <tr>
+                            <th>Empleado</th>
+                            <th>Día</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cumpleano in cumpleanios %}
+                            <tr>
+                                <td>{{ cumpleano['empleado'] }}</td>
+                                <td>{{ cumpleano['dia'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay cumpleaños este mes.</p>
+            {% endif %}
+        </div>
     </div>
+
+
     
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

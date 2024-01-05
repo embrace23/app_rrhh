@@ -11,6 +11,8 @@ app.config['SESSION_USE_SIGNER'] = False
 app.config['SESSION_KEY_PREFIX'] = 'tu_aplicacion_'
 app.secret_key = 'tu_clave_secreta'
 
+recursos_var = ["BUSTOS LAUTARO", "DANIELA GALLARDO", "DI SALVO CLARA MICAELA"]
+
 Session(app)
 
 """
@@ -216,9 +218,10 @@ def recursos():
         tupla = obtener_area_jerarquia(usuario)
         recursos = obtener_recursos(empleado)
         jerarquia = tupla[1]
+        listado_id = obtener_ids()
 
-        if jerarquia in ["Gerencia", "Supervisor"]:
-            return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos)
+        if empleado in recursos_var:
+            return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id)
         else:
             return render_template('recursos.html', usuario=usuario, empleado=empleado, recursos=recursos)
     else:
@@ -381,6 +384,31 @@ def elegir_empleado():
                 return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, datos=informacion_empleado, jerarquia=jerarquia, rol=rol)
             else:
                 return redirect(url_for('index'))
+            
+#ELEGIR RECURSO DEL INVENTARIO
+@app.route('/elegir_recurso', methods=['POST'])
+def elegir_recurso():
+    if request.method == 'POST':
+        recurso_editar = request.form.get('selectId')
+
+        if recurso_editar:
+            if 'user' in session:
+                usuario = session['user']
+                empleado = obtener_empleado(usuario)
+                tupla = obtener_area_jerarquia(usuario)
+                recursos = obtener_recursos(empleado)
+                jerarquia = tupla[1]
+                listado_id = obtener_ids()
+                empleado = obtener_empleado(usuario)
+                informacion_recurso = editar_recurso(recurso_editar)
+                
+
+                if empleado in recursos_var:
+                    return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id, datos=informacion_recurso)
+                else:
+                    return redirect(url_for('index'))
+            else:
+                return redirect(url_for('index'))
 
 #GUARDAR LA INFORMACION CAMBIADA A LOS EMPLEADOS
 @app.route('/guardar_informacion', methods=['POST'])
@@ -405,6 +433,29 @@ def guardar_informacion():
             return redirect(url_for('editar'))
         else:
             return redirect(url_for('editar'))
+        
+#GUARDAR CAMBIOS EN RECURSO
+@app.route('/guardar_informacion_recurso', methods=['POST'])
+def guardar_informacion_recurso():
+    if request.method == 'POST':
+        id = request.form.get('id')
+        equipo = request.form.get('equipo')
+        estado = request.form.get('estado')
+        ubicacion = request.form.get('ubicacion')
+        usuario = request.form.get('usuario')
+        anydesk = request.form.get('anydesk')
+        serie = request.form.get('serie')
+        marca = request.form.get('marca')
+        modelo = request.form.get('modelo')
+        ficha = request.form.get('ficha')
+
+        exito_actualizacion = actualizar_datos_recurso(id, equipo, estado, ubicacion, usuario, anydesk, serie, marca, modelo, ficha)
+
+        if exito_actualizacion:
+            flash('Los ajustes se han guardado con éxito', 'success')
+            return redirect(url_for('recursos'))
+        else:
+            return redirect(url_for('recursos'))
         
 #GUARDAR EMPLEADO NUEVO
 @app.route('/guardar_empleado', methods=['POST'])

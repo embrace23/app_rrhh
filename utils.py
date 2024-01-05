@@ -115,6 +115,79 @@ def obtener_recursos(usuario):
 
     return resultados
 
+# Función para obtener todos los ID
+def obtener_ids():
+
+    resultados = []
+
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT ID FROM recursos"
+            cursor.execute(consulta)
+            resultados = [fila[0] for fila in cursor.fetchall()]
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        resultados.append({'Error': f"Error: {err}"})
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return resultados
+
+#Función para editar recurso
+def editar_recurso(recurso_id):
+    recurso = {}
+
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT ID, Equipo, Estado, Ubicacion, Usuario, Anydesk, Serie, Marca, Modelo, Ficha FROM recursos WHERE ID = %s"
+            cursor.execute(consulta, (recurso_id,))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                recurso['id'] = resultado[0]
+                recurso['equipo'] = resultado[1]
+                recurso['estado'] = resultado[2]
+                recurso['ubicacion'] = resultado[3]
+                recurso['usuario'] = resultado[4]
+                recurso['anydesk'] = resultado[5]
+                recurso['serie'] = resultado[6]
+                recurso['marca'] = resultado[7]
+                recurso['modelo'] = resultado[8]
+                recurso['ficha'] = resultado[9]
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        recurso['Error'] = f"Error: {err}"
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return recurso
+
 
 #Funcion para obtener la jerarquia del empleado
 def obtener_area_jerarquia(correo):
@@ -361,7 +434,6 @@ def insertar_registro(tabla, campos):
 
 # Función para verificar si una contraseña cumple con requisitos de seguridad (personalizar según tus criterios)
 def cumple_requisitos_seguridad(password):
-    # Aquí debes implementar tus criterios de seguridad, por ejemplo, longitud mínima, caracteres especiales, etc.
     if len(password) >= 8:
         return True
     else:
@@ -374,19 +446,18 @@ def actualizar_contrasena(usuario, contrasena_nueva):
             host="localhost",
             user="root",
             password="",
-            database="rrhh"  # Reemplaza con el nombre de tu base de datos
+            database="rrhh" 
         )
 
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            # Actualizar la contraseña en la base de datos
             consulta = "UPDATE nomina SET contrasena = %s WHERE mail = %s"
             cursor.execute(consulta, (contrasena_nueva, usuario))
             conexion.commit()
 
             cursor.close()
-            return True  # Contraseña actualizada con éxito
+            return True
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -395,7 +466,7 @@ def actualizar_contrasena(usuario, contrasena_nueva):
         if 'conexion' in locals():
             conexion.close()
 
-    return False  # Hubo un error en la actualización de la contraseña
+    return False 
 
 #Función para obtener todo el personal de la empresa
 def obtener_personal(area=None):
@@ -548,6 +619,41 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
                 WHERE empleado = %s
             """
             valores = (legajo, mail, forma, turno, area, jerarquia, equipo, convenio, empleado)
+
+            cursor.execute(consulta, valores)
+            conexion.commit()
+
+            cursor.close()
+            return True
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False
+
+#Función para cargar los datos en la base de datos si se decide modificar
+def actualizar_datos_recurso(id, equipo, estado, ubicacion, usuario, anydesk, serie, marca, modelo, ficha):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = """
+                UPDATE recurso
+                SET ID = %s, Equipo = %s, Estado = %s, Ubicacion = %s, Usuario = %s, Anydesk = %s, Serie = %s, Marca = %s, Modelo = %s, Ficha = %s
+                WHERE ID = %s
+            """
+            valores = (id, equipo, estado, ubicacion, usuario, anydesk, serie, marca, modelo, ficha, id)
 
             cursor.execute(consulta, valores)
             conexion.commit()

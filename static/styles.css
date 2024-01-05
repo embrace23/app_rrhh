@@ -429,7 +429,7 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
 }
 
 /*Editar empleado*/
-.formEmpleado{
+.formEmpleado, .formRecurso{
     width: 300px;
     background-color: #fff;
     color: #000;
@@ -438,13 +438,13 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.formEmpleado label{
+.formEmpleado label, .formRecurso label{
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
 }
 
-.formEmpleado select, .formEmpleado input {
+.formEmpleado select, .formEmpleado input, .formRecurso select, .formRecurso input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
@@ -454,7 +454,7 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     background-color: #af514c !important;
 }
 
-.formEmpleado button{
+.formEmpleado button, .formRecurso button{
     background-color: #4caf50;
     color: #fff;
     padding: 10px 15px;
@@ -493,4 +493,12 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     margin-top: 20px;
     font-style: italic;
     color: #888888;
+}
+
+.formRecurso{
+    margin-top: 20px;
+}
+
+.formRecurso button{
+    margin-top: 10px;
 }

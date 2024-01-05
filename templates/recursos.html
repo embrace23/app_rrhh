@@ -121,28 +121,72 @@
         {% else %}
             <p>No tiene recursos asignados.</p>
         {% endif %}
+
+        {% if jerarquia %}
+        <form action="/elegir_recurso" method="POST" class="formRecurso">
+            <label for="selectId">Selecciona por ID:</label>
+            <select id="selectId" name="selectId">
+                {% for id in listado_id %}
+                    <option value="{{ id }}">{{ id }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Editar recurso</button>
+        </form>
+        {% endif %}
+
+        {% if datos %}
+        <form action="/guardar_informacion_recurso" method="POST" class="formRecurso">
+            <div class="form-group">
+                <label for="id">ID del Recurso:</label>
+                <input type="text" name="id" id="id" value="{{ datos.id }}">
+            </div>
+            <div class="form-group">
+                <label for="equipo">Equipo:</label>
+                <input type="text" name="equipo" id="equipo" value="{{ datos.equipo }}">
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <input type="text" name="estado" id="estado" value="{{ datos.estado }}">
+            </div>
+            <div class="form-group">
+                <label for="ubicacion">Ubicación:</label>
+                <input type="text" name="ubicacion" id="ubicacion" value="{{ datos.ubicacion }}">
+            </div>
+            <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <input type="text" name="usuario" id="usuario" value="{{ datos.usuario }}">
+            </div>
+            <div class="form-group">
+                <label for="anydesk">AnyDesk:</label>
+                <input type="text" name="anydesk" id="anydesk" value="{{ datos.anydesk }}">
+            </div>
+            <div class="form-group">
+                <label for="serie">Serie:</label>
+                <input type="text" name="serie" id="serie" value="{{ datos.serie }}">
+            </div>
+            <div class="form-group">
+                <label for="marca">Marca:</label>
+                <input type="text" name="marca" id="marca" value="{{ datos.marca }}">
+            </div>
+            <div class="form-group">
+                <label for="modelo">Modelo:</label>
+                <input type="text" name="modelo" id="modelo" value="{{ datos.modelo }}">
+            </div>
+            <div class="form-group">
+                <label for="ficha">Ficha:</label>
+                <input type="text" name="ficha" id="ficha" value="{{ datos.ficha }}">
+            </div>
+        
+            <button type="submit">Guardar Cambios</button>
+        </form>
+        
+    {% endif %}
+    
     
     </div>
     
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var fechaEstudioInput = document.getElementById('fechaEstudio');
-    
-            var fechaActual = new Date();
-    
-            var fechaLimiteAtras = new Date();
-            fechaLimiteAtras.setMonth(fechaLimiteAtras.getMonth() - 1);
-    
-            var fechaLimiteAdelante = new Date();
-            fechaLimiteAdelante.setMonth(fechaLimiteAdelante.getMonth() + 1);
-    
-            fechaEstudioInput.setAttribute('min', fechaLimiteAtras.toISOString().split('T')[0]);
-            fechaEstudioInput.setAttribute('max', fechaLimiteAdelante.toISOString().split('T')[0]);
-        });
-    </script>
     
 </body>
 </html>

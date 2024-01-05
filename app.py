@@ -402,10 +402,11 @@ def elegir_recurso():
                 listado_id = obtener_ids()
                 empleado = obtener_empleado(usuario)
                 informacion_recurso = editar_recurso(recurso_editar)
+                rol = obtener_rol(empleado)
                 
 
                 if empleado in recursos_var:
-                    return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id, datos=informacion_recurso)
+                    return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id, datos=informacion_recurso, rol=rol)
                 else:
                     return redirect(url_for('index'))
             else:

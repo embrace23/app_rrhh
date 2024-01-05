@@ -377,7 +377,7 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     cursor: pointer;
 }
 
-.guardarFecha #tablasFechas {
+.guardarFecha{
     margin-top: 20px;
     text-align: center;
 }
@@ -501,4 +501,30 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
 
 .formRecurso button{
     margin-top: 10px;
+}
+
+/*Tabla de claves*/
+.contenedorClaves{
+    width: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.tablaClaves{
+    width: 100%;
+    color: #000;
+    background-color: #fff;
+    border-collapse: collapse;
+}
+
+.tablaClaves td{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.tablaClaves th{
+    background-color: #4caf50;
+    color: #000;
 }

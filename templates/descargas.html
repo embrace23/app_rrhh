@@ -96,28 +96,7 @@
         <h2>Módulo de descargas</h2>
         <a href="/descargar_nomina"><button class="descargarNomina">Descargar nómina</button></a>
         <a href="/descargar_nomina_bajas"><button class="descargarNominaBajas">Descargar nómina de bajas</button></a>
-        <div>
-            <label for="mesSelector">Selecciona un mes:</label>
-            <select id="mesSelector">
-                <option value="1">Enero</option>
-                <option value="2">Febrero</option>
-                <option value="3">Marzo</option>
-                <!-- Agrega los demás meses según tu necesidad -->
-            </select>
-        
-            <button class="descargarAusencias" onclick="descargarAusenciasMensuales()">Descargar novedades mensuales</button>
-        </div>
-    </div>
-
-    <script>
-        function descargarAusenciasMensuales() {
-            // Obtiene el valor seleccionado del menú desplegable
-            var mesSeleccionado = document.getElementById("mesSelector").value;
-    
-            // Realiza una petición al servidor para descargar las ausencias del mes seleccionado
-            window.location.href = `/descargar_ausencias_mensuales?mes=${mesSeleccionado}`;
-        }
-    </script>
+        <a href="/descargar_novedades_mensuales"><button class="descargarNovedadesMensuales">Descargar novedades mensuales</button></a>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

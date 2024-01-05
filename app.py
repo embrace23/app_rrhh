@@ -400,7 +400,6 @@ def elegir_recurso():
                 recursos = obtener_recursos(empleado)
                 jerarquia = tupla[1]
                 listado_id = obtener_ids()
-                empleado = obtener_empleado(usuario)
                 informacion_recurso = editar_recurso(recurso_editar)
                 rol = obtener_rol(empleado)
                 
@@ -608,9 +607,9 @@ def descargar_nomina_bajas():
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-@app.route('/descargar_mensual/<int:mes>', methods=['GET'])
-def descargar_mensual(mes):
-    archivo_excel = obtener_mensual_y_generar_excel(mes)
+@app.route('/descargar_novedades_mensuales', methods=['GET'])
+def descargar_mensual():
+    archivo_excel = obtener_mensual_y_generar_excel()
     return send_file(
         archivo_excel,
         as_attachment=True,

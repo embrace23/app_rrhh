@@ -1082,6 +1082,31 @@ def generar_inventario(inventario):
 
     return output
 
+#FUNCION PARA ELIMINAR FECHA
+def eliminar_fecha(fecha, empleado):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "DELETE FROM dias_pedidos WHERE fecha = %s AND empleado = %s"
+            cursor.execute(consulta, (fecha, empleado))
+
+            conexion.commit()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
 """"
 def registrar_inicio_sesion(usuario):
     try:

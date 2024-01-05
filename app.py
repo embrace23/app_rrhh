@@ -384,6 +384,20 @@ def elegir_empleado():
             else:
                 return redirect(url_for('index'))
             
+#ELIMINAR FECHA SOLICITADA
+@app.route('/eliminar_fecha_solicitada', methods=['POST'])
+def eliminar_fecha_solicitada():
+    if 'user' in session:
+        correo = session['user']
+        empleado = obtener_empleado(correo)
+
+        if request.method == 'POST':
+            fecha_eliminar = request.form.get('fecha')
+
+            eliminar_fecha(fecha_eliminar, empleado)
+
+        return redirect(url_for('estudio'))
+            
 #ELEGIR RECURSO DEL INVENTARIO
 @app.route('/elegir_recurso', methods=['POST'])
 def elegir_recurso():

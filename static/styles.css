@@ -566,3 +566,55 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     background-color: #4caf50;
     color: #000;
 }
+
+/*Tabla aprobaciones*/
+.tablaAutorizar {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.seccionAutorizar h3{
+    color: #fff;
+}
+
+.tablaAutorizar th, .tablaAutorizar td {
+    border: 1px solid #ddd;
+    padding: 2px;
+    text-align: left;
+}
+
+.tablaAutorizar th {
+    background-color: #4caf50;
+}
+
+.tablaAutorizar td{
+    background-color: #fff;
+    font-size: 12px;
+    height: 15px;
+}
+
+.aprobarBtn, .eliminarBtn {
+    padding: 6px 12px;
+    margin: 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+.aprobarBtn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.eliminarBtn {
+    background-color: #f44336;
+    color: white;
+}
+
+#justificacion_eliminar {
+    margin-top: 5px;
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+}

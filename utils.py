@@ -948,6 +948,54 @@ def generar_mensual(nomina):
     output.seek(0)
 
     return output
+
+#Función para obtener inventario de recursos
+def obtener_inventario_recursos():
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT * FROM recursos"
+
+            cursor.execute(consulta)
+            inventario = cursor.fetchall()
+
+            output = generar_inventario(inventario)
+
+            cursor.close()
+
+            return output
+    
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+def generar_inventario(inventario):
+    workbook = Workbook()
+    sheet = workbook.active
+
+    encabezados = ["ID", "Equipo", "Estado", "Ubicacion", "Usuario", "Anydesk", "Serie", "Marca", "Modelo", "Ficha"]
+    sheet.append(encabezados)
+
+    for fila in inventario:
+        sheet.append(fila)
+
+    output = BytesIO()
+    workbook.save(output)
+    output.seek(0)
+
+    return output
+
 """"
 def registrar_inicio_sesion(usuario):
     try:

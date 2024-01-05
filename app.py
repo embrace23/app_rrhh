@@ -134,13 +134,9 @@ def descargas():
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
         area = tupla[0]
+        rol = obtener_rol(empleado)
 
-        if jerarquia in ["Gerencia", "Supervisor"] :
-            personal = obtener_personal(area)
-            return render_template('descargas.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
-        else:
-            personal = obtener_personal()
-            return render_template('descargas.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
+        return render_template('descargas.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, rol=rol)
     else:
         return redirect(url_for('index'))
 
@@ -616,6 +612,17 @@ def descargar_mensual():
         download_name="mensual.xlsx",
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
+
+@app.route('/descargar_inventario_recursos', methods=['GET'])
+def descargar_inventario_recursos():
+    archivo_excel = obtener_inventario_recursos()
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="Inventario de recursos.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
 
 ################################################################################
 """

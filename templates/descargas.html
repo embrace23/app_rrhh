@@ -94,8 +94,11 @@
 
     <div id="mainContainer">
         <h2>Módulo de descargas</h2>
+        {% if rol[0] == 'Administracion' or rol[0] == 'Recursos' %}
         <a href="/descargar_nomina"><button class="descargarNomina">Descargar nómina</button></a>
         <a href="/descargar_nomina_bajas"><button class="descargarNominaBajas">Descargar nómina de bajas</button></a>
+        <a href="/descargar_inventario_recursos"><button class="descargarInventarioRecursos">Descargar inventario de recursos</button></a>
+        {% endif %}
         <a href="/descargar_novedades_mensuales"><button class="descargarNovedadesMensuales">Descargar novedades mensuales</button></a>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

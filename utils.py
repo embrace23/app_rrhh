@@ -401,6 +401,46 @@ def obtener_vacaciones(area=None, nombre_empleado=None):
 
     return vacaciones
 
+#Funcion para obtener pendientes de vacaciones
+def obtener_pendientes_vacaciones(empleado):
+    pendientes_vacaciones = []
+
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = "SELECT anio, corresponden, quedan FROM vacaciones_pendientes WHERE empleado = %s"
+            cursor.execute(consulta, (empleado,))
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                info_vacaciones = {
+                    'anio': resultado[0],
+                    'corresponden': resultado[1],
+                    'quedan': resultado[2],
+                }
+                pendientes_vacaciones.append(info_vacaciones)
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return pendientes_vacaciones
+
+
+
 #Función para insertar los dias de vacaciones a la tabla correspondiente
 def insertar_registro(tabla, campos):
     try:

@@ -132,6 +132,28 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        {% if pendientes_vacaciones %}
+        <h2>Vacaciones Pendientes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Año</th>
+                        <th>Corresponden</th>
+                        <th>Quedan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vacaciones in pendientes_vacaciones %}
+                        <tr>
+                            <td>{{ vacaciones['anio'] }}</td>
+                            <td>{{ vacaciones['corresponden'] }}</td>
+                            <td>{{ vacaciones['quedan'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

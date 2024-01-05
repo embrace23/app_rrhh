@@ -140,8 +140,12 @@
             <table>
                 <thead>
                     <tr>
+                    {% if dias_espera %}
                         <th>Fecha</th>
                         <th>Acción</th>
+                    {% else %}
+                        <th>Fecha</th>
+                    {% endif %}
                     </tr>
                 </thead>
                 <tbody>

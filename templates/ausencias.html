@@ -140,7 +140,12 @@
                 <table>
                     <thead>
                         <tr>
+                            {% if ausencias_por_notificar %}
                             <th>Fecha</th>
+                            <th>Acción</th>
+                            {% else %}
+                            <th>Fecha</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -148,6 +153,22 @@
                             {% for dia in ausencias_por_notificar %}
                             <tr>
                                 <td>{{ dia }}</td>
+                                <td class="accionFechaEnEspera">
+                                    <!--
+                                    <form action="/modificacion_fecha_solicitada" method="POST" style="display: inline;">
+                                        <input type="hidden" name="fecha" value="{{ dia }}">
+                                        <button type="submit" class="editarBtn" style="border: none; background: none; cursor: pointer;">
+                                            <img src="../static/images/editar.png" alt="Editar" width="20" height="20">
+                                        </button>
+                                    </form>
+                                    -->
+                                    <form action="/eliminar_fecha_solicitada" method="POST" style="display: inline;">
+                                        <input type="hidden" name="fecha" value="{{ dia }}">
+                                        <button type="submit" class="eliminarBtn" style="border: none; background: none; cursor: pointer;">
+                                            <img src="../static/images/eliminar.png" alt="Eliminar" width="20" height="20">
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             {% endfor %}
                         {% else %}

@@ -104,31 +104,7 @@
             <a href="{{ url_for('homeoffice') }}">Solicitar día de home office</a>
             <a href="{{ url_for('vacaciones') }}">Solicitar días de vacaciones</a>
         </div>
-        
-        <div class="contenedorClaves">
-            <h3>Tabla de claves</h3>
-            <table class="tablaClaves">
-                <thead>
-                    <tr>
-                        <th>Sistema</th>
-                        <th>Mail</th>
-                        <th>Clave</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Outlook</td>
-                        <td>mrstatus@worldmedicalcare.com</td>
-                        <td>MRnueva2023!!</td>
-                    </tr>
-                    <tr>
-                        <td>Outlook</td>
-                        <td>coordinations@worldmedicalcare.com</td>
-                        <td>EMBRACE2024!!**</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+
     </div>
 
     {% if dias_autorizar %}
@@ -282,6 +258,33 @@
         });
     </script>
     {% endif %}
+
+    <div>
+        <div class="contenedorClaves">
+            <h3>Tabla de claves</h3>
+            <table class="tablaClaves">
+                <thead>
+                    <tr>
+                        <th>Sistema</th>
+                        <th>Mail</th>
+                        <th>Clave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Outlook</td>
+                        <td>mrstatus@worldmedicalcare.com</td>
+                        <td>MRnueva2023!!</td>
+                    </tr>
+                    <tr>
+                        <td>Outlook</td>
+                        <td>coordinations@worldmedicalcare.com</td>
+                        <td>EMBRACE2024!!**</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

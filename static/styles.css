@@ -509,7 +509,11 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 30px;
+    margin: 0 auto;
+}
+
+.contenedorClaves h3{
+    color: #fff;
 }
 
 .tablaClaves{

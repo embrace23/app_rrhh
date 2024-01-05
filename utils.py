@@ -227,7 +227,7 @@ def obtener_area_jerarquia(correo):
     return (area, jerarquia)
 
 #Funcion para obtener el rol del empleado
-def obtener_rol(correo):
+def obtener_rol(empleado):
     try:
         conexion = mysql.connector.connect(
             host="localhost",
@@ -239,8 +239,8 @@ def obtener_rol(correo):
         if conexion.is_connected():
             cursor = conexion.cursor()
 
-            consulta = "SELECT rol FROM nomina WHERE mail = %s"
-            cursor.execute(consulta, (correo,))
+            consulta = "SELECT rol FROM nomina WHERE empleado = %s"
+            cursor.execute(consulta, (empleado,))
             resultado = cursor.fetchone()
 
             if resultado:

@@ -122,7 +122,7 @@
             <p>No tiene recursos asignados.</p>
         {% endif %}
 
-        {% if jerarquia %}
+        {% if rol[0] == 'Administracion' or rol[0] == 'Recursos' %}
         <form action="/elegir_recurso" method="POST" class="formRecurso">
             <label for="selectId">Selecciona por ID:</label>
             <select id="selectId" name="selectId">

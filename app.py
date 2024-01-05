@@ -219,9 +219,10 @@ def recursos():
         recursos = obtener_recursos(empleado)
         jerarquia = tupla[1]
         listado_id = obtener_ids()
+        rol = obtener_rol(empleado)
 
-        if empleado in recursos_var:
-            return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id)
+        if empleado in recursos_var or jerarquia in ["Supervisor", "Gerencia"]:
+            return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id, rol=rol)
         else:
             return render_template('recursos.html', usuario=usuario, empleado=empleado, recursos=recursos)
     else:

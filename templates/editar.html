@@ -92,7 +92,12 @@
         </div>
     </div>
 
-    <div id="mainContainer">
+    {% if empleado == "DAGLIO EDUARDO AUGUSTO" %}
+    <p>Usuario no autorizado a editar información.</p>
+    {% endif %}
+
+   {% if empleado != "DAGLIO EDUARDO AUGUSTO" %}
+   <div id="mainContainer">
         <h2>Módulo de edición</h2>
         <form action="/elegir_empleado" method="POST" class="formEmpleado">
             <div class="form-group">
@@ -197,6 +202,7 @@
             {% endif %}
         </div>   
     </div>
+    {% endif %}
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

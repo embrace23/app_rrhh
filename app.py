@@ -825,9 +825,9 @@ def obtener_todos_los_eventosAnalytics_route():
     eventos = obtener_todos_los_eventos("Analytics")
     return jsonify(eventos)
 
-@app.route('/obtener_todos_los_eventosBorderaux', methods=['GET'])
-def obtener_todos_los_eventosBorderaux_route():
-    eventos = obtener_todos_los_eventos("Borderaux")
+@app.route('/obtener_todos_los_eventosBordereaux', methods=['GET'])
+def obtener_todos_los_eventosBordereaux_route():
+    eventos = obtener_todos_los_eventos("Bordereaux")
     return jsonify(eventos)
 
 @app.route('/obtener_todos_los_eventosComercial', methods=['GET'])

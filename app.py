@@ -204,7 +204,7 @@ def inicio():
                     vacaciones_autorizar = vacaciones_por_autorizar()
             return render_template('inicio.html', usuario=usuario, empleado=empleado, cumpleanios=cumpleanios, estudio=estudio, ausencias=ausencias, home=home, jerarquia=jerarquia, area=area, dias_autorizar=dias_para_autorizar, vacaciones_autorizar=vacaciones_autorizar)
         else:
-            return render_template('inicio.html', usuario=usuario, empleado=empleado, cumpleanios=cumpleanios)
+            return render_template('inicio.html', usuario=usuario, empleado=empleado, cumpleanios=cumpleanios, area=area)
     else:
         return redirect(url_for('index'))
 

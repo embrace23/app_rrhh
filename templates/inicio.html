@@ -270,41 +270,68 @@
     </script>
     {% endif %}
 
-    <div>
-        {% if area not in ["Quality", "Comercial", "Maestranza", "RRHH", "Analytics", "Pagos"] %}
-        <div class="contenedorClaves">
-            <h3>Tabla de claves</h3>
-            <table class="tablaClaves">
-                <thead>
+    {% if area not in ["Quality", "Comercial", "Maestranza", "RRHH", "Analytics", "Prestadores"] %}
+    <div class="contenedorClaves">
+        <h3>Tabla de claves</h3>
+        <table class="tablaClaves">
+            <thead>
+                <tr>
+                    <th>Sistema</th>
+                    <th>Mail</th>
+                    <th>Clave</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if area not in ["Pagos"]%}                
+                <tr>
+                    <td>Outlook</td>
+                    <td>mrstatus@worldmedicalcare.com</td>
+                    <td>MRnueva2023!!</td>
+                </tr>
+                <tr>
+                    <td>Outlook</td>
+                    <td>coordinations@worldmedicalcare.com</td>
+                    <td>EMBRACE2024!!**</td>
+                </tr>
+                <tr>
+                    <td>Gmail</td>
+                    <td>embracesrl2019@gmail.com</td>
+                    <td>WMC2023!*</td>
+                </tr>
+                {% endif %}
+                {% if area in ["Sistemas", "Gerencia", "Reintegros"] %}
                     <tr>
-                        <th>Sistema</th>
-                        <th>Mail</th>
-                        <th>Clave</th>
+                        <td>Yahoo</td>
+                        <td>travelchubb@ssgpr.com</td>
+                        <td>Embrace2023!</td>
                     </tr>
-                </thead>
-                <tbody>
                     <tr>
-                        <td>Outlook</td>
-                        <td>mrstatus@worldmedicalcare.com</td>
-                        <td>MRnueva2023!!</td>
+                        <td>Gmail</td>
+                        <td>reintegros.embrace@gmail.com</td>
+                        <td>Embrace2024!</td>
                     </tr>
-                    
-                    {% if area != "Billing" %}
-                        <tr>
-                            <td>Outlook</td>
-                            <td>coordinations@worldmedicalcare.com</td>
-                            <td>EMBRACE2024!!**</td>
-                        </tr>
-                        <tr>
-                            <td>Gmail</td>
-                            <td>embracesrl2019@gmail.com</td>
-                            <td>WMC2023!*</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
+                {% endif %}
+
+                {% if area in ["Sistemas", "Gerencia", "Pagos"] %}
+                <tr>
+                    <td>Outlook</td>
+                    <td>providerclaims@worldmedicalcare.com</td>
+                    <td>Clg-2023WMC</td>
+                </tr>
+                {% endif %}
+
+                {% if area in ["Sistemas", "Gerencia", "Data Claims"] %}
+                <tr>
+                    <td>Gmail</td>
+                    <td>claims.embrace@gmail.com</td>
+                    <td>Embrace.2023!!</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
     {% endif %}
+
     
         <div class="contenedorCumpleanios">
             <h3>Cumpleaños del Mes</h3>

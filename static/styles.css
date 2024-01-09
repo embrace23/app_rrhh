@@ -620,3 +620,34 @@ a.fc-event.fc-event-start.fc-event-end.fc-event-future.fc-daygrid-event.fc-daygr
 }
 
 /*Accion fecha en espera*/
+/*encabezado*/
+.fc-header-toolbar.fc-toolbar{
+    background-color: #45ddff;
+    padding: 10px;
+}
+
+/*january bla bla bla*/
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0;
+}
+/*dias de la semana*/
+th.fc-col-header-cell.fc-day {
+    background-color: #0038b1;
+}
+
+/*today*/
+button.fc-today-button.fc-button.fc-button-primary {
+    background-color: #000;
+    text-transform: capitalize;
+    opacity: 1;
+}
+
+/*numeros de las fechas*/
+.fc-daygrid-day-number{
+    color: #fff;
+}
+
+/*mes anterior y siguiente*/
+button.fc-prev-button.fc-button.fc-button-primary, button.fc-next-button.fc-button.fc-button-primary {
+    background-color: #000;
+}

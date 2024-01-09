@@ -953,7 +953,7 @@ def obtener_nomina_y_generar_excel(bajas=None):
             if bajas:
                 consulta = "SELECT empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio FROM nomina WHERE cuenta = 'NO'"
             else:
-                consulta = "SELECT empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio FROM nomina WHERE cuenta = 'SI'"
+                consulta = "SELECT empleado, cuil, fecha_ingreso, finaliza_pp, legajo, mail, cuenta, genero, fecha_nacimiento, forma, turno, area, jerarquia, rol, categoria, equipo, convenio FROM nomina WHERE cuenta = 'SI' ORDER BY legajo"
             cursor.execute(consulta)
             nomina = cursor.fetchall()
 
@@ -1023,7 +1023,7 @@ def generar_mensual(nomina):
     workbook = Workbook()
     sheet = workbook.active
 
-    encabezados = ["Empleado", "Fecha", "Area", "Jerarquia", "Fecha_modificacion", "Concepto", "Aprobado", "Fecha_cambio_estado", "Gerente", "Ruta"]
+    encabezados = ["Empleado", "Fecha", "Area", "Jerarquia", "Fecha_modificacion", "Concepto", "Aprobado", "Causa", "Fecha_cambio_estado", "Gerente", "Ruta"]
     sheet.append(encabezados)
 
     for fila in nomina:

@@ -136,7 +136,7 @@ def descargas():
         area = tupla[0]
         rol = obtener_rol(empleado)
 
-        return render_template('descargas.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, rol=rol)
+        return render_template('descargas.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, area=area, rol=rol)
     else:
         return redirect(url_for('index'))
 

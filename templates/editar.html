@@ -201,6 +201,22 @@
             </form>
             {% endif %}
         </div>   
+
+        {% if empleado in ["DI SALVO CLARA MICAELA", "DANIELA GALLARDO", "BUSTOS LAUTARO"] %}
+        <h3>Revertir estado de un empleado</h3>
+        <form action="/revertir_empleado" method="POST" class="formEmpleado" style="margin-top: 20px;">
+            <div class="form-group">
+                <label for="seleccionar_empleado">Seleccionar Empleado:</label>
+                <select id="seleccionar_empleado" name="empleado" required>
+                    <option value="" disabled selected>Elige un empleado</option>
+                    {% for empleado in personal_baja %}
+                        <option value="{{ empleado }}">{{ empleado }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit">Dar de Alta empleado</button>
+        </form>
+        {% endif %}
     </div>
     {% endif %}
 

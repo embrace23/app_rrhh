@@ -594,6 +594,45 @@ def obtener_personal(area=None):
 
     return empleados
 
+def obtener_personal_baja(area=None):
+    empleados = []
+
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+            
+            # Consulta para obtener los nombres de los empleados desde la tabla "nomina"
+            if area:
+                consulta = "SELECT empleado FROM nomina WHERE area = %s AND cuenta = 'NO'"
+                cursor.execute(consulta, (area,))
+            else:
+                consulta = "SELECT empleado FROM nomina WHERE cuenta = 'NO'"
+                cursor.execute(consulta)
+            
+            # Recupera los nombres de empleados
+            resultados = cursor.fetchall()
+            
+            for resultado in resultados:
+                empleados.append(resultado[0])
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return empleados
+
 #Función para traer la información personal del empleado que se seleccionó en el menú desplegable
 def obtener_datos(empleado, admin=None):
     try:
@@ -705,6 +744,41 @@ def actualizar_datos_empleado(empleado, legajo, mail, forma, turno, area, jerarq
                 WHERE empleado = %s
             """
             valores = (legajo, mail, forma, turno, area, jerarquia, equipo, convenio, empleado)
+
+            cursor.execute(consulta, valores)
+            conexion.commit()
+
+            cursor.close()
+            return True
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False
+
+#Función para cargar los datos en la base de datos si se decide modificar
+def revertir_empleado_cuenta(empleado):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            consulta = """
+                UPDATE nomina
+                SET cuenta = 'SI'
+                WHERE empleado = %s
+            """
+            valores = (empleado,)
 
             cursor.execute(consulta, valores)
             conexion.commit()

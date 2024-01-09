@@ -119,9 +119,11 @@ def editar():
         if jerarquia in ["Gerencia", "Supervisor"] or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
             if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
                 personal = obtener_personal()
+                personal_baja = obtener_personal_baja()
             else:    
                 personal = obtener_personal(area)
-            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, jerarquia=jerarquia)
+                personal_baja = obtener_personal_baja(area)
+            return render_template('editar.html', usuario=usuario, empleado=empleado, personal=personal, personal_baja=personal_baja,jerarquia=jerarquia)
     else:
         return redirect(url_for('index'))
 
@@ -384,6 +386,20 @@ def elegir_empleado():
             else:
                 return redirect(url_for('index'))
             
+@app.route('/revertir_empleado', methods=['POST'])
+def revertir_empleado():
+    if request.method == 'POST':
+        empleado_revertir = request.form.get('empleado')
+
+        if empleado_revertir:
+                exito_revertir = revertir_empleado_cuenta(empleado_revertir)
+
+                if exito_revertir:
+                    flash('Los ajustes se han guardado con éxito', 'success')
+                    return redirect(url_for('editar'))
+                else:
+                    return redirect(url_for('editar'))
+
 #ELIMINAR FECHA SOLICITADA
 @app.route('/eliminar_fecha_solicitada', methods=['POST'])
 def eliminar_fecha_solicitada():

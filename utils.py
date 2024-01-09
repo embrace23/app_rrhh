@@ -1022,17 +1022,17 @@ def dias_por_autorizar(area=None):
             cursor = conexion.cursor()
 
             if area:
-                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE area = %s AND aprobado = 'NO'"
+                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto, causa FROM dias_pedidos WHERE area = %s AND aprobado = 'NO'"
                 cursor.execute(consulta, (area,))
             else:
-                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto FROM dias_pedidos WHERE aprobado = 'NO' or aprobado = 'Aprobado por Gerencia'"
+                consulta = "SELECT empleado, fecha, fecha_modificacion, concepto, causa FROM dias_pedidos WHERE aprobado = 'NO' or aprobado = 'Aprobado por Gerencia'"
                 cursor.execute(consulta)
 
             resultados = cursor.fetchall()
 
             for resultado in resultados:
-                empleado, fecha, fecha_modificacion, concepto = resultado
-                dias_a_autorizar.append({'empleado': empleado, 'fecha': fecha, 'fecha_modificacion': fecha_modificacion[:10], 'concepto': concepto})
+                empleado, fecha, fecha_modificacion, concepto, causa = resultado
+                dias_a_autorizar.append({'empleado': empleado, 'fecha': fecha, 'fecha_modificacion': fecha_modificacion[:10], 'concepto': concepto, 'causa': causa})
 
             cursor.close()
             return dias_a_autorizar

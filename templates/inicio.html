@@ -117,6 +117,7 @@
                     <th>Fecha</th>
                     <th>Fecha de solicitud</th>
                     <th>Concepto</th>
+                    <th>Causa</th>
                     <th>Aprobar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -128,6 +129,7 @@
                     <td>{{ dia.fecha }}</td>
                     <td>{{ dia.fecha_modificacion }}</td>
                     <td>{{ dia.concepto }}</td>
+                    <td>{{ dia.causa }}</td>
                     <td>                        
                         <form action="/aprobar_solicitud" method="POST">
                         <input type="hidden" name="empleado" value="{{ dia.empleado }}">

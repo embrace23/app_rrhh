@@ -270,8 +270,9 @@ def guardar_home_route():
 #GUARDAR FECHA DE AUSENCIAS
 @app.route('/guardar_ausencias', methods=['POST'])
 def guardar_ausencias_route():
+    causa = request.form.get('tipoAusencias')
     flash('Se ha guardado la fecha de ausencias correctamente, la misma quedará en espera de ser notificada a su superior inmediato.', 'success')
-    return guardar_fecha_generico('ausencias', 'fechaAusencias')
+    return guardar_fecha_ausencias('ausencias', 'fechaAusencias', causa=causa)
 
 #GUARDAR FECHA DE VACACIONES
 @app.route('/guardar_vacaciones', methods=['POST'])
@@ -311,7 +312,7 @@ def guardar_vacaciones():
             return "Debes proporcionar ambas fechas de inicio y fin"
     else:
         return redirect(url_for('index'))
-
+    
 #FUNCION PARA GUARDAR FECHA DE FORMA GENERICA PARA SER REUTILIZADA
 def guardar_fecha_generico(pagina, campo_fecha):
     if 'user' in session:
@@ -323,7 +324,24 @@ def guardar_fecha_generico(pagina, campo_fecha):
         fecha = request.form.get(campo_fecha)
 
         resultado = guardar_fecha(nombre_empleado, fecha, area, jerarquia, pagina)
-        mensaje = f"{nombre_empleado} solicitó {fecha}"
+
+        if resultado:
+            return redirect(url_for(pagina))
+        else:
+            return "Error al guardar la fecha"
+    else:
+        return redirect(url_for('index'))
+    
+def guardar_fecha_ausencias(pagina, campo_fecha, causa):
+    if 'user' in session:
+        correo = session['user']
+        nombre_empleado = obtener_empleado(correo)
+        tupla = obtener_area_jerarquia(correo)
+        area, jerarquia = tupla
+        
+        fecha = request.form.get(campo_fecha)
+
+        resultado = guardar_ausencias(nombre_empleado, fecha, area, jerarquia, pagina, causa=causa)
 
         if resultado:
             return redirect(url_for(pagina))

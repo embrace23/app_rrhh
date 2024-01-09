@@ -306,6 +306,50 @@ def guardar_fecha(usuario, fecha, area, jerarquia, pagina, aprobado=None):
 
     return False
 
+def guardar_ausencias(usuario, fecha, area, jerarquia, pagina, causa=None):
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+        """
+        if pagina == 'estudio':
+            tabla = 'dia_estudio'
+        elif pagina == 'homeoffice':
+            tabla = 'home'
+        elif pagina == 'ausencias':
+            tabla = 'ausencias'
+        """
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+
+            if causa:
+                consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto, causa) VALUES (%s, %s, %s, %s, NOW(), %s, %s)"
+                cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina, causa))
+            else:
+                consulta = f"INSERT INTO dias_pedidos (empleado, fecha, area, jerarquia, fecha_modificacion, concepto) VALUES (%s, %s, %s, %s, NOW(), %s)"
+                cursor.execute(consulta, (usuario, fecha, area, jerarquia, pagina))
+
+
+            conexion.commit()
+
+            cursor.close()
+            return True  
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return False
+
+
 #Funcion para obtener los dias pedidos por el empleado de la tabla general
 def obtener_dias_pedidos(concepto, area=None, nombre_empleado=None, aprobado=None):
     dias_pedidos = []

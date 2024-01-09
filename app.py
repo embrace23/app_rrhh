@@ -193,7 +193,7 @@ def inicio():
             estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
             ausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
             home = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
-            if jerarquia in ["Supervisor","Gerencia"]:
+            if jerarquia in ["Supervisor", "Gerencia"]:
                 if empleado != "DI SALVO CLARA MICAELA":
                     dias_para_autorizar = dias_por_autorizar(area)
                     vacaciones_autorizar = vacaciones_por_autorizar(area)
@@ -619,7 +619,107 @@ def descargar_nomina_bajas():
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-@app.route('/descargar_novedades_mensuales', methods=['GET'])
+@app.route('/descargar_nov_mens_reintegros', methods=['GET'])
+def descargar_nov_mens_reintegros():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Reintegros")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_dataclaims', methods=['GET'])
+def descargar_nov_mens_dataclaims():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Data Claims")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_operaciones', methods=['GET'])
+def descargar_nov_mens_operaciones():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Operaciones")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_bordereaux', methods=['GET'])
+def descargar_nov_mens_bordereaux():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Bordereaux")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_account', methods=['GET'])
+def descargar_nov_mens_account():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Account Manager")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_billing', methods=['GET'])
+def descargar_nov_mens_billing():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Billing")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_prestadores', methods=['GET'])
+def descargar_nov_mens_prestadores():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Prestadores")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_analytics', methods=['GET'])
+def descargar_nov_mens_analytics():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Analytics")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_comercial', methods=['GET'])
+def descargar_nov_mens_comercial():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Comercial")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens_pagos', methods=['GET'])
+def descargar_nov_mens_pagos():
+    archivo_excel = obtener_mensual_y_generar_excel(area="Pagos")
+    return send_file(
+        archivo_excel,
+        as_attachment=True,
+        download_name="mensual.xlsx",
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+@app.route('/descargar_nov_mens', methods=['GET'])
 def descargar_mensual():
     archivo_excel = obtener_mensual_y_generar_excel()
     return send_file(

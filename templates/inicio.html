@@ -269,6 +269,7 @@
     {% endif %}
 
     <div>
+        {% if area not in ["Quality", "Comercial", "Maestranza", "RRHH", "Analytics", "Pagos"] %}
         <div class="contenedorClaves">
             <h3>Tabla de claves</h3>
             <table class="tablaClaves">
@@ -285,21 +286,24 @@
                         <td>mrstatus@worldmedicalcare.com</td>
                         <td>MRnueva2023!!</td>
                     </tr>
-
-                    <tr>
-                        <td>Outlook</td>
-                        <td>coordinations@worldmedicalcare.com</td>
-                        <td>EMBRACE2024!!**</td>
-                    </tr>
-                    <tr>
-                        <td>Gmail</td>
-                        <td>embracesrl2019@gmail.com</td>
-                        <td>WMC2023!*</td>
-                    </tr>
+                    
+                    {% if area != "Billing" %}
+                        <tr>
+                            <td>Outlook</td>
+                            <td>coordinations@worldmedicalcare.com</td>
+                            <td>EMBRACE2024!!**</td>
+                        </tr>
+                        <tr>
+                            <td>Gmail</td>
+                            <td>embracesrl2019@gmail.com</td>
+                            <td>WMC2023!*</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
-
+    {% endif %}
+    
         <div class="contenedorCumpleanios">
             <h3>Cumpleaños del Mes</h3>
 

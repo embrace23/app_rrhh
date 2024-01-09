@@ -233,16 +233,18 @@ def vacaciones():
     if 'user' in session:
         usuario = session['user']
         empleado = obtener_empleado(usuario)
-        vacaciones = obtener_vacaciones(nombre_empleado=empleado)
+        vacaciones_aprobadas = obtener_vacaciones_aprobadas(nombre_empleado=empleado)
         pendientes_vacaciones = obtener_pendientes_vacaciones(empleado)
+        vacaciones_en_espera = obtener_vacaciones_espera(nombre_empleado=empleado)
+        vacaciones_rechazadas = obtener_vacaciones_rechazadas(nombre_empleado=empleado)
         tupla = obtener_area_jerarquia(usuario)
         jerarquia = tupla[1]
         area = tupla[0]
         
         if jerarquia in ["Supervisor", "Gerencia"]:
-            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones, pendientes_vacaciones=pendientes_vacaciones, jerarquia=jerarquia, area=area)
+            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones_aprobadas=vacaciones_aprobadas, vacaciones_en_espera=vacaciones_en_espera, vacaciones_rechazadas=vacaciones_rechazadas, pendientes_vacaciones=pendientes_vacaciones, jerarquia=jerarquia, area=area)
         else:
-            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones=vacaciones, pendientes_vacaciones=pendientes_vacaciones)
+            return render_template('vacaciones.html', usuario=usuario, empleado=empleado, vacaciones_aprobadas=vacaciones_aprobadas, vacaciones_en_espera=vacaciones_en_espera, vacaciones_rechazadas=vacaciones_rechazadas, pendientes_vacaciones=pendientes_vacaciones)
     else:
         return redirect(url_for('index'))
     

@@ -401,6 +401,105 @@ def obtener_vacaciones(area=None, nombre_empleado=None):
 
     return vacaciones
 
+def obtener_vacaciones_rechazadas(area=None, nombre_empleado=None):
+    vacaciones = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            if nombre_empleado:
+                consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s and aprobado = 'RECHAZADO'"
+                cursor.execute(consulta, (nombre_empleado,))
+            
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                vacaciones.append(resultado)
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return vacaciones
+
+def obtener_vacaciones_espera(area=None, nombre_empleado=None):
+    vacaciones = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            if nombre_empleado:
+                consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s and aprobado = 'NO'"
+                cursor.execute(consulta, (nombre_empleado,))
+            
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                vacaciones.append(resultado)
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return vacaciones
+
+def obtener_vacaciones_aprobadas(area=None, nombre_empleado=None):
+    vacaciones = []
+    try:
+        conexion = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="rrhh"
+        )
+
+        if conexion.is_connected():
+            cursor = conexion.cursor()
+
+            if nombre_empleado:
+                consulta = "SELECT fecha_inicio, fecha_fin FROM vacaciones WHERE empleado = %s and aprobado = 'SI'"
+                cursor.execute(consulta, (nombre_empleado,))
+            
+            resultados = cursor.fetchall()
+
+            for resultado in resultados:
+                vacaciones.append(resultado)
+
+            cursor.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+    finally:
+        if 'conexion' in locals():
+            conexion.close()
+
+    return vacaciones
+
 #Funcion para obtener pendientes de vacaciones
 def obtener_pendientes_vacaciones(empleado):
     pendientes_vacaciones = []

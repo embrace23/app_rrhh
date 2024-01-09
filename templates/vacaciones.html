@@ -116,22 +116,80 @@
         {% endif %}
         {% endwith %}
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Fecha de Inicio</th>
-                    <th>Fecha de Fin</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for fecha_inicio, fecha_fin in vacaciones %}
+<!-- Tabla para ver las vacaciones -->
+        <div id="tablasFechas">
+            <h3>Vacaciones Aprobadas</h3>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ fecha_inicio }}</td>
-                        <td>{{ fecha_fin }}</td>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Fin</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% if vacaciones_aprobadas %}
+                        {% for fecha_inicio, fecha_fin in vacaciones_aprobadas %}
+                            <tr>
+                                <td>{{ fecha_inicio }}</td>
+                                <td>{{ fecha_fin }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No hay vacaciones aprobadas</td>
+                        </tr>
+                    {% endif %}  
+                </tbody>
+            </table>
+
+            <h3>Fechas en Espera de Autorización</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if vacaciones_en_espera %}
+                        {% for fecha_inicio, fecha_fin in vacaciones_en_espera %}
+                            <tr>
+                                <td>{{ fecha_inicio }}</td>
+                                <td>{{ fecha_fin }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No hay vacaciones en espera</td>
+                        </tr>
+                    {% endif %}  
+                </tbody>
+            </table>
+
+            <h3>Fechas Rechazadas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Fin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if vacaciones_rechazadas %}
+                        {% for fecha_inicio, fecha_fin in vacaciones_rechazadas %}
+                            <tr>
+                                <td>{{ fecha_inicio }}</td>
+                                <td>{{ fecha_fin }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No hay vacaciones rechazadas</td>
+                        </tr>
+                    {% endif %}  
+                </tbody>
+            </table>
+        </div>
 
         {% if pendientes_vacaciones %}
         <h2>Vacaciones Pendientes</h2>

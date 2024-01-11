@@ -1218,15 +1218,25 @@ def obtener_mensual_y_generar_excel(area=None):
 
             mes_actual = datetime.now().month
 
+            # Consulta para obtener los registros de dias_pedidos
             if area:
-                consulta = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_actual} AND area = '{area}'"
+                consulta_dias_pedidos = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_actual} AND area = '{area}'"
             else:
-                consulta = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_actual}"
+                consulta_dias_pedidos = f"SELECT * FROM dias_pedidos WHERE MONTH(fecha) = {mes_actual}"
 
-            cursor.execute(consulta)
-            nomina = cursor.fetchall()
+            cursor.execute(consulta_dias_pedidos)
+            nomina_dias_pedidos = cursor.fetchall()
 
-            output = generar_mensual(nomina)
+            # Consulta para obtener los registros de vacaciones
+            if area:
+                consulta_vacaciones = f"SELECT * FROM vacaciones WHERE MONTH(fecha_inicio) = {mes_actual} AND area = '{area}' AND aprobado = 'SI'"
+            else:
+                consulta_vacaciones = f"SELECT * FROM vacaciones WHERE MONTH(fecha_inicio) = {mes_actual} AND aprobado = 'SI'"
+
+            cursor.execute(consulta_vacaciones)
+            vacaciones = cursor.fetchall()
+
+            output = generar_mensual(nomina_dias_pedidos, vacaciones)
 
             cursor.close()
 
@@ -1239,15 +1249,26 @@ def obtener_mensual_y_generar_excel(area=None):
         if 'conexion' in locals():
             conexion.close()
 
-def generar_mensual(nomina):
+
+def generar_mensual(nomina_dias_pedidos, vacaciones):
     workbook = Workbook()
-    sheet = workbook.active
 
-    encabezados = ["Empleado", "Fecha", "Area", "Jerarquia", "Fecha_modificacion", "Concepto", "Aprobado", "Causa", "Fecha_cambio_estado", "Gerente", "Ruta"]
-    sheet.append(encabezados)
+    # Hoja para dias_pedidos
+    sheet_dias_pedidos = workbook.active
+    sheet_dias_pedidos.title = "Dias pedidos"  # Cambia el nombre de la hoja
+    encabezados_dias_pedidos = ["Empleado", "Fecha", "Area", "Jerarquia", "Fecha_modificacion", "Concepto", "Aprobado", "Causa", "Fecha_cambio_estado", "Gerente", "Ruta"]
+    sheet_dias_pedidos.append(encabezados_dias_pedidos)
 
-    for fila in nomina:
-        sheet.append(fila)
+    for fila in nomina_dias_pedidos:
+        sheet_dias_pedidos.append(fila)
+
+    # Hoja para vacaciones
+    sheet_vacaciones = workbook.create_sheet(title="Vacaciones")  # Puedes cambiar el nombre de la segunda hoja aquí
+    encabezados_vacaciones = ["Empleado", "Fecha de Inicio", "Fecha de Fin", "fecha_solicitud", "Area", "Aprobado", "Fecha_cambio_estado", "Gerente"]
+    sheet_vacaciones.append(encabezados_vacaciones)
+
+    for fila in vacaciones:
+        sheet_vacaciones.append(fila)
 
     output = BytesIO()
     workbook.save(output)

@@ -714,10 +714,10 @@ def obtener_personal(area=None):
             
             # Consulta para obtener los nombres de los empleados desde la tabla "nomina"
             if area:
-                consulta = "SELECT empleado FROM nomina WHERE area = %s AND cuenta = 'SI'"
+                consulta = "SELECT empleado FROM nomina WHERE area = %s AND cuenta = 'SI' ORDER BY empleado"
                 cursor.execute(consulta, (area,))
             else:
-                consulta = "SELECT empleado FROM nomina WHERE cuenta = 'SI'"
+                consulta = "SELECT empleado FROM nomina WHERE cuenta = 'SI' ORDER BY empleado"
                 cursor.execute(consulta)
             
             # Recupera los nombres de empleados
@@ -753,10 +753,10 @@ def obtener_personal_baja(area=None):
             
             # Consulta para obtener los nombres de los empleados desde la tabla "nomina"
             if area:
-                consulta = "SELECT empleado FROM nomina WHERE area = %s AND cuenta = 'NO'"
+                consulta = "SELECT empleado FROM nomina WHERE area = %s AND cuenta = 'NO' ORDER BY empleado"
                 cursor.execute(consulta, (area,))
             else:
-                consulta = "SELECT empleado FROM nomina WHERE cuenta = 'NO'"
+                consulta = "SELECT empleado FROM nomina WHERE cuenta = 'NO' ORDER BY empleado"
                 cursor.execute(consulta)
             
             # Recupera los nombres de empleados
@@ -1203,6 +1203,7 @@ def generar_excel(nomina):
 
     return output
 
+#Funcion para guardar excel
 #Funcion para guardar excel
 def obtener_mensual_y_generar_excel(area=None):
     try:

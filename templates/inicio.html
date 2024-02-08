@@ -55,12 +55,13 @@
                     <div class="title"><a href="{{ url_for('vacaciones') }}"><span>Vacaciones</span></a></div>
                 </div>
             </div>
-
-            {% if jerarquia or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO" %}
+            {% if empleado == "DI SALVO CLARA MICAELA" or empleado == "GALLARDO DANIELA" %}
             <div class="item">
                 <div class="icon"><a href="{{ url_for('editar') }}"><img src="{{ url_for('static', filename='images/editar.png') }}" alt="Editar Información" title="Editar información"></a></div>
                 <div class="title"><a href="{{ url_for('editar') }}"><span>Editar información</span></a></div>
             </div>
+            {% endif %}
+            {% if jerarquia or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA" %}
 
             <div class="item">
                 <div class="icon"><a href="{{ url_for('descargas') }}"><img src="{{ url_for('static', filename='images/descargar.png') }}" alt="Descargas" title="Descargas"></a></div>
@@ -68,7 +69,7 @@
             </div>
             {% endif %}
 
-            {% if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO" %}
+            {% if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA" %}
             <div class="item">
                 <div class="icon"><a href="{{ url_for('agregar') }}"><img src="{{ url_for('static', filename='images/agregar-usuario.png') }}" alt="Agregar empleado" title="Agregar empleado"></a></div>
                 <div class="title"><a href="{{ url_for('agregar') }}"><span>Agregar empleado</span></a></div>
@@ -107,7 +108,7 @@
 
     </div>
 
-    {% if dias_autorizar %}
+    {% if dias_autorizar and empleado != "DI SALVO CLARA MICAELA" and jerarquia != "Supervisor" %}
     <div class="seccionAutorizar">
         <h3>Días por autorizar</h3>
         <table class="tablaAutorizar">
@@ -162,7 +163,7 @@
     </div>
     {% endif %}
     
-    {% if vacaciones_autorizar %}
+    {% if vacaciones_autorizar and empleado != "DI SALVO CLARA MICAELA" and jerarquia != "Supervisor" %}
     <div class="seccionAutorizar">
         <h3>Vacaciones por autorizar</h3>
         <table class="tablaAutorizar">
@@ -212,7 +213,7 @@
     {% endif %}
 
     
-    {% if jerarquia or empleado == "DANIELA GALLARDO" %}
+    {% if jerarquia or empleado == "GALLARDO DANIELA" %}
     <section id="calendarSection">
         <div id="leyendaCalendario">
             <p class="estudio">Estudio</p>
@@ -282,7 +283,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% if area not in ["Pagos"]%}                
+                {% if area not in ["Pagos", "Reintegros"]%}                
                 <tr>
                     <td>Outlook</td>
                     <td>mrstatus@worldmedicalcare.com</td>

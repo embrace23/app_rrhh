@@ -11,7 +11,7 @@ app.config['SESSION_USE_SIGNER'] = False
 app.config['SESSION_KEY_PREFIX'] = 'tu_aplicacion_'
 app.secret_key = 'tu_clave_secreta'
 
-recursos_var = ["BUSTOS LAUTARO", "DANIELA GALLARDO", "DI SALVO CLARA MICAELA"]
+recursos_var = ["BUSTOS LAUTARO", "GALLARDO DANIELA", "DI SALVO CLARA MICAELA"]
 
 Session(app)
 
@@ -63,8 +63,8 @@ def agregar():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
-            if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
+        if jerarquia == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA":
+            if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA":
                 personal = obtener_personal()
             else:    
                 personal = obtener_personal(area)
@@ -116,8 +116,8 @@ def editar():
         jerarquia = tupla[1]
         area = tupla[0]
 
-        if jerarquia in ["Gerencia", "Supervisor"] or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
-            if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
+        if jerarquia in ["Gerencia", "Supervisor"] or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA":
+            if area == "Gerencia" or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA":
                 personal = obtener_personal()
                 personal_baja = obtener_personal_baja()
             else:    
@@ -195,7 +195,7 @@ def inicio():
             estudio = obtener_dias_pedidos('estudio', area=None, nombre_empleado=None)
             ausencias = obtener_dias_pedidos('ausencias', area=None, nombre_empleado=None)
             home = obtener_dias_pedidos('homeoffice', area=None, nombre_empleado=None)
-            if jerarquia in ["Supervisor", "Gerencia"]:
+            if jerarquia in ["Supervisor","Gerencia"]:
                 if empleado != "DI SALVO CLARA MICAELA":
                     dias_para_autorizar = dias_por_autorizar(area)
                     vacaciones_autorizar = vacaciones_por_autorizar(area)
@@ -223,7 +223,7 @@ def recursos():
         if empleado in recursos_var or jerarquia in ["Supervisor", "Gerencia"]:
             return render_template('recursos.html', usuario=usuario, empleado=empleado, jerarquia=jerarquia, recursos=recursos, listado_id=listado_id, rol=rol)
         else:
-            return render_template('recursos.html', usuario=usuario, empleado=empleado, recursos=recursos)
+            return render_template('recursos.html', usuario=usuario, empleado=empleado, recursos=recursos, listado_id=listado_id, rol=rol)
     else:
         return redirect(url_for('index'))
 
@@ -392,12 +392,12 @@ def elegir_empleado():
                 jerarquia = tupla[1]
                 area = tupla[0]
 
-                if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "DANIELA GALLARDO":
+                if empleado == "DI SALVO CLARA MICAELA" or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA":
                     informacion_empleado = obtener_datos(empleado_editar, admin=rol)
                 else:
                     informacion_empleado = obtener_datos(empleado_editar)
                 
-                if jerarquia in ["Supervisor","Gerencia"]:
+                if jerarquia in ["Supervisor","Gerencia"] or empleado == "BUSTOS LAUTARO" or empleado == "GALLARDO DANIELA":
                     if area != "Gerencia":
                         personal = obtener_personal(area)
                     else:
